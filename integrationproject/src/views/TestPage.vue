@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Card Details</ion-title>
+        <ion-title>Drukte Barometer</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -18,7 +18,7 @@
         </ion-card-header>
         <ion-card-content>
           <ion-label>Datum: {{ item.Datum }}</ion-label><br>
-          <ion-label>Number of Logins: {{ item.TotalAantalLogin }}</ion-label>
+          <ion-label>Aantal Logins: {{ item.TotalAantalLogin }}</ion-label>
         </ion-card-content>
       </ion-card>
     </ion-content>
