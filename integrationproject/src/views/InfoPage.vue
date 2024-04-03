@@ -33,12 +33,6 @@
         </div>
       </div>
     </ion-content>
-
-    <ion-footer>
-      <ion-toolbar>
-        <ion-title>&copy; 2024 Team Odisee</ion-title>
-      </ion-toolbar>
-    </ion-footer>
   </ion-page>
 </template>
 
