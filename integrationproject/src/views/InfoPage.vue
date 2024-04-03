@@ -111,9 +111,6 @@
     .about-section {
       flex-basis: 100%;
     }
-  }
-
-  
-
+  } 
   </style>
   
