@@ -12,7 +12,7 @@
           <p>Heeft u hulp nodig met onze Druktebarometer of wilt u meer informatie? Wij staan klaar om u te
             ondersteunen. Bekijk onze FAQ, stuur ons een e-mail, of bel ons voor directe hulp.</p>
           <ul>
-            <li><router-link to="/faq">FAQ over de Druktebarometer</router-link></li>
+            <li><a href="/tabs/tabTest">FAQ over de Druktebarometer</a></li>
             <li>E-mail: support@axxesproject.com</li>
             <li>Telefoon: 123-456-7890</li>
           </ul>
