@@ -136,7 +136,7 @@ ion-content {
 
 /* Stijlen voor de footer */
 ion-footer {
-    color: white;
+    color: black;
     text-align: center;
     padding: 1em;
     position: fixed;
