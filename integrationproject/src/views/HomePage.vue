@@ -36,9 +36,11 @@
                 </section>
                 <section id="lower">
                   <ion-list>
-                    <ion-item button router-link="/tabs/tabTest">
+                    <a href="/tabs/tabTest" class="router-link">
+                    <ion-item>
                       <ion-label>FAQ over de Druktebarometer</ion-label>
                     </ion-item>
+                    </a>
                     <ion-item>
                       <ion-label>E-mail: support@axxesproject.com</ion-label>
                     </ion-item>
@@ -111,7 +113,8 @@
   #lower {
     text-align: center;
     width: 100%;
+    margin-top: 5em;
   }
-  
+
   
   </style>
