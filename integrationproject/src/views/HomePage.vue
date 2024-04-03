@@ -2,7 +2,7 @@
     <ion-page>
       <ion-header>
         <ion-toolbar>
-          <ion-img src="/img/og-image.jpg" alt="Axxes Logo" class="about-logo"></ion-img>
+          <ion-img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" class="about-logo"></ion-img>
         </ion-toolbar>
       </ion-header>
   
@@ -95,6 +95,7 @@
     max-width: 20em;
     margin: 0 auto;
     display: block;
+    background-color: white;
   }
   
   main {
