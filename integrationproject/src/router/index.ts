@@ -7,7 +7,8 @@ import InfoPage from '@/views/InfoPage.vue';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/test'
+    name: 'Home',
+    component: HomePage
   },
   {
     path: '/test',
@@ -15,16 +16,10 @@ const routes: Array<RouteRecordRaw> = [
     component: TestPage
   },
   {
-    path: '/home', 
-    name: 'Home',
-    component: HomePage
-  },
-  {
     path: '/info', 
     name: 'Info',
     component: InfoPage
   },
-  
 ]
 
 const router = createRouter({
