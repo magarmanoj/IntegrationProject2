@@ -1,6 +1,6 @@
 {
-  "appId": "com.root",
-  "appName": "root",
+  "appId": "my.app",
+  "appName": "my-app",
   "webDir": "www",
   "server": {
     "androidScheme": "https"
