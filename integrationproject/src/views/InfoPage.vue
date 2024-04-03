@@ -9,7 +9,7 @@
     <ion-content class="ion-padding">
       <ion-grid>
         <ion-row>
-          <ion-col size-md="6">
+          <ion-col size-md="6" size-lg="5" offset-lg="1" size-xs="12" class="card-column">
             <ion-card class="info-card">
               <div class="card-content">
                 <img src="/img/Odisee_Logo_Co-hogeschool.png" alt="Odisee Logo" class="about-logo">
@@ -26,7 +26,7 @@
               </div>
             </ion-card>
           </ion-col>
-          <ion-col size-md="6">
+          <ion-col size-md="6" size-lg="5" size-xs="12" class="card-column">
             <ion-card class="info-card">
               <div class="card-content">
                 <img src="/img/og-image.jpg" alt="Axxes Logo" class="about-logo">
@@ -97,4 +97,10 @@ export default defineComponent({
   align-items: center;
   height: 100%;
 }
+
+.card-column {
+    display: flex;
+    align-items: stretch;
+  }
+
 </style>
