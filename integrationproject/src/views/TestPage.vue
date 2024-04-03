@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Card Details</ion-title>
+        <ion-title>Drukte Barometer</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -18,7 +18,7 @@
         </ion-card-header>
         <ion-card-content>
           <ion-label>Datum: {{ item.Datum }}</ion-label><br>
-          <ion-label>Number of Logins: {{ item.TotalAantalLogin }}</ion-label>
+          <ion-label>Aantal Logins: {{ item.TotalAantalLogin }}</ion-label>
         </ion-card-content>
       </ion-card>
     </ion-content>
@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonCardHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonLabel ,IonCardTitle, IonPage, IonItem, IonSelectOption, IonSelect } from '@ionic/vue';
+import { IonContent, IonHeader, IonCardHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonLabel, IonCardTitle, IonPage, IonItem, IonSelectOption, IonSelect } from '@ionic/vue';
 import axios from 'axios';
 import { ref, onMounted, computed } from 'vue';
 
@@ -36,7 +36,6 @@ interface DataItem {
   AantalLogin: string;
 }
 
-// Define data and computed property
 const data = ref<DataItem[]>([]);
 const selectedFilter = ref<string>("alphabetical"); 
 
@@ -60,7 +59,6 @@ const getDetails = () => {
     });
 };
 
-// Function to fetch filter options
 const getFilteredData = () => {
   axios.post('https://manojmagar.be/RESTfulAPI/Taak1/api/Medewerkerget.php')
     .then(response => {
@@ -71,7 +69,6 @@ const getFilteredData = () => {
         console.log('response.data.data is not ok');
         return;
       }
-      // Assuming selectedFilter should be updated with filter options
       selectedFilter.value = response.data.data.map((selectedFilter: any) => ({
         ...selectedFilter
       }));
@@ -92,11 +89,13 @@ const displayedData = computed(() => {
     const locatie = item.Locatie;
     const aantalLogin = Number(item.AantalLogin);
     const datum = item.Datum;
-    if (aggregatedMap.has(locatie)) {
-      const currentValue = aggregatedMap.get(locatie)!;
-      aggregatedMap.set(locatie, { Datum: datum, TotalAantalLogin: currentValue.TotalAantalLogin + aantalLogin });
-    } else {
-      aggregatedMap.set(locatie, { Datum: datum, TotalAantalLogin: aantalLogin });
+    if (!isNaN(aantalLogin)) { 
+      if (aggregatedMap.has(locatie)) {
+        const currentValue = aggregatedMap.get(locatie)!;
+        aggregatedMap.set(locatie, { Datum: datum, TotalAantalLogin: currentValue.TotalAantalLogin + aantalLogin });
+      } else {
+        aggregatedMap.set(locatie, { Datum: datum, TotalAantalLogin: aantalLogin });
+      }
     }
   });
   return Array.from(aggregatedMap).map(([Locatie, { Datum, TotalAantalLogin }]) => ({
@@ -116,6 +115,4 @@ const filterData = computed(() => {
     return filteredData; 
   }
 });
-
-
 </script>
