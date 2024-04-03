@@ -18,7 +18,7 @@
         </ion-card-header>
         <ion-card-content>
           <ion-label>Datum: {{ item.Datum }}</ion-label><br>
-          <ion-label>Number of Logins: {{ item.TotalAantalLogin }}</ion-label>
+          <ion-label>Aantal Logins: {{ item.TotalAantalLogin }}</ion-label>
         </ion-card-content>
       </ion-card>
     </ion-content>
@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonCardHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonLabel ,IonCardTitle, IonPage, IonItem, IonSelectOption, IonSelect } from '@ionic/vue';
+import { IonContent, IonHeader, IonCardHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonLabel, IonCardTitle, IonPage, IonItem, IonSelectOption, IonSelect } from '@ionic/vue';
 import axios from 'axios';
 import { ref, onMounted, computed } from 'vue';
 
