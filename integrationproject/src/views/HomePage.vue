@@ -56,6 +56,7 @@ body {
   height: 100%;
 }
 
+
 /* Header stijlen */
 ion-header {
   display: flex;
@@ -72,33 +73,10 @@ ion-header {
   max-width: 100%;
 }
 
-/* Navigatieknop stijlen */
-ion-header button {
-  background: none;
-  border: none;
-  padding: 10px 20px;
-  margin: 0 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: bold;
-  text-transform: uppercase;
-  position: relative;
-}
-
-/* Hover effect voor navigatieknop */
-ion-header button:hover::after {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 2px;
-  background-color: #e76921;
-  position: absolute;
-  bottom: -10px;
-  left: 0;
-}
-
 /* Hoofdsectie stijlen */
-ion-content {
+ion-content.homeContent {
+  --background: white;
+  --color: black;
   min-height: calc(100% - 160px);
   padding: 20px;
   display: flex;

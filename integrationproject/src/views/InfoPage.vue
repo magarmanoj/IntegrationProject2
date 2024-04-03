@@ -71,6 +71,10 @@ body {
     height: 100%;
 }
 
+ion-content {
+    --background: white;
+}
+
 /* Header stijlen */
 ion-header {
     display: flex;
@@ -86,37 +90,6 @@ ion-header {
     height: 60px;
 }
 
-/* Navigatieknop stijlen */
-ion-header button {
-    background: none;
-    border: none;
-    padding: 10px 20px;
-    margin: 0 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: bold;
-    text-transform: uppercase;
-    position: relative;
-    outline: none;
-}
-
-/* Hover effect voor navigatieknop */
-ion-header button:hover,
-ion-header button:focus {
-    background-color: transparent;
-}
-
-ion-header button:hover::after,
-ion-header button:focus::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: #e76921;
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-}
 
 /* Hoofdsectie stijlen */
 ion-content {
@@ -137,6 +110,7 @@ ion-content {
     padding: 1rem;
     border-radius: 10px;
     background: white;
+    color: black;
 }
 
 .about-logo {
