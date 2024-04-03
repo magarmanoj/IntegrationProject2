@@ -2,7 +2,10 @@
     <ion-page>
         <ion-header>
             <ion-toolbar>
-                <ion-title class="ion-text-center">Info</ion-title>
+                <!-- Hier wordt de header van de homepagina toegevoegd -->
+                <header>
+                    <img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" id="header-logo">
+                </header>
             </ion-toolbar>
         </ion-header>
 
@@ -58,26 +61,24 @@ export default defineComponent({
         IonContent,
         IonFooter
     },
-    name: 'HomePage'
+    name: 'InfoPage'
 });
 </script>
 
 <style scoped>
-
 /* Globale stijlen */
 html,
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: black;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     height: 100%;
-    overflow-x: hidden;
 }
 
-/* Header stijlen */
+/* Stijlen voor de header */
 header {
     display: flex;
     justify-content: space-between;
@@ -142,7 +143,7 @@ main {
     flex: 1;
     padding: 1rem;
     border-radius: 10px;
-    background: #f9f9f9;
+    background:white;
 }
 
 .about-logo {
@@ -187,7 +188,5 @@ footer p {
     .content-wrapper {
         flex-direction: column;
     }
-
-
 }
 </style>
