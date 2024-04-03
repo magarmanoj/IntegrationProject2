@@ -1,14 +1,10 @@
 <template>
     <ion-page>
         <ion-header>
-            <ion-toolbar>
-                <!-- Hier wordt de header van de homepagina toegevoegd -->
-                <header>
-                    <img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" id="header-logo">
-                </header>
-            </ion-toolbar>
+            <header>
+                <img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" id="header-logo">
+            </header>
         </ion-header>
-
         <ion-content class="ion-padding">
             <div class="content-wrapper">
                 <section id="about-odisee">
@@ -41,22 +37,19 @@
         </ion-content>
 
         <ion-footer>
-            <ion-toolbar>
-                <ion-title>&copy; 2024 Team Odisee</ion-title>
-            </ion-toolbar>
+            <ion-title>&copy; 2024 Team Odisee</ion-title>
         </ion-footer>
     </ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter } from '@ionic/vue';
+import { IonPage, IonHeader, IonTitle, IonContent, IonFooter } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
     components: {
         IonPage,
         IonHeader,
-        IonToolbar,
         IonTitle,
         IonContent,
         IonFooter
@@ -78,8 +71,8 @@ body {
     height: 100%;
 }
 
-/* Stijlen voor de header */
-header {
+/* Header stijlen */
+ion-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -94,7 +87,7 @@ header {
 }
 
 /* Navigatieknop stijlen */
-nav button {
+ion-header button {
     background: none;
     border: none;
     padding: 10px 20px;
@@ -108,13 +101,13 @@ nav button {
 }
 
 /* Hover effect voor navigatieknop */
-nav button:hover,
-nav button:focus {
+ion-header button:hover,
+ion-header button:focus {
     background-color: transparent;
 }
 
-nav button:hover::after,
-nav button:focus::after {
+ion-header button:hover::after,
+ion-header button:focus::after {
     content: '';
     display: block;
     width: 100%;
@@ -126,7 +119,7 @@ nav button:focus::after {
 }
 
 /* Hoofdsectie stijlen */
-main {
+ion-content {
     padding: 2rem;
 }
 
@@ -143,7 +136,7 @@ main {
     flex: 1;
     padding: 1rem;
     border-radius: 10px;
-    background:white;
+    background: white;
 }
 
 .about-logo {
@@ -167,20 +160,19 @@ main {
     margin-bottom: 1rem;
 }
 
-/* Stijlen voor de footer*/
-footer {
-    color: black;
+/* Stijlen voor de footer */
+ion-footer {
+    color: white;
     text-align: center;
     padding: 1em;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     border-top: 2px solid #ddd;
-    font-size: 10px;
 }
 
-footer p {
-    margin: 0;
+ion-footer ion-title {
+    font-size: 0.8em;
 }
 
 /* Media query voor Tablet en Telefoon*/

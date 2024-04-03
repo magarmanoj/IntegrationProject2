@@ -1,16 +1,16 @@
 <template>
   <ion-page>
-    <ion-content class="homeContent">
+    <ion-header>
       <header>
-        <img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" id="logo">
+        <img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" id="header-logo">
       </header>
-
+    </ion-header>
+    <ion-content class="homeContent">
       <main>
         <section id="support">
           <h2>Ondersteuning voor de Druktebarometer</h2>
-          <p>Heeft u hulp nodig met onze Druktebarometer of wilt u meer informatie?
-            Wij staan klaar om u te ondersteunen. Bekijk onze FAQ, stuur ons een e-mail, of bel ons voor directe
-            hulp.</p>
+          <p>Heeft u hulp nodig met onze Druktebarometer of wilt u meer informatie? Wij staan klaar om u te
+            ondersteunen. Bekijk onze FAQ, stuur ons een e-mail, of bel ons voor directe hulp.</p>
           <ul>
             <li><router-link to="/faq">FAQ over de Druktebarometer</router-link></li>
             <li>E-mail: support@axxesproject.com</li>
@@ -18,23 +18,26 @@
           </ul>
         </section>
       </main>
-
-      <footer>
-        <p>&copy; 2024 Team Odisee</p>
-      </footer>
     </ion-content>
+
+    <ion-footer>
+      <ion-title>&copy; 2024 Team Odisee</ion-title>
+    </ion-footer>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonTitle, IonContent, IonFooter } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'HomePage',
   components: {
     IonPage,
-    IonContent
+    IonHeader,
+    IonTitle,
+    IonContent,
+    IonFooter
   }
 })
 </script>
@@ -54,7 +57,7 @@ body {
 }
 
 /* Header stijlen */
-header {
+ion-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -64,15 +67,14 @@ header {
 }
 
 /* Logo stijlen */
-#logo {
+#header-logo {
   height: 60px;
   max-width: 100%;
 }
 
 /* Navigatieknop stijlen */
-nav button {
+ion-header button {
   background: none;
-  color: black;
   border: none;
   padding: 10px 20px;
   margin: 0 10px;
@@ -84,7 +86,7 @@ nav button {
 }
 
 /* Hover effect voor navigatieknop */
-nav button:hover::after {
+ion-header button:hover::after {
   content: '';
   display: block;
   width: 100%;
@@ -96,7 +98,7 @@ nav button:hover::after {
 }
 
 /* Hoofdsectie stijlen */
-main {
+ion-content {
   min-height: calc(100% - 160px);
   padding: 20px;
   display: flex;
@@ -104,15 +106,18 @@ main {
 }
 
 /* Footer stijlen */
-footer {
-  color: b;
+ion-footer {
+  color: white;
   text-align: center;
   padding: 1em;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   border-top: 2px solid #ddd;
-  font-size: 10px;
+}
+
+ion-footer ion-title {
+  font-size: 0.8em;
 }
 
 /* Media query voor tablets */
