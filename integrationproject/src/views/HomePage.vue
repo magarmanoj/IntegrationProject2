@@ -31,11 +31,24 @@
 </template>
 
 <script lang="ts">
+import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonButton, IonIcon} from '@ionic/vue';
 import { defineComponent } from 'vue';
 import {home, information, listOutline } from 'ionicons/icons';
 
 export default defineComponent({
   name: 'TabsPage',
+  components: {
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonIcon
+  },
   data() {
       return {
         desktop: home,
