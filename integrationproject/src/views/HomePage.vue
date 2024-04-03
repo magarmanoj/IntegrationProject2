@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <img src="img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" id="logo">
+      <img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" id="logo">
       <nav>
         <router-link to="/test">Druktebarometer</router-link>
         <router-link to="/info">About Us</router-link>

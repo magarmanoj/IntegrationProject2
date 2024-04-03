@@ -1,7 +1,7 @@
 <template>
     <div>
         <header>
-            <img src="img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" id="header-logo">
+            <img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" id="header-logo">
             <nav>
                 <router-link to="/">Algemene Pagina</router-link>
             </nav>
@@ -10,7 +10,7 @@
         <main>
             <div class="content-wrapper">
                 <section id="about-odisee">
-                    <img src="img/Odisee_Logo_Co-hogeschool.png" alt="Odisee Logo" class="about-logo">
+                    <img src="/img/Odisee_Logo_Co-hogeschool.png" alt="Odisee Logo" class="about-logo">
                     <h2>Over Ons</h2>
                     <p>
                         Wij zijn zes tweedejaars informatica studenten van Odisee Hogeschool: [namen van de studenten].
@@ -21,7 +21,7 @@
                     </p>
                 </section>
                 <section id="about-axxes">
-                    <img src="img/og-image.jpg" alt="Axxes Logo" class="about-logo">
+                    <img src="/img/og-image.jpg" alt="Axxes Logo" class="about-logo">
                     <h3>Onze Klant</h3>
                     <p>
                         We ontwikkelen voor Axxes een slimme tool die laat zien hoe druk het op kantoor zal zijn. Deze
