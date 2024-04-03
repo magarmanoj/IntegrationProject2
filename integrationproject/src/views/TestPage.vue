@@ -19,6 +19,7 @@
         <ion-card-content>
           <ion-label>Datum: {{ item.Datum }}</ion-label><br>
           <ion-label>Aantal Logins: {{ item.TotalAantalLogin }}</ion-label>
+          <ion-button @click="showInfo()">Info</ion-button>
         </ion-card-content>
       </ion-card>
     </ion-content>
@@ -26,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonCardHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonLabel, IonCardTitle, IonPage, IonItem, IonSelectOption, IonSelect } from '@ionic/vue';
+import { IonContent, IonHeader, IonCardHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonLabel, IonCardTitle, IonPage, IonItem, IonSelectOption, IonSelect, IonButton } from '@ionic/vue';
 import axios from 'axios';
 import { ref, onMounted, computed } from 'vue';
 
@@ -115,4 +116,8 @@ const filterData = computed(() => {
     return filteredData; 
   }
 });
+
+const showInfo = () => {
+  console.log("hello")
+}
 </script>
