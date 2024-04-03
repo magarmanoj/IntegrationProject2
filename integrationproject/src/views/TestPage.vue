@@ -36,7 +36,6 @@ interface DataItem {
   AantalLogin: string;
 }
 
-// Define data and computed property
 const data = ref<DataItem[]>([]);
 const selectedFilter = ref<string>("alphabetical"); 
 
@@ -60,7 +59,6 @@ const getDetails = () => {
     });
 };
 
-// Function to fetch filter options
 const getFilteredData = () => {
   axios.post('https://manojmagar.be/RESTfulAPI/Taak1/api/Medewerkerget.php')
     .then(response => {
@@ -71,7 +69,6 @@ const getFilteredData = () => {
         console.log('response.data.data is not ok');
         return;
       }
-      // Assuming selectedFilter should be updated with filter options
       selectedFilter.value = response.data.data.map((selectedFilter: any) => ({
         ...selectedFilter
       }));
@@ -92,11 +89,13 @@ const displayedData = computed(() => {
     const locatie = item.Locatie;
     const aantalLogin = Number(item.AantalLogin);
     const datum = item.Datum;
-    if (aggregatedMap.has(locatie)) {
-      const currentValue = aggregatedMap.get(locatie)!;
-      aggregatedMap.set(locatie, { Datum: datum, TotalAantalLogin: currentValue.TotalAantalLogin + aantalLogin });
-    } else {
-      aggregatedMap.set(locatie, { Datum: datum, TotalAantalLogin: aantalLogin });
+    if (!isNaN(aantalLogin)) { 
+      if (aggregatedMap.has(locatie)) {
+        const currentValue = aggregatedMap.get(locatie)!;
+        aggregatedMap.set(locatie, { Datum: datum, TotalAantalLogin: currentValue.TotalAantalLogin + aantalLogin });
+      } else {
+        aggregatedMap.set(locatie, { Datum: datum, TotalAantalLogin: aantalLogin });
+      }
     }
   });
   return Array.from(aggregatedMap).map(([Locatie, { Datum, TotalAantalLogin }]) => ({
@@ -116,6 +115,4 @@ const filterData = computed(() => {
     return filteredData; 
   }
 });
-
-
 </script>
