@@ -58,7 +58,7 @@
   </template>
   
   <script lang="ts">
-  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonButton, IonIcon, IonText, IonList, IonItem } from '@ionic/vue';
+  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonButton, IonIcon, IonText, IonList, IonItem, IonImg, IonLabel } from '@ionic/vue';
   import { defineComponent } from 'vue';
   import { home, information, listOutline } from 'ionicons/icons';
   
@@ -78,6 +78,8 @@
       IonText,
       IonList,
       IonItem,
+      IonLabel,
+      IonImg
     },
     data() {
       return {

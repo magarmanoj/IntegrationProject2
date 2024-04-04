@@ -5,13 +5,17 @@
         <ion-title>Drukte Barometer</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content class="chart">
       <ion-item>
         <ion-select label="Filter By:" v-model="selectedFilter">
           <ion-select-option value="alphabetical">Alphabetical</ion-select-option>
           <ion-select-option value="total_number">Total Number</ion-select-option>
         </ion-select>
       </ion-item>
+      <ion-item>
+        <canvas id="myChart" width="650" height="300"></canvas>
+      </ion-item>
+      <!--
       <ion-card v-for="(item, index) in filterData" :key="index">
         <ion-card-header>
           <ion-card-title>{{ item.Locatie }}</ion-card-title>
@@ -19,17 +23,20 @@
         <ion-card-content>
           <ion-label>Datum: {{ item.Datum }}</ion-label><br>
           <ion-label>Aantal Logins: {{ item.TotalAantalLogin }}</ion-label>
-          <ion-button @click="showInfo()">Info</ion-button>
         </ion-card-content>
       </ion-card>
+    -->
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonCardHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonLabel, IonCardTitle, IonPage, IonItem, IonSelectOption, IonSelect, IonButton } from '@ionic/vue';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonPage, IonItem, IonSelectOption, IonSelect } from '@ionic/vue';
 import axios from 'axios';
 import { ref, onMounted, computed } from 'vue';
+import Chart from 'chart.js/auto';
+import { watch } from 'vue';
+
 
 interface DataItem {
   Datum: string;
@@ -79,10 +86,6 @@ const getFilteredData = () => {
     });
 };
 
-onMounted(() => {
-  getDetails();
-  getFilteredData();
-});
 
 const displayedData = computed(() => {
   const aggregatedMap = new Map<string, { Datum: string; TotalAantalLogin: number }>();
@@ -107,7 +110,7 @@ const displayedData = computed(() => {
 });
 
 const filterData = computed(() => {
-  const filteredData = [...displayedData.value];
+  const filteredData = displayedData.value.slice();
   if (selectedFilter.value == "alphabetical") {
     return filteredData.sort((a, b) => a.Locatie.localeCompare(b.Locatie));
   } else if (selectedFilter.value == "total_number") {
@@ -117,7 +120,57 @@ const filterData = computed(() => {
   }
 });
 
-const showInfo = () => {
-  console.log("hello")
-}
+const createChart = () => {
+  const ctx = document.getElementById('myChart') as HTMLCanvasElement;
+  if (!ctx) return;
+  const existingChart = Chart.getChart(ctx);
+  if (existingChart) {
+    existingChart.destroy();
+  }
+
+  const x_as = filterData.value.map(item => item.Locatie);
+  const y_as = filterData.value.map(item => item.TotalAantalLogin);
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: x_as, 
+      datasets: [{
+        label: 'Total Number of Logins',
+        data: y_as, 
+        backgroundColor: 'rgba(255, 99, 132, 0.2)', 
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Total Number of Logins'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Location'
+          }
+        }
+      }
+    }
+  });
+};
+
+onMounted(() => {
+  getDetails();
+  getFilteredData();
+});
+
+watch(filterData, () => {
+  createChart();
+});
+
 </script>
+
