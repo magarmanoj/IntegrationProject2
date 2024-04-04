@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content class="homeContent">
       <main>
-        <section id="support">
+        <section id="support" class="card">
           <h2>Ondersteuning voor de Druktebarometer</h2>
           <p>Heeft u hulp nodig met onze Druktebarometer of wilt u meer informatie? Wij staan klaar om u te
             ondersteunen. Bekijk onze FAQ, stuur ons een e-mail, of bel ons voor directe hulp.</p>
@@ -19,6 +19,7 @@
         </section>
       </main>
     </ion-content>
+
 
     <ion-footer>
       <ion-title>&copy; 2024 Team Odisee</ion-title>
@@ -43,87 +44,84 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* Globale stijlen */
-html,
-body {
+/* Global Styles */
+html, body {
   font-family: 'Open Sans', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
   height: 100%;
+  background-color: #fff; /* White background for sobriety */
 }
 
-
-/* Header stijlen */
+/* Header Styles */
 ion-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center; /* Center the logo */
   padding: 1em 2em;
-  background-color: #f1f1f1;
-  border-bottom: 2px solid #ddd;
+  background-color: #fff; /* White background */
+  border-bottom: 1px solid #e1e1e1; /* Subtle border for separation */
 }
 
-/* Logo stijlen */
 #header-logo {
   height: 60px;
-  max-width: 100%;
 }
 
-/* Hoofdsectie stijlen */
+/* Main Section Styles */
 ion-content.homeContent {
-  --background: white;
-  --color: black;
-  min-height: calc(100% - 160px);
   padding: 20px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-around; /* Distribute space between kaders */
+  flex-wrap: wrap; /* Ensure responsiveness */
 }
 
-/* Footer stijlen */
+.card {
+  background: #f9f9f9; /* Slightly off-white background for the cards */
+  border: 1px solid #e1e1e1; /* Subtle border for definition */
+  border-radius: 4px; /* Slight rounding of corners */
+  padding: 20px;
+  margin-top: 20px;
+  width: 45%; /* Card width */
+  box-shadow: none; /* No shadow for sobriety */
+}
+
+/* Text Styles for consistency with the screenshot */
+.card h2 {
+  color: #333; /* Dark gray color for headings */
+  margin-bottom: 0.5em;
+}
+
+.card p, .card li {
+  color: #666; /* Lighter gray for text */
+}
+
+/* Footer Styles */
 ion-footer {
-  color: black;
+  color: #666; /* Lighter gray for text */
+  background-color: #fff; /* White background */
   text-align: center;
   padding: 1em;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  border-top: 2px solid #ddd;
+  border-top: 1px solid #e1e1e1; /* Subtle border for separation */
 }
 
 ion-footer ion-title {
   font-size: 0.8em;
 }
 
-/* Media query voor tablets */
+/* Tablet Media Query */
 @media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    padding: 1em;
-  }
-
-  #logo {
-    margin-bottom: 1em;
-  }
-
-  nav button {
-    font-size: 1em;
-    padding: 10px 20px;
-  }
-
-  main {
-    padding: 1em;
+  .card {
+    width: 100%; /* Full width cards on smaller screens */
+    margin-top: 1em;
   }
 }
 
-/* Media query voor mobiele apparaten */
+/* Mobile Media Query */
 @media (max-width: 480px) {
-  nav button {
-    padding: 8px 16px;
-    font-size: 0.9em;
+  .card {
+    padding: 1em;
   }
 }
+
 </style>
