@@ -44,7 +44,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* Global Styles */
+/* Globale Stijlen */
 html, body {
   font-family: 'Open Sans', sans-serif;
   margin: 0;
@@ -52,76 +52,76 @@ html, body {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  background-color: #fff; /* White background for sobriety */
+  background-color: #fff; 
 }
 
-/* Header Styles */
+/* Stijlen voor de Header */
 ion-header {
   display: flex;
-  justify-content: center; /* Center the logo */
+  justify-content: center; 
   padding: 1em 2em;
-  background-color: #fff; /* White background */
-  border-bottom: 1px solid #e1e1e1; /* Subtle border for separation */
+  background-color: #fff;
+  border-bottom: 1px solid #e1e1e1; 
 }
 
 #header-logo {
   height: 60px;
 }
 
-/* Main Section Styles */
+/* Stijlen voor de Hoofdsectie */
 ion-content.homeContent {
   padding: 20px;
   display: flex;
-  justify-content: space-around; /* Distribute space between kaders */
-  flex-wrap: wrap; /* Ensure responsiveness */
+  justify-content: space-around; 
+  flex-wrap: wrap; 
 }
 
 .card {
-  background: #f9f9f9; /* Slightly off-white background for the cards */
-  border: 1px solid #e1e1e1; /* Subtle border for definition */
-  border-radius: 4px; /* Slight rounding of corners */
+  background: #f9f9f9; 
+  border: 1px solid #e1e1e1; 
+  border-radius: 4px; 
   padding: 20px;
   margin-top: 20px;
-  width: 45%; /* Card width */
-  box-shadow: none; /* No shadow for sobriety */
+  width: 45%; 
+  box-shadow: none;
 }
 
-/* Text Styles for consistency with the screenshot */
 .card h2 {
-  color: #333; /* Dark gray color for headings */
+  color: #333; 
   margin-bottom: 0.5em;
 }
 
 .card p, .card li {
-  color: #666; /* Lighter gray for text */
+  color: #666; 
 }
 
-/* Footer Styles */
+/* Stijlen voor de Footer */
 ion-footer {
-  color: #666; /* Lighter gray for text */
-  background-color: #fff; /* White background */
+  color: #666; 
+  background-color: #fff; 
   text-align: center;
   padding: 1em;
-  border-top: 1px solid #e1e1e1; /* Subtle border for separation */
+  border-top: 1px solid #e1e1e1; 
 }
 
 ion-footer ion-title {
   font-size: 0.8em;
 }
 
-/* Tablet Media Query */
+/* Media Query voor Tablets */
 @media (max-width: 768px) {
   .card {
-    width: 100%; /* Full width cards on smaller screens */
+    width: 100%; 
     margin-top: 1em;
   }
 }
 
-/* Mobile Media Query */
+/* Media Query voor Mobiele Apparaten */
 @media (max-width: 480px) {
   .card {
     padding: 1em;
   }
 }
+
 
 </style>
