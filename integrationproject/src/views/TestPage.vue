@@ -67,26 +67,6 @@ const getDetails = () => {
     });
 };
 
-const getFilteredData = () => {
-  axios.post('https://manojmagar.be/RESTfulAPI/Taak1/api/Medewerkerget.php')
-    .then(response => {
-      if (response.status !== 200) {
-        console.log(response.status);
-      }
-      if (!response.data.data) {
-        console.log('response.data.data is not ok');
-        return;
-      }
-      selectedFilter.value = response.data.data.map((selectedFilter: any) => ({
-        ...selectedFilter
-      }));
-    })
-    .catch(error => {
-      console.error('Error fetching Medewerkers:', error);
-    });
-};
-
-
 const displayedData = computed(() => {
   const aggregatedMap = new Map<string, { Datum: string; TotalAantalLogin: number }>();
   data.value.forEach((item) => {
@@ -119,6 +99,8 @@ const filterData = computed(() => {
     return filteredData; 
   }
 });
+
+
 
 const createChart = () => {
   const ctx = document.getElementById('myChart') as HTMLCanvasElement;
@@ -165,7 +147,7 @@ const createChart = () => {
 
 onMounted(() => {
   getDetails();
-  getFilteredData();
+
 });
 
 watch(filterData, () => {
