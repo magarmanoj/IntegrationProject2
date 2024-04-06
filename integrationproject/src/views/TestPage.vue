@@ -10,6 +10,8 @@
         <ion-select label="Filter By:" v-model="selectedFilter">
           <ion-select-option value="alphabetical">Alphabetical</ion-select-option>
           <ion-select-option value="total_number">Total Number</ion-select-option>
+          <ion-select-option value="daily">Daily</ion-select-option>
+          <ion-select-option value="monthly">Monthly</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-card v-for="(item, index) in filterData" :key="index">
