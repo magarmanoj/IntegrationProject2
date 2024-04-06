@@ -2,14 +2,14 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-img src="/img/og_image.png" alt="Axxes Logo" class="about-logo"></ion-img>
+        <ion-img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" class="about-logo"></ion-img>
       </ion-toolbar>
     </ion-header>
 
     <ion-content class="homeContent">
       <div class="homeGrid">
         <section id="upper">
-          <ion-title>Ondersteuning voor de Druktebarometer</ion-title>
+          <ion-title style="font-size: 2em;">Ondersteuning voor de Druktebarometer</ion-title>
             <ion-text>
                <p>Heeft u hulp nodig met onze Druktebarometer of wilt u meer informatie? Wij staan klaar om u te ondersteunen. Bekijk onze FAQ, stuur ons een e-mail, of bel ons voor directe hulp.</p>
             </ion-text>
@@ -97,5 +97,6 @@ ion-list {
   max-width: 20em;
   margin: 0 auto;
   display: block;
+  background-color: white;
 }
 </style>
