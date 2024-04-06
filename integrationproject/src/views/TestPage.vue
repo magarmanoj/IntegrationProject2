@@ -59,13 +59,33 @@ const getDetails = () => {
         console.log('response.data.data is not ok');
         return;
       }
-
       data.value = response.data.data;
     })
     .catch(error => {
       console.error('Error fetching data:', error);
     });
 };
+
+/*
+const getFilters = () => {
+  axios.post('https://www.gauravghimire.be/API_DrukBarometer/Filter.php')
+    .then(response => {
+      if (response.status !== 200) {
+        console.log(response.status);
+        return;
+      }
+
+      if (!response.data.data) {
+        console.log('response.data.data is not ok');
+        return;
+      }
+      console.log(response.data.data);
+      data.value = response.data.data;
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+};*/
 
 const displayedData = computed(() => {
   const aggregatedMap = new Map<string, { Datum: string; TotalAantalLogin: number }>();
@@ -99,8 +119,6 @@ const filterData = computed(() => {
     return filteredData; 
   }
 });
-
-
 
 const createChart = () => {
   const ctx = document.getElementById('myChart') as HTMLCanvasElement;
@@ -147,7 +165,7 @@ const createChart = () => {
 
 onMounted(() => {
   getDetails();
-
+  // getFilters();
 });
 
 watch(filterData, () => {
