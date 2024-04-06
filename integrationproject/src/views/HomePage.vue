@@ -45,23 +45,24 @@ export default defineComponent({
 
 <style scoped>
 /* Globale Stijlen */
-html, body {
+html,
+body {
   font-family: 'Open Sans', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  background-color: #fff; 
+  background-color: #fff;
 }
 
 /* Stijlen voor de Header */
 ion-header {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   padding: 1em 2em;
   background-color: #fff;
-  border-bottom: 1px solid #e1e1e1; 
+  border-bottom: 1px solid #e1e1e1;
 }
 
 #header-logo {
@@ -72,36 +73,37 @@ ion-header {
 ion-content.homeContent {
   padding: 20px;
   display: flex;
-  justify-content: space-around; 
-  flex-wrap: wrap; 
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .card {
-  background: #f9f9f9; 
-  border: 1px solid #e1e1e1; 
-  border-radius: 4px; 
+  background: #f9f9f9;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
   padding: 20px;
   margin-top: 20px;
-  width: 45%; 
+  width: 45%;
   box-shadow: none;
 }
 
 .card h2 {
-  color: #333; 
+  color: #333;
   margin-bottom: 0.5em;
 }
 
-.card p, .card li {
-  color: #666; 
+.card p,
+.card li {
+  color: #666;
 }
 
 /* Stijlen voor de Footer */
 ion-footer {
-  color: #666; 
-  background-color: #fff; 
+  color: #666;
+  background-color: #fff;
   text-align: center;
   padding: 1em;
-  border-top: 1px solid #e1e1e1; 
+  border-top: 1px solid #e1e1e1;
 }
 
 ion-footer ion-title {
@@ -111,7 +113,7 @@ ion-footer ion-title {
 /* Media Query voor Tablets */
 @media (max-width: 768px) {
   .card {
-    width: 100%; 
+    width: 100%;
     margin-top: 1em;
   }
 }
@@ -122,6 +124,4 @@ ion-footer ion-title {
     padding: 1em;
   }
 }
-
-
 </style>
