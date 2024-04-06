@@ -116,3 +116,7 @@ const filterData = computed(() => {
   }
 });
 </script>
+
+<style>
+
+</style>
