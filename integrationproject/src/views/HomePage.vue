@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" class="about-logo"></ion-img>
+        <ion-img src="/img/og_image.png" alt="Axxes Logo" class="about-logo"></ion-img>
       </ion-toolbar>
     </ion-header>
 
@@ -63,6 +63,15 @@ export default defineComponent({
 
 
 <style scoped>
+
+ion-header {
+  display: flex;
+  justify-content: center;
+  padding: 1em 2em;
+  background-color: #fff;
+  border-bottom: 1px solid #e1e1e1;
+}
+
 .homeGrid {
   margin-top: 10em;
   display: flex;
@@ -70,7 +79,6 @@ export default defineComponent({
 }
 
 #upper {
-  background: #f9f9f9;
   border: 1px solid #141313;
   border-radius: 1em;
   padding: 5em;
@@ -89,6 +97,5 @@ ion-list {
   max-width: 20em;
   margin: 0 auto;
   display: block;
-  background-color: white;
 }
 </style>

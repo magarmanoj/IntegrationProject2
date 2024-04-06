@@ -61,4 +61,9 @@
   ion-footer {
     text-align: center;
   }
+
+  ion-title{
+    height: 1em;
+    font-size: 0.8em;
+  }
 </style>
