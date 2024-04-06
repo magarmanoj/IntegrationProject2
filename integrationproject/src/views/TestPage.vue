@@ -45,7 +45,7 @@
     </div>
     <div>
         <ion-item>
-          <div style="height: 48em; width: 120em;">
+          <div style="height: 42em; width: 120em;">
         <canvas id="myChart"></canvas>
       </div>
         </ion-item>
