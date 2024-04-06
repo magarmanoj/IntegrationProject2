@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title class="ion-text-center">Info</ion-title>
+        <ion-img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" class="about-logo"></ion-img>
       </ion-toolbar>
     </ion-header>
 
@@ -53,7 +53,7 @@
 
 
 <script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonCard, IonGrid, IonCol, IonRow, IonContent, IonCardContent, IonCardHeader, IonCardTitle } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonImg, IonCard, IonGrid, IonCol, IonRow, IonContent, IonCardContent, IonCardHeader, IonCardTitle } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -61,7 +61,6 @@ export default defineComponent({
     IonPage,
     IonHeader,
     IonToolbar,
-    IonTitle,
     IonContent,
     IonCardContent,
     IonCardHeader,
@@ -69,7 +68,8 @@ export default defineComponent({
     IonCard,
     IonGrid,
     IonCol,
-    IonRow
+    IonRow,
+    IonImg
   },
   name: 'HomePage'
 });
@@ -109,4 +109,18 @@ ion-card {
     align-items: stretch;
   }
 
+  ion-header {
+  display: flex;
+  justify-content: center;
+  padding: 1em 2em;
+  background-color: #fff;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.about-logo {
+  max-width: 20em;
+  margin: 0 auto;
+  display: block;
+  background-color: white;
+}
 </style>

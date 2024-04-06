@@ -57,7 +57,6 @@
   </script>
   
 <style>
-
   ion-footer {
     text-align: center;
   }
