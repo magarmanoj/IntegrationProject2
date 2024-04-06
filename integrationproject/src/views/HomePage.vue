@@ -7,35 +7,33 @@
     </ion-header>
 
     <ion-content class="homeContent">
-      <ion-grid class="homeGrid">
-        <ion-row>
-              <section id="upper">
-                <ion-title>Ondersteuning voor de Druktebarometer</ion-title>
-                <ion-text>
-                  <p>Heeft u hulp nodig met onze Druktebarometer of wilt u meer informatie? Wij staan klaar om u te ondersteunen. Bekijk onze FAQ, stuur ons een e-mail, of bel ons voor directe hulp.</p>
-                </ion-text>
-                <ion-list>
-                  <a href="/tabs/tabTest" class="router-link">
-                  <ion-item>
-                    <ion-label>FAQ over de Druktebarometer</ion-label>
-                  </ion-item>
-                  </a>
-                  <ion-item>
-                    <ion-label>E-mail: support@axxesproject.com</ion-label>
-                  </ion-item>
-                  <ion-item>
-                    <ion-label>Telefoon: 123-456-7890</ion-label>
-                  </ion-item>
-                </ion-list>
-              </section>
-        </ion-row>
-      </ion-grid>
+      <div class="homeGrid">
+        <section id="upper">
+          <ion-title>Ondersteuning voor de Druktebarometer</ion-title>
+            <ion-text>
+               <p>Heeft u hulp nodig met onze Druktebarometer of wilt u meer informatie? Wij staan klaar om u te ondersteunen. Bekijk onze FAQ, stuur ons een e-mail, of bel ons voor directe hulp.</p>
+            </ion-text>
+          <ion-list>
+            <a href="/tabs/tabTest" class="router-link">
+            <ion-item>
+              <ion-label>FAQ over de Druktebarometer</ion-label>
+            </ion-item>
+            </a>
+            <ion-item>
+              <ion-label>E-mail: support@axxesproject.com</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label>Telefoon: 123-456-7890</ion-label>
+            </ion-item>
+          </ion-list>
+        </section>
+       </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonText, IonList, IonItem, IonImg, IonLabel } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonList, IonItem, IonImg, IonLabel } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { home, information, listOutline } from 'ionicons/icons';
 
@@ -47,8 +45,6 @@ export default defineComponent({
     IonToolbar,
     IonTitle,
     IonContent,
-    IonGrid,
-    IonRow,
     IonText,
     IonList,
     IonItem,
@@ -68,19 +64,25 @@ export default defineComponent({
 
 <style scoped>
 .homeGrid {
-  margin: 2em;
+  margin-top: 10em;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 #upper {
   background: #f9f9f9;
-  border: 1px solid #e1e1e1;
-  border-radius: 4px;
-  padding: 20px;
-  margin-top: 20px;
-  width: 45%;
-  box-shadow: none;
+  border: 1px solid #141313;
+  border-radius: 1em;
+  padding: 5em;
+  width: 50%;
+  box-shadow:inset;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+ion-list {
+  width: 100%;
 }
 
 .about-logo {

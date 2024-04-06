@@ -90,7 +90,13 @@ export default defineComponent({
   text-align: center;
 }
 
+ion-card {
+  border-radius: 1em; 
+}
+
 .card-content {
+  border: 1px solid #141313;
+  border-radius: 1em;
   display: flex;
   flex-direction: column;
   justify-content: center;
