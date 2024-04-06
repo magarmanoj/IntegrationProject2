@@ -77,7 +77,12 @@ export default defineComponent({
 .content-wrapper {
   display: flex;
   justify-content: center;
-  background-color: #f7efef;
+  align-items: center;
+  min-height: 70vh;
+  background-color: #f7f4f4;
+  width: 60%;
+  margin: auto;
+  
 }
 
 .about-container {
@@ -85,7 +90,6 @@ export default defineComponent({
 }
 
 .about-logo {
-  
   height: auto;
 }
 
@@ -109,5 +113,8 @@ export default defineComponent({
 ion-footer {
   text-align: center;
   margin-top: 20px;
+}
+ion-content {
+  --ion-background-color: #eadada;
 }
 </style>

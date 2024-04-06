@@ -12,7 +12,7 @@
           <ion-select-option value="total_number">Total Number</ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-card v-for="(item, index) in filterData" :key="index">
+      <ion-card class="Itembox" v-for="(item, index) in filterData" :key="index">
         <ion-card-header>
           <ion-card-title>{{ item.Locatie }}</ion-card-title>
         </ion-card-header>
@@ -116,3 +116,22 @@ const filterData = computed(() => {
   }
 });
 </script>
+
+<style scoped>
+.Itembox {
+  background-color: #eee0e0;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.Itembox:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background-color: #d26d6d;
+}
+
+
+select-wrapper
+ion-content {
+  --ion-background-color: #eadada;
+}
+</style>
