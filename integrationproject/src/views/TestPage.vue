@@ -15,33 +15,15 @@
         </ion-select>
       </ion-item>
       <ion-item class="months">
-          <ion-select label="Months: " v-model="selectedMonth">
-            <ion-select-option value="January">January</ion-select-option>
-            <ion-select-option value="February">February</ion-select-option>
-            <ion-select-option value="March">March</ion-select-option>
-            <ion-select-option value="April">April</ion-select-option>
-            <ion-select-option value="May">May</ion-select-option>
-            <ion-select-option value="June">June</ion-select-option>
-            <ion-select-option value="July">July</ion-select-option>
-            <ion-select-option value="August">August</ion-select-option>
-            <ion-select-option value="September">September</ion-select-option>
-            <ion-select-option value="October">October</ion-select-option>
-            <ion-select-option value="November">November</ion-select-option>
-            <ion-select-option value="December">December</ion-select-option>
-          </ion-select>
-        </ion-item>
-
-        <ion-item class="days">
-          <ion-select label="Days: " v-model="selectedDay">
-            <ion-select-option value="Sunday">Sunday</ion-select-option>
-            <ion-select-option value="Monday">Monday</ion-select-option>
-            <ion-select-option value="Tuesday">Tuesday</ion-select-option>
-            <ion-select-option value="Wednesday">Wednesday</ion-select-option>
-            <ion-select-option value="Thursday">Thursday</ion-select-option>
-            <ion-select-option value="Friday">Friday</ion-select-option>
-            <ion-select-option value="Saturday">Saturday</ion-select-option>
-          </ion-select>
-        </ion-item>    
+        <ion-select label="Months: " v-model="selectedMonth">
+          <ion-select-option v-for="month in months" :key="month" :value="month">{{ month }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="days">
+        <ion-select label="Days: " v-model="selectedDay">
+          <ion-select-option v-for="day in days" :key="day" :value="day">{{ day }}</ion-select-option>
+        </ion-select>
+      </ion-item>   
     </div>
     <div>
         <ion-item>
@@ -69,10 +51,22 @@ interface DataItem {
   AantalLogin: string;
 }
 
+interface FilterByDateResponse {
+  Datum: Date;
+  Locatie: string;
+  AantalLogin: string;
+}
+
 const data = ref<DataItem[]>([]);
+const dataDate = ref<FilterByDateResponse[]>([]);
 const selectedFilter = ref<string>("alphabetical"); 
 const selectedMonth = ref<string>("January");
 const selectedDay = ref<string>("Sunday");
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+
+
 
 const getDetails = () => {
   axios.post('https://www.gauravghimire.be/API_DrukBarometer/GetDetails.php')
@@ -93,26 +87,31 @@ const getDetails = () => {
     });
 };
 
-/*
-const getFilters = () => {
-  axios.post('https://www.gauravghimire.be/API_DrukBarometer/Filter.php')
-    .then(response => {
-      if (response.status !== 200) {
-        console.log(response.status);
-        return;
-      }
 
-      if (!response.data.data) {
-        console.log('response.data.data is not ok');
-        return;
-      }
-      console.log(response.data.data);
-      data.value = response.data.data;
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-};*/
+const getFilterByDate = (month: number, day: number) => {
+  console.log('Fetching filter data by date...');
+  axios.post('https://www.gauravghimire.be/API_DrukBarometer/FilterByDate.php', {
+    month: month,
+    day: day
+  })
+  .then(response => {
+    console.log('Response received:', response);
+
+    if (response.status !== 200) {
+      console.log('Error: Unexpected status code', response.status);
+      return;
+    }
+
+    if (!response.data.data) {
+      console.log('Error: No data received');
+      return;
+    }
+    dataDate.value = response.data.data;
+  })
+  .catch(error => {
+    console.error('Error fetching data by date:', error);
+  });
+};
 
 const displayedData = computed(() => {
   const aggregatedMap = new Map<string, { Datum: string; TotalAantalLogin: number }>();
@@ -192,11 +191,16 @@ const createChart = () => {
 
 onMounted(() => {
   getDetails();
-  // getFilters();
+  getFilterByDate(1 ,2);
 });
 
 watch(filterData, () => {
+  console.log("Filtered Data:", filterData.value);
   createChart();
+});
+
+watch(dataDate, () => {
+  console.log("Data By Date:", dataDate.value);
 });
 
 </script>
