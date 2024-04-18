@@ -16,12 +16,12 @@
       </ion-item>
       <ion-item class="months">
         <ion-select label="Months: " v-model="selectedMonth">
-          <ion-select-option v-for="month in months" :key="month" :value="month">{{ month }}</ion-select-option>
+          <ion-select-option v-for="(day, index) in days" :key="index" :value="index">{{ day }}</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item class="days">
         <ion-select label="Days: " v-model="selectedDay">
-          <ion-select-option v-for="day in days" :key="day" :value="day">{{ day }}</ion-select-option>
+          <ion-select-option v-for="(day, index) in days" :key="index" :value="index">{{ day }}</ion-select-option>
         </ion-select>
       </ion-item>   
     </div>
@@ -46,27 +46,43 @@ import { watch } from 'vue';
 
 
 interface DataItem {
-  Datum: string;
-  Locatie: string;
-  AantalLogin: string;
-}
-
-interface FilterByDateResponse {
   Datum: Date;
   Locatie: string;
-  AantalLogin: string;
+  AantalLogin: number;
 }
 
+
+
 const data = ref<DataItem[]>([]);
-const dataDate = ref<FilterByDateResponse[]>([]);
 const selectedFilter = ref<string>("alphabetical"); 
-const selectedMonth = ref<string>("January");
-const selectedDay = ref<string>("Sunday");
-const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const selectedMonth = ref<number>(0);
+const selectedDay = ref<number>(0);
+const months: { [key: number]: string } = {
+  0: "January",
+  1: "February",
+  2: "March",
+  3: "April",
+  4: "May",
+  5: "June",
+  6: "July",
+  7: "August",
+  8: "September",
+  9: "October",
+  10: "November",
+  11: "December"
+};
+const days: { [key: number]: string } = {
+  0: "Sunday",
+  1: "Monday",
+  2: "Tuesday",
+  3: "Wednesday",
+  4: "Thursday",
+  5: "Friday",
+  6: "Saturday"
+};
 
-
-
+const monthArray = Object.values(months);
+const dayArray = Object.values(days);
 
 const getDetails = () => {
   axios.post('https://www.gauravghimire.be/API_DrukBarometer/GetDetails.php')
@@ -106,7 +122,8 @@ const getFilterByDate = (month: number, day: number) => {
       console.log('Error: No data received');
       return;
     }
-    dataDate.value = response.data.data;
+    data.value = response.data.data;
+
   })
   .catch(error => {
     console.error('Error fetching data by date:', error);
@@ -196,13 +213,18 @@ onMounted(() => {
 
 watch(filterData, () => {
   console.log("Filtered Data:", filterData.value);
+  console.log("Data By Date:", data.value);
   createChart();
 });
 
-watch(dataDate, () => {
-  console.log("Data By Date:", dataDate.value);
+watch([selectedMonth, selectedDay], ([newMonth, newDay]) => {
+  console.log("New month:", newMonth);
+  console.log("New day:", newDay);
+  console.log("Selected month:", monthArray[newMonth]);
+  console.log("Selected day:", dayArray[newDay]);
+  console.log("Month or day changed. Fetching filter data...");
+  getFilterByDate(newMonth + 1, newDay);
 });
-
 </script>
 
 
