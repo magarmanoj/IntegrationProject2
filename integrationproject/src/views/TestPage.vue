@@ -7,17 +7,17 @@
     </ion-header>
     <ion-content class="ion-padding">
       <ion-item>
-        <ion-label>Date:</ion-label>
+        <ion-label>Datum:</ion-label>
         <ion-text>{{ currentDate }}</ion-text>
       </ion-item>
 
       <ion-item>
-        <ion-select label="Select Network" v-model="selectedNetwork" @ionChange="getNetwerken">
+        <ion-select label="Kies Netwerken:" v-model="selectedNetwork" @ionChange="getNetwerken">
           <ion-select-option v-for="network in alleNetwerken" :key="network" :value="network">{{ network }}</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-select label="Select Day" v-model="selectedDay" @ionChange="onDayChange">
+        <ion-select label="Kies Dagen:" v-model="selectedDay" @ionChange="onDayChange">
           <ion-select-option value="0">Sunday</ion-select-option>
           <ion-select-option value="1">Monday</ion-select-option>
           <ion-select-option value="2">Tuesday</ion-select-option>
@@ -69,7 +69,6 @@ interface LoginData {
 const selectedDay = ref<number>(0);
 
 const onDayChange = () => {
-  console.log(selectedDay.value);
   getDetails(selectedNetwork.value, selectedDay.value);
 };
 
