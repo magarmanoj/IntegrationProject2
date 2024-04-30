@@ -10,6 +10,12 @@
         <ion-label>Date:</ion-label>
         <ion-text>{{ currentDate }}</ion-text>
       </ion-item>
+
+      <ion-item>
+        <ion-select label="Select Network" v-model="selectedNetwork" @ionChange="getNetwerken">
+          <ion-select-option v-for="network in alleNetwerken" :key="network" :value="network">{{ network }}</ion-select-option>
+        </ion-select>
+      </ion-item>
       <!-- Canvas for chart -->
       <canvas id="myChart" ref="chartCanvas"></canvas>
     </ion-content>
@@ -19,7 +25,7 @@
 
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel , IonPage, IonItem, IonText } from '@ionic/vue';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel , IonPage, IonItem, IonText, IonSelect, IonSelectOption } from '@ionic/vue';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { Chart, registerables } from 'chart.js';
@@ -32,9 +38,25 @@ interface DataItem {
   TotalLogins: number;
 }
 
+const alleNetwerken = ['Guest Axxes - AT Recruitm','Entrepot 9', 'airtame', 'Guest Axxes', 'Staff - Axxes', 'Training Axxes', 'Labo' ];
+
+
 const data = ref<DataItem[]>([]);
 const currentDate = ref<string>(new Date().toLocaleDateString());
-const chartCanvas = ref<HTMLCanvasElement | null>(null); // Reference to the canvas element
+const chartCanvas = ref<HTMLCanvasElement | null>(null);
+const selectedNetwork = ref<string>(alleNetwerken[0]);
+
+
+const getCurrentDayOfWeek = (): number => {
+  const currentDate = new Date();
+  return currentDate.getDay();
+};
+
+const getNetwerken = () => {
+  const day = getCurrentDayOfWeek();
+  console.log(day);
+  getDetails(selectedNetwork.value, day);
+};
 
 const getDetails = (locatie: string, day: number) => {
   const postData = {
@@ -44,7 +66,7 @@ const getDetails = (locatie: string, day: number) => {
   axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePerLocation.php', postData)
     .then(response => {
       console.log(response.data); // Log to check the data
-      if (response.status === 200 && response.data.data) {
+      if (response.status == 200 && response.data.data) {
         data.value = response.data.data;
         createChart(); 
       } else {
@@ -57,7 +79,7 @@ const getDetails = (locatie: string, day: number) => {
 };
 
 onMounted(() => {
-  getDetails("Guest Axxes - AT Recruitm", 9); 
+  getNetwerken();
 });
 
 const createChart = () => {
@@ -109,8 +131,6 @@ const createChart = () => {
   });
 };
 </script>
-
-
 
 
 <style scoped>
