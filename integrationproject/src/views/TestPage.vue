@@ -148,7 +148,8 @@ const createChart = () => {
   const time = dateTime.split(' ')[1]; // This splits the string into date and time, and selects the time part
   const hourMinute = time.substring(0, 5); // This takes the first 5 characters of the time string which include hour and minute
   return hourMinute;
-});
+  });
+
   const values = data.value.map(item => item.TotalLogins);
   const backgroundColors = values.map((value) => {
     const networkCapacity = networkData[selectedNetwork.value].capacity;
@@ -200,7 +201,6 @@ const createChart = () => {
 </script>
 
 <style scoped>
-
 ion-content {
   display: flex;
   justify-content: center;
