@@ -41,8 +41,16 @@ interface DataItem {
 const alleNetwerken = ['Guest Axxes - AT Recruitm','Entrepot 9', 'airtame', 'Guest Axxes', 'Staff - Axxes', 'Training Axxes', 'Labo' ];
 
 
+const formatDate = (date: Date): string => {
+  const options: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+};
+
+const currentDate = ref<string>(formatDate(new Date()));
+
+
+
 const data = ref<DataItem[]>([]);
-const currentDate = ref<string>(new Date().toLocaleDateString());
 const chartCanvas = ref<HTMLCanvasElement | null>(null);
 const selectedNetwork = ref<string>(alleNetwerken[0]);
 
