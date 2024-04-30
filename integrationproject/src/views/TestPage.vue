@@ -2,165 +2,62 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" class="about-logo"></ion-img>
+        <ion-title>Drukte Barometer</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content>
-      <div class="test">
-      <div class="showChart">
-      <ion-item class="filter">
-        <ion-select label="Filter By:" v-model="selectedFilter">
-          <ion-select-option value="alphabetical">Alphabetical</ion-select-option>
-          <ion-select-option value="total_number">Total Number</ion-select-option>
-        </ion-select>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-label>Date:</ion-label>
+        <ion-text>{{ currentDate }}</ion-text>
       </ion-item>
-      <ion-item class="months">
-        <ion-select label="Months: " v-model="selectedMonth">
-          <ion-select-option v-for="(day, index) in days" :key="index" :value="index">{{ day }}</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item class="days">
-        <ion-select label="Days: " v-model="selectedDay">
-          <ion-select-option v-for="(day, index) in days" :key="index" :value="index">{{ day }}</ion-select-option>
-        </ion-select>
-      </ion-item>   
-    </div>
-    <div>
-        <ion-item>
-          <div style="height: 42em; width: 120em;">
-        <canvas id="myChart"></canvas>
-      </div>
-        </ion-item>
-      </div>
-    </div>
+      <!-- Canvas for chart -->
+      <canvas id="myChart" ref="chartCanvas"></canvas>
     </ion-content>
   </ion-page>
 </template>
 
+
+
 <script setup lang="ts">
-import { IonContent, IonHeader, IonToolbar, IonPage, IonItem, IonSelectOption, IonSelect, IonImg } from '@ionic/vue';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel , IonPage, IonItem, IonText } from '@ionic/vue';
 import axios from 'axios';
-import { ref, onMounted, computed } from 'vue';
-import Chart from 'chart.js/auto';
-import { watch } from 'vue';
+import { ref, onMounted } from 'vue';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 
 interface DataItem {
-  Datum: Date;
+  TimeSlot: string;
   Locatie: string;
-  AantalLogin: number;
+  TotalLogins: number;
 }
 
-
-
 const data = ref<DataItem[]>([]);
-const selectedFilter = ref<string>("alphabetical"); 
-const selectedMonth = ref<number>(0);
-const selectedDay = ref<number>(0);
-const months: { [key: number]: string } = {
-  0: "January",
-  1: "February",
-  2: "March",
-  3: "April",
-  4: "May",
-  5: "June",
-  6: "July",
-  7: "August",
-  8: "September",
-  9: "October",
-  10: "November",
-  11: "December"
-};
-const days: { [key: number]: string } = {
-  0: "Sunday",
-  1: "Monday",
-  2: "Tuesday",
-  3: "Wednesday",
-  4: "Thursday",
-  5: "Friday",
-  6: "Saturday"
-};
+const currentDate = ref<string>(new Date().toLocaleDateString());
+const chartCanvas = ref<HTMLCanvasElement | null>(null); // Reference to the canvas element
 
-const monthArray = Object.values(months);
-const dayArray = Object.values(days);
-
-const getDetails = () => {
-  axios.post('https://www.gauravghimire.be/API_DrukBarometer/GetDetails.php')
+const getDetails = (locatie: string, day: number) => {
+  const postData = {
+    locatie: locatie,
+    day: day
+  };
+  axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePerLocation.php', postData)
     .then(response => {
-      if (response.status !== 200) {
-        console.log(response.status);
-        return;
+      console.log(response.data); // Log to check the data
+      if (response.status === 200 && response.data.data) {
+        data.value = response.data.data;
+        createChart(); 
+      } else {
+        console.error('Response not OK:', response);
       }
-
-      if (!response.data.data) {
-        console.log('response.data.data is not ok');
-        return;
-      }
-      data.value = response.data.data;
     })
     .catch(error => {
       console.error('Error fetching data:', error);
     });
 };
 
-
-const getFilterByDate = (month: number, day: number) => {
-  console.log('Fetching filter data by date...');
-  axios.post('https://www.gauravghimire.be/API_DrukBarometer/FilterByDate.php', {
-    month: month,
-    day: day
-  })
-  .then(response => {
-    console.log('Response received:', response);
-
-    if (response.status !== 200) {
-      console.log('Error: Unexpected status code', response.status);
-      return;
-    }
-
-    if (!response.data.data) {
-      console.log('Error: No data received');
-      return;
-    }
-    data.value = response.data.data;
-
-  })
-  .catch(error => {
-    console.error('Error fetching data by date:', error);
-  });
-};
-
-const displayedData = computed(() => {
-  const aggregatedMap = new Map<string, { Datum: string; TotalAantalLogin: number }>();
-  data.value.forEach((item) => {
-    const locatie = item.Locatie;
-    const aantalLogin = Number(item.AantalLogin);
-    const datum = item.Datum;
-    if (!isNaN(aantalLogin)) { 
-      if (aggregatedMap.has(locatie)) {
-        const currentValue = aggregatedMap.get(locatie)!;
-        aggregatedMap.set(locatie, { Datum: datum, TotalAantalLogin: currentValue.TotalAantalLogin + aantalLogin });
-      } else {
-        aggregatedMap.set(locatie, { Datum: datum, TotalAantalLogin: aantalLogin });
-      }
-    }
-  });
-  return Array.from(aggregatedMap).map(([Locatie, { Datum, TotalAantalLogin }]) => ({
-    Locatie,
-    Datum,
-    TotalAantalLogin
-  }));
-});
-
-const filterData = computed(() => {
-  const filteredData = displayedData.value.slice();
-  if (selectedFilter.value == "alphabetical") {
-    return filteredData.sort((a, b) => a.Locatie.localeCompare(b.Locatie));
-  } else if (selectedFilter.value == "total_number") {
-    return filteredData.sort((a, b) => b.TotalAantalLogin - a.TotalAantalLogin);
-  } else {
-    return filteredData; 
-  }
+onMounted(() => {
+  getDetails("Guest Axxes - AT Recruitm", 9); 
 });
 
 const createChart = () => {
@@ -171,17 +68,23 @@ const createChart = () => {
     existingChart.destroy();
   }
 
-  const x_as = filterData.value.map(item => item.Locatie);
-  const y_as = filterData.value.map(item => item.TotalAantalLogin);
+  console.log("Creating chart with data:", data.value);
 
+  // Using TimeSlot as x-axis labels and TotalLogins as the values
+  const labels = data.value.map(item => item.TimeSlot);
+  const values = data.value.map(item => item.TotalLogins);
+
+  console.log("Labels:", labels);
+  console.log("Values:", values);
+  // Creating the chart
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: x_as, 
+      labels: labels,
       datasets: [{
         label: 'Total Number of Logins',
-        data: y_as, 
-        backgroundColor: 'rgba(255, 99, 132, 0.2)', 
+        data: values,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 2
       }]
@@ -198,34 +101,16 @@ const createChart = () => {
         x: {
           title: {
             display: true,
-            text: 'Location'
+            text: 'TimeSlot'
           }
         }
       }
     }
   });
 };
-
-onMounted(() => {
-  getDetails();
-  getFilterByDate(1 ,2);
-});
-
-watch(filterData, () => {
-  console.log("Filtered Data:", filterData.value);
-  console.log("Data By Date:", data.value);
-  createChart();
-});
-
-watch([selectedMonth, selectedDay], ([newMonth, newDay]) => {
-  console.log("New month:", newMonth);
-  console.log("New day:", newDay);
-  console.log("Selected month:", monthArray[newMonth]);
-  console.log("Selected day:", dayArray[newDay]);
-  console.log("Month or day changed. Fetching filter data...");
-  getFilterByDate(newMonth + 1, newDay);
-});
 </script>
+
+
 
 
 <style scoped>
