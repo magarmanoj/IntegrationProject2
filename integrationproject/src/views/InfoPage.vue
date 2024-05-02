@@ -17,11 +17,20 @@
                   <ion-card-title>Over Ons</ion-card-title>
                 </ion-card-header>
                 <ion-card-content>
-                  Wij zijn zes tweedejaars informatica studenten van Odisee Hogeschool: [namen van de studenten]. Voor
-                  ons
-                  project 'Integration Project 2' werken we samen met Axxes, een bekend IT-consultancybedrijf. Deze
-                  samenwerking geeft ons de kans om onze kennis in praktijk te brengen en mee te werken aan echte
-                  IT-oplossingen.
+                  Wij zijn een groep van zes tweedejaarsstudenten Informatica aan de Odisee Hogeschool,
+                  een co-hogeschool die bekend staat om haar praktijkgerichte aanpak en sterke banden met de industrie.
+                  Elk van ons brengt een unieke set aan vaardigheden en een frisse blik op technologische oplossingen,
+                  gedreven door een gedeelde passie voor innovatie en softwareontwikkeling.
+                  <br><br> In het kader van ons tweedejaarsproject 'Integratieproject 2', hebben wij de kans gekregen om samen te werken met Axxes,
+                  een vooraanstaand IT-consultancybedrijf. Deze samenwerking biedt ons niet alleen een platform om onze theoretische kennis in de praktijk te brengen, 
+                  maar stelt ons ook in staat om direct bij te dragen aan echte IT-oplossingen. 
+                  Door deze hands-on ervaring kunnen wij onze vaardigheden aanscherpen in een realistische werkomgeving,
+                  waarbij wij direct feedback ontvangen van ervaren professionals in het veld.
+                  <br><br> Ons doel is om door middel van dit project niet alleen onszelf te ontwikkelen als toekomstige IT-professionals,
+                  maar ook om een positieve impact te hebben op de gemeenschap door middel van de technologische oplossingen die wij creëren. 
+                  Wij zijn enthousiast over de mogelijkheden die voor ons liggen en zijn toegewijd om het meeste uit deze unieke educatieve ervaring te halen.
+
+
                 </ion-card-content>
               </div>
             </ion-card>
@@ -34,13 +43,22 @@
                   <ion-card-title>Onze Klant</ion-card-title>
                 </ion-card-header>
                 <ion-card-content>
-                  We ontwikkelen voor Axxes een slimme tool die laat zien hoe druk het op kantoor zal zijn. Deze tool
-                  gebruikt informatie zoals geplande vergaderingen om te voorspellen wanneer het kantoor vol of juist
-                  rustig is. Zo kan iedereen makkelijk beslissen wanneer het beste is om naar kantoor te komen. We
-                  zorgen
-                  ervoor dat deze tool veilig en makkelijk in gebruik is, en goed werkt op computers, mobiele telefoons
-                  en
-                  tablets. We proberen de kosten laag te houden en de gebruiksvriendelijkheid hoog.
+                  Bij ons project voor Axxes,
+                  hebben we een geavanceerde tool ontwikkeld die real-time inzicht geeft in de drukte op kantoorlocaties.
+                  Deze tool stelt medewerkers in staat om op een intelligente manier te plannen wanneer ze het best naar kantoor kunnen komen,
+                  niet alleen op basis van aanwezigheid, maar ook rekening houdend met geplande vergaderingen en andere kantooractiviteiten.
+                  Deze tool maakt gebruik van geavanceerde data-analyse om patronen te identificeren in kantoorgebruik,
+                  en gebruikt deze informatie om voorspellingen te doen over de verwachte drukte.
+                  Dit stelt medewerkers in staat om hun werkdag effectief te plannen,
+                  waardoor piekuren op kantoor worden vermeden en een evenwichtiger gebruik van de kantoorruimte wordt bevorderd. <br><br> 
+                  Onze software is ontworpen met de nadruk op beveiliging en privacy,
+                  waarbij we ervoor zorgen dat alle verzamelde gegevens veilig worden opgeslagen en verwerkt.
+                  Daarnaast is de tool geoptimaliseerd voor gebruik op een breed scala aan apparaten,
+                  van desktopcomputers tot smartphones en tablets, waardoor hij toegankelijk is voor iedereen binnen het bedrijf, ongeacht hun voorkeursapparaat. <br><br>
+                  We streven ernaar de kosten voor implementatie en onderhoud laag te houden,
+                  terwijl we de gebruiksvriendelijkheid en toegankelijkheid maximaliseren.
+                  Door voortdurend feedback te verzamelen van eindgebruikers, zorgen we ervoor dat onze tool niet alleen voldoet aan de huidige behoeften van Axxes,
+                  maar ook flexibel genoeg is om zich aan te passen aan toekomstige veranderingen binnen de organisatie.
                 </ion-card-content>
               </div>
             </ion-card>
