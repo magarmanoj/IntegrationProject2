@@ -9,7 +9,7 @@
     <ion-content class="homeContent">
       <div class="homeGrid">
         <section id="upper">
-          <ion-title style="font-size: 2em;">Ondersteuning voor de Druktebarometer</ion-title>
+          <ion-title class="title-header">Ondersteuning voor de Druktebarometer</ion-title>
             <ion-text>
                <p>Heeft u hulp nodig met onze Druktebarometer of wilt u meer informatie? Wij staan klaar om u te ondersteunen. Bekijk onze FAQ, stuur ons een e-mail, of bel ons voor directe hulp.</p>
             </ion-text>
@@ -61,32 +61,39 @@ export default defineComponent({
 })
 </script>
 
-
 <style scoped>
-
 ion-header {
   display: flex;
   justify-content: center;
-  padding: 1em 2em;
+  align-items: center;
+  padding: 0.5em;
   background-color: #fff;
   border-bottom: 1px solid #e1e1e1;
 }
+.title-header {
+  font-size: 2em; /* Standaard grootte */
+  text-align: center; /* Centreert de titel */
+  word-wrap: break-word; /* Zorgt ervoor dat lange woorden naar de volgende regel gaan indien nodig */
+}
 
 .homeGrid {
-  margin-top: 10em;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  margin-top: 1em;
 }
 
 #upper {
   border: 1px solid #141313;
   border-radius: 1em;
-  padding: 5em;
-  width: 50%;
-  box-shadow:inset;
+  padding: 1em;
+  width: 100%; /* Volledige breedte op mobiele apparaten */
+  max-width: 800px; /* Maximale breedte voor grotere schermen */
+  box-shadow: inset;
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 }
 
 ion-list {
@@ -94,9 +101,56 @@ ion-list {
 }
 
 .about-logo {
-  max-width: 20em;
+  max-width: 20%; /* Verkleint het logo naar een meer geschikte grootte */
+  height: auto;
   margin: 0 auto;
   display: block;
-  background-color: white;
+}
+
+/* Media Queries voor verschillende schermformaten */
+@media (max-width: 768px) {
+  ion-header {
+    padding: 0.25em 0.5em;
+  }
+
+  #upper {
+    padding: 0.5em;
+  }
+  .about-logo {
+    width: 30%; /* Maak het logo groter op middelgrote schermen */
+    max-width: 180px; /* Een beetje kleiner maximaal om overbelasting te voorkomen */
+  }
+
+  .title-header {
+    font-size: 1.5em; /* Kleinere font size op tablets */
+  }
+
+  ion-label {
+    font-size: 0.9em;
+  }
+}
+@media (max-width: 600px) {
+  .title-header {
+    font-size: 1.2em; /* Nog kleiner op kleine schermen */
+  }
+}
+
+@media (max-width: 480px) {
+  .about-logo {
+    max-width: 40%; /* Verkleint nog verder voor kleinere schermen */
+  }
+
+  ion-title {
+    font-size: 1.1em; /* Verkleint de titelgrootte op zeer kleine schermen */
+  }
+  
+  ion-label {
+    font-size: 0.8em;
+  }
+  .title-header {
+    font-size: 1em; /* Zeer klein op zeer kleine schermen */
+  }
 }
 </style>
+
+

@@ -41,7 +41,7 @@
         </div>
         <div class="legend-item">
           <div class="legend-color" style="background-color: rgba(0, 255, 35, 0.8);"></div>
-          <div class="legend-label">Rusitg</div>
+          <div class="legend-label">Rustig</div>
         </div>
       </div>
     </ion-content>
