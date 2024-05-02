@@ -65,8 +65,7 @@ export default defineComponent({
 ion-header {
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 0.5em;
+  padding: 1em 2em;
   background-color: #fff;
   border-bottom: 1px solid #e1e1e1;
 }
@@ -101,56 +100,12 @@ ion-list {
 }
 
 .about-logo {
-  max-width: 20%; /* Verkleint het logo naar een meer geschikte grootte */
-  height: auto;
+  max-width: 20em;
   margin: 0 auto;
   display: block;
+  background-color: white;
 }
 
-/* Media Queries voor verschillende schermformaten */
-@media (max-width: 768px) {
-  ion-header {
-    padding: 0.25em 0.5em;
-  }
-
-  #upper {
-    padding: 0.5em;
-  }
-  .about-logo {
-    width: 30%; /* Maak het logo groter op middelgrote schermen */
-    max-width: 180px; /* Een beetje kleiner maximaal om overbelasting te voorkomen */
-  }
-
-  .title-header {
-    font-size: 1.5em; /* Kleinere font size op tablets */
-  }
-
-  ion-label {
-    font-size: 0.9em;
-  }
-}
-@media (max-width: 600px) {
-  .title-header {
-    font-size: 1.2em; /* Nog kleiner op kleine schermen */
-  }
-}
-
-@media (max-width: 480px) {
-  .about-logo {
-    max-width: 40%; /* Verkleint nog verder voor kleinere schermen */
-  }
-
-  ion-title {
-    font-size: 1.1em; /* Verkleint de titelgrootte op zeer kleine schermen */
-  }
-  
-  ion-label {
-    font-size: 0.8em;
-  }
-  .title-header {
-    font-size: 1em; /* Zeer klein op zeer kleine schermen */
-  }
-}
 </style>
 
 

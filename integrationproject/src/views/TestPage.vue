@@ -139,8 +139,8 @@ const createChart = () => {
     existingChart.destroy();
   }
 
-  ctx.width = 50;
-  ctx.height = 10; 
+  ctx.width = 20;
+  ctx.height = 15; 
 
   console.log("Creating chart with data:", data.value);
   const labels = data.value.map(item => {
