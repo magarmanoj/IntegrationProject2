@@ -17,7 +17,9 @@
         </ion-select>
       </ion-item>
       <ion-item>
+        <div class="weekday-container">
           <ion-button class="weekday" v-for="(day, index) in weekdays" :key="index" :class="{ 'selected': selectedDay == index }" @click="selectDay(index)">{{ day }}</ion-button>
+        </div>
       </ion-item>
       <!-- Legend for color code -->
       <div class="legend">
@@ -260,15 +262,32 @@ ion-header {
   background-color: white;
 }
 
+.weekday-container {
+  display: flex;
+  flex-wrap: wrap; /* Zorgt ervoor dat de items kunnen wrap indien nodig */
+  justify-content: space-between; /* Verspreidt de items gelijk over de beschikbare ruimte */
+  width: 100%; /* Zorgt dat de container de volledige breedte van zijn ouder gebruikt */
+}
+
 .weekday {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  color: black; /* Change the color of button content */
-  margin: auto;
+  flex: 1; /* Elk item neemt evenveel ruimte in */
+  text-align: center; /* Centreert de tekst binnen elke button */
+  margin: 10px;
 }
 
 .weekday.selected {
   color: white;
+}
+
+/* Aanpassen voor kleinere schermen */
+@media (max-width: 600px) {
+  .weekday-container {
+    flex-direction: column; /* Stapelt de buttons verticaal */
+  }
+
+  .weekday {
+    width: 100%; /* Elke button neemt de volledige breedte */
+    margin: 2px 0; /* Minimaliseert de marge tussen verticaal gestapelde buttons */
+  }
 }
 </style>

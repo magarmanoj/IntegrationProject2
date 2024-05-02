@@ -70,9 +70,9 @@ ion-header {
   border-bottom: 1px solid #e1e1e1;
 }
 .title-header {
-  font-size: 2em; /* Standaard grootte */
-  text-align: center; /* Centreert de titel */
-  word-wrap: break-word; /* Zorgt ervoor dat lange woorden naar de volgende regel gaan indien nodig */
+  font-size: 2em;
+  text-align: center;
+  word-wrap: break-word;
 }
 
 .homeGrid {
@@ -87,8 +87,8 @@ ion-header {
   border: 1px solid #141313;
   border-radius: 1em;
   padding: 1em;
-  width: 100%; /* Volledige breedte op mobiele apparaten */
-  max-width: 800px; /* Maximale breedte voor grotere schermen */
+  width: 100%;
+  max-width: 800px;
   box-shadow: inset;
   display: flex;
   flex-direction: column;
