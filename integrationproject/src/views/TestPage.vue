@@ -83,7 +83,7 @@ const formatDate = (date: Date): string => {
 const currentDate = ref<string>(formatDate(new Date()));
 
 const networkData: Record<string, NetworkData> = {
-  'Guest Axxes - AT Recruitm': { name: 'Guest Axxes - AT Recruitm', capacity: 100 },
+  'Guest Axxes - AT Recruitm': { name: 'Guest Axxes - AT Recruitm', capacity: 80 },
   'Entrepot 9': { name: 'Entrepot 9', capacity: 5 },
   'airtame': { name: 'airtame', capacity: 5 },
   'Guest Axxes': { name: 'Guest Axxes', capacity: 5 },
@@ -102,8 +102,8 @@ const getCurrentDayOfWeek = (): number => {
 };
 
 const getNetwerken = () => {
-  const day = getCurrentDayOfWeek();
-  getDetails(selectedNetwork.value, day);
+  const currentSelectedDay = selectedDay.value;
+  getDetails(selectedNetwork.value, currentSelectedDay);
 };
 
 const getDetails = (locatie: string, day: number) => {
@@ -140,14 +140,13 @@ const createChart = () => {
   }
 
   ctx.width = 50;
-  ctx.height = 10; 
+  ctx.height = 20; 
 
   console.log("Creating chart with data:", data.value);
+
   const labels = data.value.map(item => {
   const dateTime = item.TimeSlot;
-  const time = dateTime.split(' ')[1]; // This splits the string into date and time, and selects the time part
-  const hourMinute = time.substring(0, 5); // This takes the first 5 characters of the time string which include hour and minute
-  return hourMinute;
+  return dateTime
   });
 
   const values = data.value.map(item => item.TotalLogins);
@@ -199,6 +198,7 @@ const createChart = () => {
   });
 };
 </script>
+
 
 <style scoped>
 ion-content {
