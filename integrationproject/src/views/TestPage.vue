@@ -17,18 +17,8 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-select label="Kies Dagen:" v-model="selectedDay" @ionChange="onDayChange">
-          <ion-select-option value="0">Sunday</ion-select-option>
-          <ion-select-option value="1">Monday</ion-select-option>
-          <ion-select-option value="2">Tuesday</ion-select-option>
-          <ion-select-option value="3">Wednesday</ion-select-option>
-          <ion-select-option value="4">Thursday</ion-select-option>
-          <ion-select-option value="5">Friday</ion-select-option>
-          <ion-select-option value="6">Saturday</ion-select-option>
-        </ion-select>
+          <ion-button class="weekday" v-for="(day, index) in weekdays" :key="index" :class="{ 'selected': selectedDay == index }" @click="selectDay(index)">{{ day }}</ion-button>
       </ion-item>
-      <!-- Canvas for chart -->
-      <canvas id="myChart" ref="chartCanvas"></canvas>
       <!-- Legend for color code -->
       <div class="legend">
         <div class="legend-item">
@@ -44,12 +34,15 @@
           <div class="legend-label">Rusitg</div>
         </div>
       </div>
+         
+      <!-- Canvas for chart -->
+      <canvas id="myChart" ref="chartCanvas"></canvas>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonToolbar, IonLabel , IonPage, IonItem, IonText, IonSelect, IonSelectOption, IonImg } from '@ionic/vue';
+import { IonContent, IonHeader, IonToolbar, IonLabel , IonPage, IonItem, IonText, IonSelect, IonSelectOption, IonImg, IonButton } from '@ionic/vue';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { Chart, registerables } from 'chart.js';
@@ -60,13 +53,21 @@ interface NetworkData {
   capacity: number;
 }
 
-interface LoginData {
+interface Data {
   TimeSlot: string;
   Locatie: string;
   TotalLogins: number;
 }
 
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 const selectedDay = ref<number>(0);
+
+const selectDay = (index: any) => {
+  selectedDay.value = index;
+  onDayChange();
+};
+
 
 const onDayChange = () => {
   getDetails(selectedNetwork.value, selectedDay.value);
@@ -91,7 +92,7 @@ const networkData: Record<string, NetworkData> = {
   'Labo': { name: 'Labo', capacity: 5 },
 };
 
-const data = ref<LoginData[]>([]);
+const data = ref<Data[]>([]);
 const chartCanvas = ref<HTMLCanvasElement | null>(null);
 const selectedNetwork = ref<string>(alleNetwerken[0]);
 
@@ -102,7 +103,6 @@ const getCurrentDayOfWeek = (): number => {
 
 const getNetwerken = () => {
   const day = getCurrentDayOfWeek();
-  console.log(day);
   getDetails(selectedNetwork.value, day);
 };
 
@@ -127,6 +127,7 @@ const getDetails = (locatie: string, day: number) => {
 };
 
 onMounted(() => {
+  selectedDay.value = getCurrentDayOfWeek();
   getNetwerken();
 });
 
@@ -138,8 +139,8 @@ const createChart = () => {
     existingChart.destroy();
   }
 
-  ctx.width = 20;
-  ctx.height = 20; 
+  ctx.width = 50;
+  ctx.height = 10; 
 
   console.log("Creating chart with data:", data.value);
   const labels = data.value.map(item => {
@@ -209,12 +210,13 @@ ion-content {
 canvas#myChart {
   max-width: 100%;
   height: auto;
+  margin-top: 4em;
 }
 
 .legend {
   display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
+  justify-content: space-evenly;
+  margin-top: 2em;
 }
 
 .legend-item {
@@ -223,14 +225,14 @@ canvas#myChart {
 }
 
 .legend-color {
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
+  width: 1em;
+  height: 1em;
+  margin-right: 1em;
   border-radius: 50%;
 }
 
 .legend-label {
-  font-size: 14px;
+  font-size: 1em;
 }
 
 .showChart {
@@ -256,5 +258,17 @@ ion-header {
   margin: 0 auto;
   display: block;
   background-color: white;
+}
+
+.weekday {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: black; /* Change the color of button content */
+  margin: auto;
+}
+
+.weekday.selected {
+  color: white;
 }
 </style>
