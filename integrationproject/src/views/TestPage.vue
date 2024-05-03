@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { IonContent, IonHeader, IonToolbar, IonLabel , IonPage, IonItem, IonText, IonSelect, IonSelectOption, IonImg, IonButton } from '@ionic/vue';
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
@@ -131,41 +131,48 @@ onMounted(() => {
   getNetwerken();
 });
 
+const currentHour = computed(() => {
+  const now = new Date();
+  const hour = now.getHours();
+  const isWithinRange = hour >= 8 && hour <= 17;
+  return {
+    hour,
+    isWithinRange
+  };
+});
+
 const createChart = () => {
-  const ctx = document.getElementById('myChart') as HTMLCanvasElement;
+  const ctx = chartCanvas.value;
   if (!ctx) return;
   const existingChart = Chart.getChart(ctx);
   if (existingChart) {
     existingChart.destroy();
   }
-
-  ctx.width = 50;
-  ctx.height = 20; 
-
-  console.log("Creating chart with data:", data.value);
-
-  const labels = data.value.map(item => {
-  const dateTime = item.TimeSlot;
-  return dateTime
-  });
-
+  const labels = data.value.map(item => item.TimeSlot);
   const values = data.value.map(item => item.TotalLogins);
-  const backgroundColors = Array(values.length).fill('rgb(74, 133, 143)'); // Light blue for all initial colors
-  const hoverBackgroundColors = values.map((value) => {
+
+  const backgroundColors: string[] = [];
+  const hoverBackgroundColors: string[] = [];
+
+  values.forEach((value, index) => {
+    const barHour = parseInt(labels[index].split(':')[0]);
     const networkCapacity = networkData[selectedNetwork.value].capacity;
     const occupancyPercentage = (value / networkCapacity) * 100;
 
+    let color = 'rgb(4, 92, 102)'; 
     if (occupancyPercentage >= 65) {
-      return 'rgba(255, 0, 0, 0.8)'; // Very Busy
+      hoverBackgroundColors.push('rgba(255, 0, 0, 0.8)'); 
     } else if (occupancyPercentage < 30) {
-      return 'rgba(0, 255, 35, 0.8)'; // Quiet
+      hoverBackgroundColors.push('rgba(0, 255, 35, 0.8)'); 
     } else {
-      return 'rgba(255, 135, 0, 0.8)'; // Busy
+      hoverBackgroundColors.push('rgba(255, 135, 0, 0.8)'); 
     }
-  });
 
-  console.log("Labels:", labels);
-  console.log("Values:", values);
+    if (currentHour.value.isWithinRange && currentHour.value.hour == barHour) {
+      color = hoverBackgroundColors[index];
+    }
+    backgroundColors.push(color);
+  });
 
   new Chart(ctx, {
     type: 'bar',
@@ -270,7 +277,13 @@ ion-header {
   margin: auto;
 }
 
+.weekday:hover{
+  color: white;
+  transform: scale(1.2);
+}
+
 .weekday.selected {
   color: white;
+  transform: scale(1.2);
 }
 </style>
