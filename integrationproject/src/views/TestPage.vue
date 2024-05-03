@@ -150,16 +150,17 @@ const createChart = () => {
   });
 
   const values = data.value.map(item => item.TotalLogins);
-  const backgroundColors = values.map((value) => {
+  const backgroundColors = Array(values.length).fill('rgb(74, 133, 143)'); // Light blue for all initial colors
+  const hoverBackgroundColors = values.map((value) => {
     const networkCapacity = networkData[selectedNetwork.value].capacity;
     const occupancyPercentage = (value / networkCapacity) * 100;
 
     if (occupancyPercentage >= 65) {
-      return 'rgba(255, 0, 0, 0.8)';
+      return 'rgba(255, 0, 0, 0.8)'; // Very Busy
     } else if (occupancyPercentage < 30) {
-      return 'rgba(0, 255, 35, 0.8)';
+      return 'rgba(0, 255, 35, 0.8)'; // Quiet
     } else {
-      return 'rgba(255, 135, 0, 0.8)';
+      return 'rgba(255, 135, 0, 0.8)'; // Busy
     }
   });
 
@@ -174,6 +175,7 @@ const createChart = () => {
         label: 'Total Number of Logins',
         data: values,
         backgroundColor: backgroundColors,
+        hoverBackgroundColor: hoverBackgroundColors,
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 2
       }]
