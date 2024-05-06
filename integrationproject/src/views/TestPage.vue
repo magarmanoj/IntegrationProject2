@@ -204,13 +204,29 @@ const createChart = () => {
   
   const backgroundColors: string[] = [];  
   const hoverBackgroundColors: string[] = []; 
-  
+
+  const currentDate = new Date().toISOString().slice(0, 10);
+
+  const barDate = new Date(selectedDate.value).toISOString().slice(0, 10);
+
   values.forEach((value, index) => {  
     const barHour = parseInt(labels[index].split(':')[0]);  
     const networkCapacity = networkData[selectedNetwork.value].capacity;  
     const occupancyPercentage = (value / networkCapacity) * 100;  
     
-    let color = 'rgb(4, 92, 102)';  
+
+    let color = 'rgb(4, 92, 102)'; 
+    // Compare bar date with current date
+    if (barDate < currentDate) {
+      color = 'rgb(90, 121, 200)'; // Date before current date
+    } 
+    
+    if (barDate > currentDate) {
+      color = 'rgb(174, 228, 237)'; // Date after current date
+    }
+
+
+     
     if (occupancyPercentage >= 65) {  
       hoverBackgroundColors.push('rgba(255, 0, 0, 0.8)');   
     } else if (occupancyPercentage < 30) {  
