@@ -16,6 +16,13 @@
           <ion-select-option v-for="network in alleNetwerken" :key="network" :value="network">{{ network }}</ion-select-option> 
         </ion-select> 
       </ion-item> 
+            <!-- Datepicker -->
+      <ion-item>
+        <ion-label position="stacked">Kies Datum!</ion-label>
+        <ion-icon :icon="calendar "></ion-icon>
+        <ion-datetime display-format="DD MMM YYYY" v-model="selectedDate" @ionChange="onDateChange"></ion-datetime>
+      </ion-item>
+
       <ion-item>  
           <ion-button class="weekday" v-for="(day, index) in weekdays" :key="index" :class="{ 'selected': selectedDay == index }" @click="selectDay(index)">{{ day }}</ion-button>  
       </ion-item> 
@@ -45,10 +52,12 @@
 </template> 
   
 <script setup lang="ts">  
-import { IonContent, IonHeader, IonToolbar, IonLabel , IonPage, IonItem, IonText, IonSelect, IonSelectOption, IonImg, IonButton, IonGrid, IonRow,IonCol } from '@ionic/vue';  
+import { IonContent, IonHeader, IonToolbar, IonLabel , IonPage, IonItem, IonText, IonSelect, IonSelectOption, IonImg, IonButton, IonGrid, IonRow,IonCol, IonDatetime, IonIcon } from '@ionic/vue';  
 import axios from 'axios';  
 import { ref, onMounted, computed } from 'vue'; 
 import { Chart, registerables } from 'chart.js';  
+import { calendar  } from 'ionicons/icons';
+
 Chart.register(...registerables); 
   
 interface NetworkData { 
@@ -61,29 +70,38 @@ interface Data {
   Locatie: string;  
   TotalLogins: number;  
 } 
-  
+
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];  
   
 const selectedDay = ref<number>(0); 
+const selectedDate = ref<string>(new Date().toISOString().slice(0, 10)); // Initialize with current date
+
   
 const selectDay = (index: any) => { 
   selectedDay.value = index;  
+  const currentDate = new Date(selectedDate.value);
+  currentDate.setDate(currentDate.getDate() + (index - currentDate.getDay()));
+  selectedDate.value = currentDate.toISOString().slice(0, 10);
   onDayChange();  
 };  
   
+const onDateChange = () => {
+  const selectedDatePicker = new Date(selectedDate.value);
+  const day = selectedDatePicker.getDate();
+  const month = selectedDatePicker.getMonth() + 1;
+  const year = selectedDatePicker.getFullYear();
+  console.log(day, month, year);
+  if(selectedNetwork.value, selectedDay.value){
+    getDatePciker(selectedNetwork.value, day, month, year );
+
+  }
+};
   
 const onDayChange = () => { 
   getDetails(selectedNetwork.value, selectedDay.value); 
 };  
   
 const alleNetwerken = ['Guest Axxes - AT Recruitm','Entrepot 9', 'airtame', 'Guest Axxes', 'Staff - Axxes', 'Training Axxes', 'Labo' ]; 
-  
-const formatDate = (date: Date): string => {  
-  const options: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' };  
-  return date.toLocaleDateString('en-US', options); 
-};  
-  
-const currentDate = ref<string>(formatDate(new Date()));  
   
 const networkData: Record<string, NetworkData> = {  
   'Guest Axxes - AT Recruitm': { name: 'Guest Axxes - AT Recruitm', capacity: 80 }, 
@@ -98,7 +116,14 @@ const networkData: Record<string, NetworkData> = {
 const data = ref<Data[]>([]); 
 const chartCanvas = ref<HTMLCanvasElement | null>(null);  
 const selectedNetwork = ref<string>(alleNetwerken[0]);  
+
+const formatDate = (date: Date): string => {  
+  const options: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' };  
+  return date.toLocaleDateString('en-US', options); 
+};  
   
+const currentDate = ref<string>(formatDate(new Date()));  
+
 const getCurrentDayOfWeek = (): number => { 
   const currentDate = new Date(); 
   return currentDate.getDay();  
@@ -107,6 +132,28 @@ const getCurrentDayOfWeek = (): number => {
 const getNetwerken = () => {  
   const currentSelectedDay = selectedDay.value; 
   getDetails(selectedNetwork.value, currentSelectedDay);  
+};  
+
+const getDatePciker = (locatie: string, day: number, month: number, year: number) => {  
+  const postData = {  
+    locatie: locatie, 
+    day: day,
+    month: month,
+    year: year
+  };  
+  axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePicker.php', postData)  
+    .then(response => { 
+      console.log(response.data); 
+      if (response.status == 200 && response.data.data) { 
+        data.value = response.data.data;  
+        createChart();  
+      } else {  
+        console.error('Response not OK:', response);  
+      } 
+    })  
+    .catch(error => { 
+      console.error('Error fetching data:', error); 
+    }); 
 };  
   
 const getDetails = (locatie: string, day: number) => {  
@@ -128,6 +175,7 @@ const getDetails = (locatie: string, day: number) => {
       console.error('Error fetching data:', error); 
     }); 
 };  
+ 
   
 onMounted(() => { 
   selectedDay.value = getCurrentDayOfWeek();  
@@ -303,4 +351,6 @@ ion-header {
 .legend-label { 
   font-size: 1.2em; 
 } 
+
+
 </style>  
