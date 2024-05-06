@@ -87,11 +87,12 @@ const selectDay = (index: any) => {
   
 const onDateChange = () => {
   const selectedDatePicker = new Date(selectedDate.value);
-  selectedDay.value = selectedDatePicker.getDay();
+  const day = selectedDatePicker.getDate();
   const month = selectedDatePicker.getMonth() + 1;
   const year = selectedDatePicker.getFullYear();
+  console.log(day, month, year);
   if(selectedNetwork.value, selectedDay.value){
-    getDatePciker(selectedNetwork.value, selectedDay.value, month, year );
+    getDatePciker(selectedNetwork.value, day, month, year );
 
   }
 };
