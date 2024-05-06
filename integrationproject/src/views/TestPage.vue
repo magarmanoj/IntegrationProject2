@@ -20,7 +20,7 @@
       <ion-item>
         <ion-label position="stacked">Kies Datum!</ion-label>
         <ion-icon :icon="calendar "></ion-icon>
-        <ion-datetime display-format="D MMM YYYY" v-model="selectedDate" @ionChange="onDateChange"></ion-datetime>
+        <ion-datetime display-format="DD MMM YYYY" v-model="selectedDate" @ionChange="onDateChange"></ion-datetime>
       </ion-item>
 
       <ion-item>  
