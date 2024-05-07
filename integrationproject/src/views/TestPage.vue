@@ -85,17 +85,34 @@ const selectDay = (index: any) => {
   onDayChange();  
 };  
   
-const onDateChange = () => {
+const onDateChange = (): Date => {
   const selectedDatePicker = new Date(selectedDate.value);
   const day = selectedDatePicker.getDate();
   const month = selectedDatePicker.getMonth() + 1;
   const year = selectedDatePicker.getFullYear();
   console.log(day, month, year);
-  if(selectedNetwork.value, selectedDay.value){
-    getDatePciker(selectedNetwork.value, day, month, year );
-
-  }
+  CheckForData(selectedNetwork.value, day, month, year );
+  console.log(selectedDatePicker);
+  return selectedDatePicker;
 };
+
+const CheckForData = (locatie: string, day: number, month: number, year: number) => {
+  axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePicker.php', { locatie, day, month, year })
+    .then(response => {
+      if (response.status == 200 && response.data.data.length == 0) {
+        console.log("geen data dus gemiddelde");
+        getDetails(locatie, selectedDay.value);
+      } else {
+        getDatePciker(locatie, day, month, year);
+      }
+    })
+    .catch(error => {
+      console.error('Error checking data availability:', error);
+    });
+};
+
+
+
   
 const onDayChange = () => { 
   getDetails(selectedNetwork.value, selectedDay.value); 
@@ -116,13 +133,8 @@ const networkData: Record<string, NetworkData> = {
 const data = ref<Data[]>([]); 
 const chartCanvas = ref<HTMLCanvasElement | null>(null);  
 const selectedNetwork = ref<string>(alleNetwerken[0]);  
-
-const formatDate = (date: Date): string => {  
-  const options: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' };  
-  return date.toLocaleDateString('en-US', options); 
-};  
   
-const currentDate = ref<string>(formatDate(new Date()));  
+const currentDate = ref<Date>();  
 
 const getCurrentDayOfWeek = (): number => { 
   const currentDate = new Date(); 
@@ -206,25 +218,26 @@ const createChart = () => {
   const hoverBackgroundColors: string[] = []; 
 
   const currentDate = new Date().toISOString().slice(0, 10);
-
   const barDate = new Date(selectedDate.value).toISOString().slice(0, 10);
 
   values.forEach((value, index) => {  
     const barHour = parseInt(labels[index].split(':')[0]);  
     const networkCapacity = networkData[selectedNetwork.value].capacity;  
     const occupancyPercentage = (value / networkCapacity) * 100;  
-    
 
-    let color = 'rgb(4, 92, 102)'; 
+    let color = 'rgb(74, 133, 143)'; 
     // Compare bar date with current date
     if (barDate < currentDate) {
-      color = 'rgb(90, 121, 200)'; // Date before current date
+      color = 'rgb(4, 92, 102)'; // Date before current date
     } 
     
     if (barDate > currentDate) {
-      color = 'rgb(174, 228, 237)'; // Date after current date
+      color = 'rgb(145, 184, 189)'; // Date after current date
     }
 
+    if(barDate >= currentDate && barHour > currentHour.value.hour){
+      color = 'rgb(145, 184, 189)';
+    }
 
      
     if (occupancyPercentage >= 65) {  
@@ -273,6 +286,8 @@ const createChart = () => {
     } 
   }); 
 };  
+
+
 </script> 
   
   
