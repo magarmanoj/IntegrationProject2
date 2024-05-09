@@ -131,8 +131,7 @@ ion-card {
   display: flex;
   justify-content: center;
   padding: 1em 2em;
-  background-color: #fff;
-  border-bottom: 1px solid #e1e1e1;
+  border-bottom: 1px solid black;
 }
 
 .about-logo {

@@ -44,10 +44,10 @@
             <div class="legend-label">Rustig</div>  
           </ion-col>  
         </ion-row>  
+        <ion-row>
+          <canvas id="myChart" ref="chartCanvas"></canvas>  
+        </ion-row>
       </ion-grid>           
-
-      <!-- Canvas for chart --> 
-      <canvas id="myChart" ref="chartCanvas"></canvas>  
     </ion-content>  
   </ion-page> 
 </template> 
@@ -298,10 +298,7 @@ const createChart = () => {
     } 
   }); 
 };  
-
-
 </script> 
-  
   
 <style scoped>  
 ion-content { 
@@ -311,27 +308,25 @@ ion-content {
 } 
   
 canvas#myChart {  
-  max-width: 100%;  
-  height: auto; 
-  margin-top: 4em;  
+  max-width: 100% ;  
+  height: 45em !important; 
 } 
-  
-.showChart {  
-  display: block; 
-  flex-wrap: wrap;  
-} 
-  
-.test { 
-  display: flex;  
-  justify-content: start; 
-} 
+
+.legend, #myChart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.legend-content{
+  display: block;
+}
   
 ion-header {  
   display: flex;  
   justify-content: center;  
   padding: 1em 2em; 
-  background-color: #fff; 
-  border-bottom: 1px solid #e1e1e1; 
+  border-bottom: 1px solid #170b0b; 
 } 
   
 .about-logo { 
