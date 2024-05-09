@@ -118,9 +118,6 @@ const CheckForData = (locatie: string, day: number, month: number, year: number)
     });
 };
 
-
-
-  
 const onDayChange = () => { 
   getDetails(selectedNetwork.value, selectedDay.value); 
 };  
@@ -238,13 +235,12 @@ const createChart = () => {
     const occupancyPercentage = (value / networkCapacity) * 100;  
 
     let color = 'rgb(74, 133, 143)'; 
-    // Compare bar date with current date
     if (barDate < currentDate) {
-      color = 'rgb(4, 92, 102)'; // Date before current date
+      color = 'rgb(4, 92, 102)'; 
     } 
     
     if (barDate > currentDate) {
-      color = 'rgb(145, 184, 189)'; // Date after current date
+      color = 'rgb(145, 184, 189)';
     }
 
     if(barDate >= currentDate && barHour > currentHour.value.hour){
@@ -340,7 +336,7 @@ ion-header {
   border: none; 
   background-color: transparent;  
   cursor: pointer;  
-  color: black; /* Change the color of button content */  
+  color: black; 
   margin: auto; 
 } 
   
