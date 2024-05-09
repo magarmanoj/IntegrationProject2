@@ -16,11 +16,12 @@
           <ion-select-option v-for="network in alleNetwerken" :key="network" :value="network">{{ network }}</ion-select-option> 
         </ion-select> 
       </ion-item> 
-            <!-- Datepicker -->
+
+      <!-- Datepicker -->
       <ion-item>
-        <ion-label position="stacked">Kies Datum!</ion-label>
-        <ion-icon :icon="calendar "></ion-icon>
-        <ion-datetime display-format="DD MMM YYYY" v-model="selectedDate" @ionChange="onDateChange"></ion-datetime>
+        <ion-label class="datepicker" position="stacked">Kies Datum!</ion-label>
+        <ion-icon @click="toggleDatePciker" class="dateicon" :icon="calendar"></ion-icon>
+        <ion-datetime v-if="toggleDatetime" display-format="DD MMM YYYY" v-model="selectedDate" @ionChange="onDateChange"></ion-datetime>
       </ion-item>
 
       <ion-item>  
@@ -76,6 +77,12 @@ const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Frida
 const selectedDay = ref<number>(0); 
 const selectedDate = ref<string>(new Date().toISOString().slice(0, 10)); // Initialize with current date
 
+const toggleDatetime = ref<boolean>(false);
+
+const toggleDatePciker = () => {
+  console.log(toggleDatetime.value);
+  toggleDatetime.value = !toggleDatetime.value;
+}
   
 const selectDay = (index: any) => { 
   selectedDay.value = index;  
@@ -122,19 +129,24 @@ const alleNetwerken = ['Guest Axxes - AT Recruitm','Entrepot 9', 'airtame', 'Gue
   
 const networkData: Record<string, NetworkData> = {  
   'Guest Axxes - AT Recruitm': { name: 'Guest Axxes - AT Recruitm', capacity: 80 }, 
-  'Entrepot 9': { name: 'Entrepot 9', capacity: 5 },  
-  'airtame': { name: 'airtame', capacity: 5 },  
-  'Guest Axxes': { name: 'Guest Axxes', capacity: 5 },  
-  'Staff - Axxes': { name: 'Staff - Axxes', capacity: 35 }, 
+  'Entrepot 9': { name: 'Entrepot 9', capacity: 80 },  
+  'airtame': { name: 'airtame', capacity: 80 },  
+  'Guest Axxes': { name: 'Guest Axxes', capacity: 80 },  
+  'Staff - Axxes': { name: 'Staff - Axxes', capacity: 80 }, 
   'Training Axxes': { name: 'Training Axxes', capacity: 10 }, 
-  'Labo': { name: 'Labo', capacity: 5 },  
+  'Labo': { name: 'Labo', capacity: 80 },  
 };  
   
 const data = ref<Data[]>([]); 
 const chartCanvas = ref<HTMLCanvasElement | null>(null);  
 const selectedNetwork = ref<string>(alleNetwerken[0]);  
   
-const currentDate = ref<Date>();  
+const formatDate = (date: Date): string => {  
+  const options: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' };  
+  return date.toLocaleDateString('en-US', options); 
+};  
+  
+const currentDate = ref<string>(formatDate(new Date()));   
 
 const getCurrentDayOfWeek = (): number => { 
   const currentDate = new Date(); 
@@ -383,5 +395,22 @@ ion-header {
   font-size: 1.2em; 
 } 
 
+.datetime-container {
+  display: none;
+}
+
+.datepicker {
+  font-weight: bold;
+}
+
+.dateicon {
+  margin-top: 0.2em;
+  font-size: 2.5em;
+}
+
+.dateicon:hover {
+  transform: scale(1.2);
+  color:rgb(74, 133, 143);
+}
 
 </style>  
