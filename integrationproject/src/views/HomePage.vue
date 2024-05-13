@@ -6,34 +6,43 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content class="homeContent">
-      <div class="homeGrid">
-        <section id="upper">
-          <ion-title class="title-header">Ondersteuning voor de Druktebarometer</ion-title>
-            <ion-text>
-               <p>Heeft u hulp nodig met onze Druktebarometer of wilt u meer informatie? Wij staan klaar om u te ondersteunen. Bekijk onze FAQ, stuur ons een e-mail, of bel ons voor directe hulp.</p>
-            </ion-text>
-          <ion-list>
-            <a href="/tabs/tabTest" class="router-link">
-            <ion-item>
-              <ion-label>FAQ over de Druktebarometer</ion-label>
-            </ion-item>
-            </a>
-            <ion-item>
-              <ion-label>E-mail: support@axxesproject.com</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-label>Telefoon: 123-456-7890</ion-label>
-            </ion-item>
-          </ion-list>
-        </section>
-       </div>
+    <ion-content class="ion-padding">
+      <ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size-md="6" size-lg="5" offset-lg="1" size-xs="12" class="card-column">
+            <ion-card class="home-content">
+              <div class="card-content">
+                <ion-card-header>
+                  <ion-card-title>Ondersteuning voor de Druktebarometer</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <p>Heeft u hulp nodig met onze Druktebarometer of wilt u meer informatie? Wij staan klaar om u te ondersteunen. Bekijk onze FAQ, stuur ons een e-mail, of bel ons voor directe hulp.</p>
+                </ion-card-content>
+                <ion-list>
+                  <a href="/tabs/tabTest" class="router-link">
+                    <ion-item>
+                      <ion-label>FAQ over de Druktebarometer</ion-label>
+                    </ion-item>
+                  </a>
+                  <ion-item>
+                    <ion-label>E-mail: support@axxesproject.com</ion-label>
+                  </ion-item>
+                  <ion-item>
+                      <ion-label>Telefoon: 123-456-7890</ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-content>
   </ion-page>
 </template>
 
+
 <script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonList, IonItem, IonImg, IonLabel } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonContent, IonGrid, IonRow, IonCard, IonCardContent, IonCol, IonCardHeader, IonCardTitle, IonList, IonItem, IonImg, IonLabel } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { home, information, listOutline } from 'ionicons/icons';
 
@@ -43,9 +52,14 @@ export default defineComponent({
     IonPage,
     IonHeader,
     IonToolbar,
-    IonTitle,
     IonContent,
-    IonText,
+    IonCard,
+    IonCol,
+    IonGrid,
+    IonRow,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
     IonList,
     IonItem,
     IonLabel,
@@ -68,34 +82,34 @@ ion-header {
   padding: 1em 2em;
   border-bottom: 1px solid black;
 }
-.title-header {
-  font-size: 2em;
-  text-align: center;
-  word-wrap: break-word;
-}
-
-.homeGrid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1em;
-  margin-top: 1em;
-}
-
-#upper {
-  border: 1px solid #141313;
-  border-radius: 1em;
-  padding: 1em;
-  width: 100%;
-  max-width: 800px;
-  box-shadow: inset;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
 ion-list {
   width: 100%;
+}
+
+
+.card-column {
+  display: flex;
+  align-items: stretch;
+  min-width: 250px;
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  text-align: center;
+}
+
+.card-content {
+  border: 1px solid #141313;
+  border-radius: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 .about-logo {
@@ -106,5 +120,3 @@ ion-list {
 }
 
 </style>
-
-

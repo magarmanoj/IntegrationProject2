@@ -12,7 +12,7 @@
           <ion-col size-md="6" size-lg="5" offset-lg="1" size-xs="12" class="card-column">
             <ion-card class="info-card">
               <div class="card-content">
-                <img src="/img/Odisee_Logo_Co-hogeschool.png" alt="Odisee Logo" class="about-logo">
+                <ion-img src="/img/Odisee_Logo_Co-hogeschool.png" alt="Odisee Logo" class="about-logo"></ion-img>
                 <ion-card-header>
                   <ion-card-title>Over Ons</ion-card-title>
                 </ion-card-header>
@@ -29,8 +29,6 @@
                   <br><br> Ons doel is om door middel van dit project niet alleen onszelf te ontwikkelen als toekomstige IT-professionals,
                   maar ook om een positieve impact te hebben op de gemeenschap door middel van de technologische oplossingen die wij creëren. 
                   Wij zijn enthousiast over de mogelijkheden die voor ons liggen en zijn toegewijd om het meeste uit deze unieke educatieve ervaring te halen.
-
-
                 </ion-card-content>
               </div>
             </ion-card>
@@ -38,7 +36,7 @@
           <ion-col size-md="6" size-lg="5" size-xs="12" class="card-column">
             <ion-card class="info-card">
               <div class="card-content">
-                <img src="/img/og-image.jpg" alt="Axxes Logo" class="about-logo">
+                <ion-img src="/img/og-image.jpg" alt="Axxes Logo" class="about-logo"></ion-img>
                 <ion-card-header>
                   <ion-card-title>Onze Klant</ion-card-title>
                 </ion-card-header>
@@ -123,11 +121,12 @@ ion-card {
 }
 
 .card-column {
-    display: flex;
-    align-items: stretch;
-  }
+  display: flex;
+  align-items: stretch;
+  min-width: 250px;
+}
 
-  ion-header {
+ion-header {
   display: flex;
   justify-content: center;
   padding: 1em 2em;
