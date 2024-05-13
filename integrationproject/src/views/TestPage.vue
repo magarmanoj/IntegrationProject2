@@ -25,7 +25,7 @@
       </ion-item>
 
       <ion-item>  
-          <ion-button class="weekday" v-for="(day, index) in weekdays" :key="index" :class="{ 'selected': selectedDay == index }" @click="selectDay(index)">{{ day }}</ion-button>  
+          <ion-button class="weekday" v-for="(day, index) in weekdays" :key="index" :class="{ 'selected': selectedDay == index}" @click="selectDay(index)">{{ day }}</ion-button>  
       </ion-item> 
       
       <!-- Legend for color code -->  
@@ -72,10 +72,10 @@ interface Data {
   TotalLogins: number;  
 } 
 
-const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];  
+const weekdays = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];  
   
 const selectedDay = ref<number>(0); 
-const selectedDate = ref<string>(new Date().toISOString().slice(0, 10)); // Initialize with current date
+const selectedDate = ref<string>(new Date().toISOString().slice(0, 10));
 
 const toggleDatetime = ref<boolean>(false);
 
@@ -90,7 +90,7 @@ const selectDay = (index: any) => {
   currentDate.setDate(currentDate.getDate() + (index - currentDate.getDay()));
   selectedDate.value = currentDate.toISOString().slice(0, 10);
   onDayChange();  
-};  
+};   
   
 const onDateChange = (): Date => {
   const selectedDatePicker = new Date(selectedDate.value);
@@ -119,6 +119,7 @@ const CheckForData = (locatie: string, day: number, month: number, year: number)
 };
 
 const onDayChange = () => { 
+  console.log(selectedDay.value);
   getDetails(selectedNetwork.value, selectedDay.value); 
 };  
   
@@ -178,9 +179,10 @@ const getDatePciker = (locatie: string, day: number, month: number, year: number
 };  
   
 const getDetails = (locatie: string, day: number) => {  
+  const adjustedDay = day + 1;
   const postData = {  
     locatie: locatie, 
-    day: day  
+    day: adjustedDay  
   };  
   axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePerLocation.php', postData)  
     .then(response => { 
@@ -305,11 +307,11 @@ ion-content {
   
 canvas#myChart {  
   max-width: 100% ;  
-  height: 45em !important; 
+  height: 45em;
 } 
 
 .legend, #myChart {
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
 }
