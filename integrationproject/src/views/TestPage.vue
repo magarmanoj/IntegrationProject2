@@ -52,6 +52,21 @@
       <ion-item>
         <canvas id="myChart" ref="chartCanvas"></canvas>
       </ion-item>
+      <ion-item>
+        <ion-label>Average Login:</ion-label>
+        <ion-text>{{ averageLogin }}</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>Busiest Hour:</ion-label>
+        <ion-text>{{ busiestHour }}</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>Busiest Hour:</ion-label>
+        <ion-text>{{ notBusyHour }}</ion-text>
+      </ion-item>
+
+
+
 
     </ion-content>  
   </ion-page> 
@@ -77,10 +92,10 @@ interface Data {
   TotalLogins: number;  
 } 
 
-const weekdays = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];  
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];  
   
 const selectedDay = ref<number>(0); 
-const selectedDate = ref<string>(new Date().toISOString().slice(0, 10));
+const selectedDate = ref<string>(new Date().toISOString().slice(0, 10)); // Initialize with current date
 
 const toggleDatetime = ref<boolean>(false);
 
@@ -95,7 +110,7 @@ const selectDay = (index: any) => {
   currentDate.setDate(currentDate.getDate() + (index - currentDate.getDay()));
   selectedDate.value = currentDate.toISOString().slice(0, 10);
   onDayChange();  
-};   
+};  
   
 const onDateChange = (): Date => {
   const selectedDatePicker = new Date(selectedDate.value);
@@ -124,7 +139,6 @@ const CheckForData = (locatie: string, day: number, month: number, year: number)
 };
 
 const onDayChange = () => { 
-  console.log(selectedDay.value);
   getDetails(selectedNetwork.value, selectedDay.value); 
 };  
   
@@ -184,10 +198,9 @@ const getDatePciker = (locatie: string, day: number, month: number, year: number
 };  
   
 const getDetails = (locatie: string, day: number) => {  
-  const adjustedDay = day + 1;
   const postData = {  
     locatie: locatie, 
-    day: adjustedDay  
+    day: day  
   };  
   axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePerLocation.php', postData)  
     .then(response => { 
@@ -317,7 +330,81 @@ new Chart(ctx, {
 });
 
 
+
+
+
 };  
+
+
+
+const calculateAverageLoginPerHour = () => {
+  const dailyTotals: Record<string, number[]> = {};
+
+  data.value.forEach(item => {
+    const date = item.TimeSlot.split(':')[0];
+    dailyTotals[date] = dailyTotals[date] || [];
+    dailyTotals[date].push(item.TotalLogins);
+  });
+
+  const averageLoginsPerHour: Record<string, number> = {};
+  Object.keys(dailyTotals).forEach(date => {
+    averageLoginsPerHour[date] = dailyTotals[date].reduce((acc, curr) => acc + curr, 0) / dailyTotals[date].length;
+  });
+
+  const overallAverage = Object.values(averageLoginsPerHour).reduce((acc, curr) => acc + curr, 0) / Object.keys(averageLoginsPerHour).length;
+  
+  return Math.round(overallAverage);
+};
+
+
+const findBusiestAndCalmestHours = () => {
+  const dailyTotals: Record<string, number[]> = {};
+
+  data.value.forEach(item => {
+    const date = item.TimeSlot.split(':')[0];
+    dailyTotals[date] = dailyTotals[date] || [];
+    dailyTotals[date].push(item.TotalLogins);
+  });
+
+  const busiestHours: string[] = [];
+  const calmestHours: string[] = [];
+  let maxAverageLogins = Number.MIN_SAFE_INTEGER;
+  let minAverageLogins = Number.MAX_SAFE_INTEGER;
+
+  Object.keys(dailyTotals).forEach(date => {
+    const totalLogins = dailyTotals[date].reduce((acc, curr) => acc + curr, 0);
+    const average = totalLogins / dailyTotals[date].length;
+
+    if (average > maxAverageLogins) {
+      busiestHours.splice(0, busiestHours.length, date);
+      maxAverageLogins = average;
+    } else if (average === maxAverageLogins) {
+      busiestHours.push(date);
+    }
+
+    if (average < minAverageLogins) {
+      calmestHours.splice(0, calmestHours.length, date);
+      minAverageLogins = average;
+    } else if (average === minAverageLogins) {
+      calmestHours.push(date);
+    }
+  });
+
+  return { busiestHours: busiestHours.sort().join(", "), calmestHours: calmestHours.sort().join(", ") };
+};
+
+const averageLogin = computed(() => calculateAverageLoginPerHour());
+
+const busiestHour = computed(() => {
+  const { busiestHours } = findBusiestAndCalmestHours();
+  return busiestHours;
+});
+
+const notBusyHour = computed(() => {
+  const { calmestHours } = findBusiestAndCalmestHours();
+  return calmestHours;
+});
+
 </script> 
   
 <style scoped>
@@ -329,19 +416,14 @@ ion-content {
 }
   
 canvas#myChart {  
-  max-width: 100% ;  
-  height: 45em !important; 
+  width: 100%;  
+  height: 25em !important; 
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 30px;
+  max-width: 800px;
 } 
 
-.legend, #myChart {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.legend-content{
-  display: block;
-}
   
 ion-header {  
   display: flex;  
@@ -444,4 +526,4 @@ ion-header {
 }
 
 
-</style>  
+</style> 
