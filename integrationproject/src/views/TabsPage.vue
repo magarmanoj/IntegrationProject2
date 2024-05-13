@@ -1,11 +1,6 @@
 <template>
   <ion-page>
     <ion-tabs>
-      <ion-footer>
-        <ion-toolbar>
-          <ion-title>&copy; 2024 Team Odisee</ion-title>
-        </ion-toolbar>
-      </ion-footer>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="home" href="/tabs/tabHome">
@@ -23,6 +18,11 @@
           <ion-label>Info</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
+      <ion-footer>
+        <ion-toolbar class="footer-container">
+          <ion-title>&copy; 2024 Team Odisee</ion-title>
+        </ion-toolbar>
+      </ion-footer>
     </ion-tabs>
   </ion-page>
 </template>
@@ -57,12 +57,18 @@
   </script>
   
 <style>
-  ion-footer {
-    text-align: center;
-  }
+ion-footer {
+  text-align: center;
+}
 
-  ion-title{
-    height: 1em;
-    font-size: 0.8em;
-  }
+.footer-container {
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+ion-title{
+  height: 1em;
+  font-size: 0.8em;
+}
 </style>
