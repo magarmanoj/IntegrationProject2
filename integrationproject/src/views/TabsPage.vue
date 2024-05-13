@@ -19,7 +19,7 @@
         </ion-tab-button>
       </ion-tab-bar>
       <ion-footer>
-        <ion-toolbar>
+        <ion-toolbar class="footer-container">
           <ion-title>&copy; 2024 Team Odisee</ion-title>
         </ion-toolbar>
       </ion-footer>
@@ -57,12 +57,18 @@
   </script>
   
 <style>
-  ion-footer {
-    text-align: center;
-  }
+ion-footer {
+  text-align: center;
+}
 
-  ion-title{
-    height: 1em;
-    font-size: 0.8em;
-  }
+.footer-container {
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+ion-title{
+  height: 1em;
+  font-size: 0.8em;
+}
 </style>

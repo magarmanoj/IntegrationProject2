@@ -21,33 +21,38 @@
       <ion-item>
         <ion-label class="datepicker" position="stacked">Kies Datum!</ion-label>
         <ion-icon @click="toggleDatePciker" class="dateicon" :icon="calendar"></ion-icon>
-        <ion-datetime v-if="toggleDatetime" display-format="DD MMM YYYY" v-model="selectedDate" @ionChange="onDateChange"></ion-datetime>
+        <ion-datetime v-if="toggleDatetime" display-format="DD MMM YYYY" v-model="selectedDate" @ionChange="onDateChange" class="small-datetime"></ion-datetime>
       </ion-item>
 
-      <ion-item>  
-          <ion-button class="weekday" v-for="(day, index) in weekdays" :key="index" :class="{ 'selected': selectedDay == index }" @click="selectDay(index)">{{ day }}</ion-button>  
-      </ion-item> 
+
+      <ion-row class="ion-justify-content-center">
+        <ion-button class="weekday" v-for="(day, index) in weekdays" :key="index" :class="{ 'selected': selectedDay == index }" @click="selectDay(index)">
+          {{ day }}
+        </ion-button>
+      </ion-row>
       
       <!-- Legend for color code -->  
-      <ion-grid class="legend"> 
-        <ion-row class="legend-content">  
-          <ion-col size="auto" class="legend-item"> 
-            <div class="legend-color zeer-druk"></div>  
-            <div class="legend-label">Zeer druk</div> 
-          </ion-col>  
-          <ion-col size="auto" class="legend-item"> 
-            <div class="legend-color druk"></div> 
-            <div class="legend-label">Druk</div>  
-          </ion-col>  
-          <ion-col size="auto" class="legend-item"> 
-            <div class="legend-color rustig"></div> 
-            <div class="legend-label">Rustig</div>  
-          </ion-col>  
-        </ion-row>  
-        <ion-row>
-          <canvas id="myChart" ref="chartCanvas"></canvas>  
+      <ion-grid class="legend">
+        <ion-row class="legend-content">
+          <ion-col size="auto" class="legend-item">
+            <div class="legend-color zeer-druk"></div>
+            <div class="legend-label">Zeer druk</div>
+          </ion-col>
+          <ion-col size="auto" class="legend-item">
+            <div class="legend-color druk"></div>
+            <div class="legend-label">Druk</div>
+          </ion-col>
+          <ion-col size="auto" class="legend-item">
+            <div class="legend-color rustig"></div>
+            <div class="legend-label">Rustig</div>
+          </ion-col>
         </ion-row>
-      </ion-grid>           
+      </ion-grid>
+
+      <ion-item>
+        <canvas id="myChart" ref="chartCanvas"></canvas>
+      </ion-item>
+
     </ion-content>  
   </ion-page> 
 </template> 
@@ -262,61 +267,74 @@ const createChart = () => {
     backgroundColors.push(color); 
   }); 
   
-  new Chart(ctx, {  
-    type: 'bar',  
-    data: { 
-      labels: labels, 
-      datasets: [{  
-        label: 'Total Number of Logins',  
-        data: values, 
-        backgroundColor: backgroundColors,  
-        hoverBackgroundColor: hoverBackgroundColors,  
-        borderColor: 'rgba(75, 192, 192, 1)', 
-        borderWidth: 2  
-      }]  
-    },  
-    options: {  
-      scales: { 
-        y: {  
-          beginAtZero: true,  
-          title: {  
-            display: true,  
-            text: 'Total Number of Logins'  
-          } 
-        },  
-        x: {  
-          title: {  
-            display: true,  
-            text: 'TimeSlot'  
-          } 
-        } 
-      } 
-    } 
-  }); 
+// Get the canvas element
+const canvas = document.getElementById('myChart');
+
+// Calculate the font size based on the container's width
+const fontSize = Math.max(Math.floor(canvas.clientWidth / 50), 10); // Adjust the divisor (50) as needed
+
+// Create the chart with dynamic font size
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Total Number of Logins',
+      data: values,
+      backgroundColor: backgroundColors,
+      hoverBackgroundColor: hoverBackgroundColors,
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true, // Enable overall responsiveness
+    maintainAspectRatio: false, // Disable aspect ratio to allow dynamic resizing
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Total Number of Logins',
+          font: {
+            size: fontSize // Set dynamic font size
+          }
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'TimeSlot',
+          font: {
+            size: fontSize // Set dynamic font size
+          }
+        }
+      }
+    }
+  }
+});
+
+
 };  
 </script> 
   
-<style scoped>  
-ion-content { 
-  display: flex;  
-  justify-content: center;  
-  align-items: center;  
-} 
-  
-canvas#myChart {  
-  max-width: 100% ;  
-  height: 45em !important; 
-} 
-
-.legend, #myChart {
+<style scoped>
+ion-content {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column; /* Center content vertically */
 }
+  
+canvas#myChart {  
+  width: 100%;  
+  height: 25em !important; 
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 30px;
+  max-width: 800px;
+} 
 
-.legend-content{
-  display: block;
-}
   
 ion-header {  
   display: flex;  
@@ -332,43 +350,60 @@ ion-header {
   background-color: white;  
 } 
   
-.weekday {  
-  border: none; 
-  background-color: transparent;  
-  cursor: pointer;  
-  color: black; 
-  margin: auto; 
-} 
-  
 .weekday:hover{ 
   color: white; 
-  transform: scale(1.2);  
+  transform: scale(1.05);  
 } 
   
 .weekday.selected { 
   color: white; 
-  transform: scale(1.2);  
+  transform: scale(1.1);  
 } 
+
+.weekday {
+  border: none; 
+  background-color: transparent;  
+  cursor: pointer;  
+  color: black; 
+  margin: 0.3rem;
+  @media (max-width: 576px) {
+    font-size: 0.8rem;
+  }
+}
   
-  
-.legend-content{  
-  justify-content: center;  
+.legend-content {
+  display: flex;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.legend-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.legend-color {
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+}
+
+.legend-label { 
+  font-size: 1em;
+  margin-left: 2px;
 } 
-.legend { 
-  margin-top: 2em;  
-} 
-  
-.legend-item {  
-  display: flex;  
-  align-items: center;  
-} 
-  
-.legend-color { 
-  width: 1.5em; 
-  height: 1.5em;  
-  margin-right: 1em;  
-  border-radius: 50%; 
-} 
+
+.legend, #myChart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
   
 .zeer-druk {  
   background-color: rgba(255, 0, 0, 0.8); 
@@ -381,10 +416,6 @@ ion-header {
 .rustig { 
   background-color: rgb(0, 171, 23);  
 } 
-  
-.legend-label { 
-  font-size: 1.2em; 
-} 
 
 .datetime-container {
   display: none;
@@ -394,14 +425,16 @@ ion-header {
   font-weight: bold;
 }
 
+
 .dateicon {
   margin-top: 0.2em;
   font-size: 2.5em;
 }
 
 .dateicon:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
   color:rgb(74, 133, 143);
 }
+
 
 </style>  
