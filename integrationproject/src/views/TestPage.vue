@@ -53,15 +53,15 @@
         <canvas id="myChart" ref="chartCanvas"></canvas>
       </ion-item>
       <ion-item>
-        <ion-label>Average Login:</ion-label>
+        <ion-label>Gemiddeld Login:</ion-label>
         <ion-text>{{ averageLogin }}</ion-text>
       </ion-item>
       <ion-item>
-        <ion-label>Busiest Hour:</ion-label>
+        <ion-label>Drukste uur:</ion-label>
         <ion-text>{{ busiestHour }}</ion-text>
       </ion-item>
       <ion-item>
-        <ion-label>Busiest Hour:</ion-label>
+        <ion-label>Kalmste uur:</ion-label>
         <ion-text>{{ notBusyHour }}</ion-text>
       </ion-item>
 
@@ -92,7 +92,7 @@ interface Data {
   TotalLogins: number;  
 } 
 
-const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];  
+const weekdays = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];  
   
 const selectedDay = ref<number>(0); 
 const selectedDate = ref<string>(new Date().toISOString().slice(0, 10)); // Initialize with current date
@@ -294,7 +294,7 @@ new Chart(ctx, {
   data: {
     labels: labels,
     datasets: [{
-      label: 'Total Number of Logins',
+      label: 'Totale aantal logins',
       data: values,
       backgroundColor: backgroundColors,
       hoverBackgroundColor: hoverBackgroundColors,
@@ -310,7 +310,7 @@ new Chart(ctx, {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Total Number of Logins',
+          text: 'Totale aantal logins',
           font: {
             size: fontSize // Set dynamic font size
           }
@@ -319,7 +319,7 @@ new Chart(ctx, {
       x: {
         title: {
           display: true,
-          text: 'TimeSlot',
+          text: 'TijdSlot',
           font: {
             size: fontSize // Set dynamic font size
           }
