@@ -328,14 +328,7 @@ new Chart(ctx, {
     }
   }
 });
-
-
-
-
-
 };  
-
-
 
 const calculateAverageLoginPerHour = () => {
   const dailyTotals: Record<string, number[]> = {};
