@@ -100,7 +100,6 @@ const selectedDate = ref<string>(new Date().toISOString().slice(0, 10)); // Init
 const toggleDatetime = ref<boolean>(false);
 
 const toggleDatePciker = () => {
-  console.log(toggleDatetime.value);
   toggleDatetime.value = !toggleDatetime.value;
 }
   
@@ -117,9 +116,7 @@ const onDateChange = (): Date => {
   const day = selectedDatePicker.getDate();
   const month = selectedDatePicker.getMonth() + 1;
   const year = selectedDatePicker.getFullYear();
-  console.log(day, month, year);
   CheckForData(selectedNetwork.value, day, month, year );
-  console.log(selectedDatePicker);
   return selectedDatePicker;
 };
 
@@ -127,7 +124,6 @@ const CheckForData = (locatie: string, day: number, month: number, year: number)
   axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePicker.php', { locatie, day, month, year })
     .then(response => {
       if (response.status == 200 && response.data.data.length == 0) {
-        console.log("geen data dus gemiddelde");
         getDetails(locatie, selectedDay.value);
       } else {
         getDatePciker(locatie, day, month, year);
@@ -184,7 +180,6 @@ const getDatePciker = (locatie: string, day: number, month: number, year: number
   };  
   axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePicker.php', postData)  
     .then(response => { 
-      console.log(response.data); 
       if (response.status == 200 && response.data.data) { 
         data.value = response.data.data;  
         createChart();  
@@ -204,7 +199,6 @@ const getDetails = (locatie: string, day: number) => {
   };  
   axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePerLocation.php', postData)  
     .then(response => { 
-      console.log(response.data); 
       if (response.status == 200 && response.data.data) { 
         data.value = response.data.data;  
         createChart();  
