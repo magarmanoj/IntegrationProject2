@@ -52,20 +52,21 @@
       <ion-item>
         <canvas id="myChart" ref="chartCanvas"></canvas>
       </ion-item>
-      <ion-item>
-        <ion-label>Gemiddeld Login:</ion-label>
-        <ion-text>{{ averageLogin }}</ion-text>
-      </ion-item>
-      <ion-item>
-        <ion-label>Drukste uur:</ion-label>
-        <ion-text>{{ busiestHour }}</ion-text>
-      </ion-item>
-      <ion-item>
-        <ion-label>Kalmste uur:</ion-label>
-        <ion-text>{{ notBusyHour }}</ion-text>
-      </ion-item>
 
-
+      <div class="bottom-items-container">
+        <ion-item class="bottom-items">
+          <ion-label>Gemiddeld Login:</ion-label>
+          <ion-text>{{ averageLogin }}</ion-text>
+        </ion-item>
+        <ion-item class="bottom-items">
+          <ion-label>Drukste uur:</ion-label>
+          <ion-text>{{ busiestHour }}</ion-text>
+        </ion-item>
+        <ion-item class="bottom-items">
+          <ion-label>Kalmste uur:</ion-label>
+          <ion-text>{{ notBusyHour }}</ion-text>
+        </ion-item>
+      </div>
 
 
     </ion-content>  
@@ -280,7 +281,7 @@ const createChart = () => {
 const canvas = document.getElementById('myChart');
 
 // Calculate the font size based on the container's width
-const fontSize = Math.max(Math.floor(canvas.clientWidth / 50), 10); // Adjust the divisor (50) as needed
+const fontSize = Math.max(Math.floor(canvas.clientWidth / 50), 10); //
 
 // Create the chart with dynamic font size
 new Chart(ctx, {
@@ -313,7 +314,7 @@ new Chart(ctx, {
       x: {
         title: {
           display: true,
-          text: 'TijdSlot',
+          text: 'Tijdslot',
           font: {
             size: fontSize // Set dynamic font size
           }
@@ -395,13 +396,30 @@ const notBusyHour = computed(() => {
 </script> 
   
 <style scoped>
-ion-content {
+
+ion-item {
+  font-size: 20px;
+}
+
+.bottom-items-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+}
+
+.bottom-items {
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex-direction: column; /* Center content vertically */
+  width: 60%; /* adjust width as needed */
 }
-  
+
+@media (max-width: 600px) {
+  .bottom-items {
+    width: 90%; /* adjust width for smaller screens */
+  }
+}
+
 canvas#myChart {  
   width: 100%;  
   height: 25em !important; 
@@ -499,8 +517,8 @@ ion-header {
 
 .datepicker {
   font-weight: bold;
+  font-size: 25px;
 }
-
 
 .dateicon {
   margin-top: 0.2em;
@@ -511,6 +529,5 @@ ion-header {
   transform: scale(1.1);
   color:rgb(74, 133, 143);
 }
-
 
 </style> 
