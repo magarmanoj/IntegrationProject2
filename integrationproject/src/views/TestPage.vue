@@ -93,7 +93,7 @@ interface Data {
   TotalLogins: number;  
 } 
 
-const weekdays = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];  
+const weekdays = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag'];  
   
 const selectedDay = ref<number>(0); 
 const selectedDate = ref<string>(new Date().toISOString().slice(0, 10)); // Initialize with current date
