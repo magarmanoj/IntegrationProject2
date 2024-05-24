@@ -1,21 +1,21 @@
-<template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" class="about-logo"></ion-img>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <ion-item>
-        <ion-label>Datum:</ion-label>
-        <ion-text>{{ currentDate }}</ion-text>
-      </ion-item>
-
-      <ion-item>
-        <ion-select label="Kies Netwerken:" v-model="selectedNetwork" @ionChange="getNetwerken">
-          <ion-select-option v-for="network in alleNetwerken" :key="network" :value="network">{{ network }}</ion-select-option>
-        </ion-select>
-      </ion-item>
+<template>  
+  <ion-page>  
+    <ion-header>  
+      <ion-toolbar> 
+        <ion-img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" class="about-logo"></ion-img>  
+      </ion-toolbar>  
+    </ion-header> 
+    <ion-content class="ion-padding"> 
+      <ion-item>  
+        <ion-label>Datum:</ion-label> 
+        <ion-text>{{ currentDate }}</ion-text>  
+      </ion-item> 
+      
+      <ion-item>  
+        <ion-select label="Kies Netwerken:" v-model="selectedNetwork" @ionChange="getNetwerken">  
+          <ion-select-option v-for="network in alleNetwerken" :key="network" :value="network">{{ network }}</ion-select-option> 
+        </ion-select> 
+      </ion-item> 
 
       <!-- Datepicker -->
       <ion-item>
@@ -23,15 +23,15 @@
         <ion-icon @click="toggleDatePciker" class="dateicon" :icon="calendar"></ion-icon>
         <ion-datetime v-if="toggleDatetime" display-format="DD MMM YYYY" v-model="selectedDate" @ionChange="onDateChange" class="small-datetime"></ion-datetime>
       </ion-item>
-      <ion-item>
-        <ion-button href="/tabs/tabMonths">View Monthly Chart</ion-button>
-      </ion-item>
+
+
       <ion-row class="ion-justify-content-center">
         <ion-button class="weekday" v-for="(day, index) in weekdays" :key="index" :class="{ 'selected': selectedDay == index }" @click="selectDay(index)">
           {{ day }}
         </ion-button>
       </ion-row>
-      <!-- Legend for color code -->
+      
+      <!-- Legend for color code -->  
       <ion-grid class="legend">
         <ion-row class="legend-content">
           <ion-col size="auto" class="legend-item">
@@ -67,67 +67,57 @@
           <ion-text>{{ notBusyHour }}</ion-text>
         </ion-item>
       </div>
-    </ion-content>
-  </ion-page>
-</template>
 
 
-
+    </ion-content>  
+  </ion-page> 
+</template> 
   
-<script setup lang="ts">
-import { IonContent, IonHeader, IonToolbar, IonLabel, IonPage, IonItem, IonText, IonSelect, IonSelectOption, IonImg, IonButton, IonGrid, IonRow, IonCol, IonDatetime, IonIcon } from '@ionic/vue';
-import axios from 'axios';
-import { ref, onMounted, computed, watch } from 'vue';
-import { Chart, registerables } from 'chart.js';
-import { calendar } from 'ionicons/icons';
+<script setup lang="ts">  
+import { IonContent, IonHeader, IonToolbar, IonLabel , IonPage, IonItem, IonText, IonSelect, IonSelectOption, IonImg, IonButton, IonGrid, IonRow,IonCol, IonDatetime, IonIcon } from '@ionic/vue';  
+import axios from 'axios';  
+import { ref, onMounted, computed } from 'vue'; 
+import { Chart, registerables } from 'chart.js';  
+import { calendar  } from 'ionicons/icons';
 
-Chart.register(...registerables);
+Chart.register(...registerables); 
+  
+interface NetworkData { 
+  name: string; 
+  capacity: number; 
+} 
+  
+interface Data {  
+  TimeSlot: string; 
+  Locatie: string;  
+  TotalLogins: number;  
+} 
 
-interface NetworkData {
-  name: string;
-  capacity: number;
-}
-
-interface Data {
-  TimeSlot: string;
-  Locatie: string;
-  TotalLogins: number;
-}
-
-const weekdaysOriginal = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag'];
-const weekdays = ref<string[]>([]);
-const today = new Date();
-const selectedDay = ref<number>((today.getDay() + 6) % 7); // Adjust for Monday as the start of the week
-const selectedDate = ref<string>(today.toISOString().slice(0, 10));
+const weekdays = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];  
+  
+const selectedDay = ref<number>(0); 
+const selectedDate = ref<string>(new Date().toISOString().slice(0, 10)); // Initialize with current date
 
 const toggleDatetime = ref<boolean>(false);
 
 const toggleDatePciker = () => {
   toggleDatetime.value = !toggleDatetime.value;
-};
-
-const reorderWeekdays = () => {
-  const currentDayIndex = (new Date().getDay() + 6) % 7; // Adjust for Monday as the start of the week
-  const weekdaysOrdered = [...weekdaysOriginal.slice(currentDayIndex), ...weekdaysOriginal.slice(0, currentDayIndex)];
-  weekdays.value = weekdaysOrdered;
-};
-
-const selectDay = (index: number) => {
+}
+  
+const selectDay = (index: any) => { 
+  selectedDay.value = index;  
   const currentDate = new Date(selectedDate.value);
-  const dayOfWeek = (currentDate.getDay() + 6) % 7; // Adjust for Monday as the start of the week
-  const targetDay = (index - dayOfWeek + 7) % 7; // Calculate the difference and normalize it
-  currentDate.setDate(currentDate.getDate() + targetDay);
-  selectedDay.value = index;
+  currentDate.setDate(currentDate.getDate() + (index - currentDate.getDay()));
   selectedDate.value = currentDate.toISOString().slice(0, 10);
-  onDayChange();
-};
-
+  onDayChange();  
+};  
+  
 const onDateChange = (): Date => {
   const selectedDatePicker = new Date(selectedDate.value);
   const day = selectedDatePicker.getDate();
   const month = selectedDatePicker.getMonth() + 1;
   const year = selectedDatePicker.getFullYear();
-  CheckForData(selectedNetwork.value, day, month, year);
+  CheckForData(selectedNetwork.value, day, month, year );
   return selectedDatePicker;
 };
 
@@ -145,194 +135,195 @@ const CheckForData = (locatie: string, day: number, month: number, year: number)
     });
 };
 
-const onDayChange = () => {
-  getDetails(selectedNetwork.value, selectedDay.value);
-};
+const onDayChange = () => { 
+  getDetails(selectedNetwork.value, selectedDay.value); 
+};  
+  
+const alleNetwerken = ['Guest Axxes - AT Recruitm','Entrepot 9', 'airtame', 'Guest Axxes', 'Staff - Axxes', 'Training Axxes', 'Labo' ]; 
+  
+const networkData: Record<string, NetworkData> = {  
+  'Guest Axxes - AT Recruitm': { name: 'Guest Axxes - AT Recruitm', capacity: 80 }, 
+  'Entrepot 9': { name: 'Entrepot 9', capacity: 80 },  
+  'airtame': { name: 'airtame', capacity: 80 },  
+  'Guest Axxes': { name: 'Guest Axxes', capacity: 80 },  
+  'Staff - Axxes': { name: 'Staff - Axxes', capacity: 80 }, 
+  'Training Axxes': { name: 'Training Axxes', capacity: 10 }, 
+  'Labo': { name: 'Labo', capacity: 80 },  
+};  
+  
+const data = ref<Data[]>([]); 
+const chartCanvas = ref<HTMLCanvasElement | null>(null);  
+const selectedNetwork = ref<string>(alleNetwerken[0]);  
+  
+const formatDate = (date: Date): string => {  
+  const options: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' };  
+  return date.toLocaleDateString('en-US', options); 
+};  
+  
+const currentDate = ref<string>(formatDate(new Date()));   
 
-const alleNetwerken = ['Guest Axxes - AT Recruitm', 'Entrepot 9', 'airtame', 'Guest Axxes', 'Staff - Axxes', 'Training Axxes', 'Labo'];
+const getCurrentDayOfWeek = (): number => { 
+  const currentDate = new Date(); 
+  return currentDate.getDay();  
+};  
+  
+const getNetwerken = () => {  
+  const currentSelectedDay = selectedDay.value; 
+  getDetails(selectedNetwork.value, currentSelectedDay);  
+};  
 
-const networkData: Record<string, NetworkData> = {
-  'Guest Axxes - AT Recruitm': { name: 'Guest Axxes - AT Recruitm', capacity: 80 },
-  'Entrepot 9': { name: 'Entrepot 9', capacity: 80 },
-  'airtame': { name: 'airtame', capacity: 80 },
-  'Guest Axxes': { name: 'Guest Axxes', capacity: 80 },
-  'Staff - Axxes': { name: 'Staff - Axxes', capacity: 80 },
-  'Training Axxes': { name: 'Training Axxes', capacity: 10 },
-  'Labo': { name: 'Labo', capacity: 80 },
-};
-
-const data = ref<Data[]>([]);
-const chartCanvas = ref<HTMLCanvasElement | null>(null);
-const selectedNetwork = ref<string>(alleNetwerken[0]);
-
-const formatDate = (date: Date): string => {
-  const options: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' };
-  return date.toLocaleDateString('en-US', options);
-};
-
-const currentDate = ref<string>(formatDate(today));
-
-const getNetwerken = () => {
-  getDetails(selectedNetwork.value, selectedDay.value);
-};
-
-const getDatePciker = (locatie: string, day: number, month: number, year: number) => {
-  const postData = {
-    locatie: locatie,
+const getDatePciker = (locatie: string, day: number, month: number, year: number) => {  
+  const postData = {  
+    locatie: locatie, 
     day: day,
     month: month,
     year: year
-  };
-  axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePicker.php', postData)
-    .then(response => {
-      if (response.status == 200 && response.data.data) {
-        data.value = response.data.data;
-        createChart();
-      } else {
-        console.error('Response not OK:', response);
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-};
-
-const getDetails = (locatie: string, day: number) => {
-  const postData = {
-    locatie: locatie,
-    day: day
-  };
-  axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePerLocation.php', postData)
-    .then(response => {
-      if (response.status == 200 && response.data.data) {
-        data.value = response.data.data;
-        createChart();
-      } else {
-        console.error('Response not OK:', response);
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-};
-
-watch(selectedDate, (newDate) => {
-  const date = new Date(newDate);
-  const dayIndex = (date.getDay() + 6) % 7; // Adjust for Monday being the start of the week
-  selectedDay.value = dayIndex;
-  reorderWeekdays();
-});
-
-onMounted(() => {
-  reorderWeekdays(); // Reorder weekdays based on the current day
-  getNetwerken();
-});
-
-const currentHour = computed(() => {
-  const now = new Date();
-  const hour = now.getHours();
-  const isWithinRange = hour >= 8 && hour <= 17;
-  return {
-    hour,
-    isWithinRange
-  };
-});
-
-const createChart = () => {
-  const ctx = chartCanvas.value;
-  if (!ctx) return;
-  const existingChart = Chart.getChart(ctx);
-  if (existingChart) {
-    existingChart.destroy();
-  }
-  const labels = data.value.map(item => item.TimeSlot);
-  const values = data.value.map(item => item.TotalLogins);
-
-  const backgroundColors: string[] = [];
-  const hoverBackgroundColors: string[] = [];
+  };  
+  axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePicker.php', postData)  
+    .then(response => { 
+      if (response.status == 200 && response.data.data) { 
+        data.value = response.data.data;  
+        createChart();  
+      } else {  
+        console.error('Response not OK:', response);  
+      } 
+    })  
+    .catch(error => { 
+      console.error('Error fetching data:', error); 
+    }); 
+};  
+  
+const getDetails = (locatie: string, day: number) => {  
+  const postData = {  
+    locatie: locatie, 
+    day: day  
+  };  
+  axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePerLocation.php', postData)  
+    .then(response => { 
+      if (response.status == 200 && response.data.data) { 
+        data.value = response.data.data;  
+        createChart();  
+      } else {  
+        console.error('Response not OK:', response);  
+      } 
+    })  
+    .catch(error => { 
+      console.error('Error fetching data:', error); 
+    }); 
+};  
+ 
+  
+onMounted(() => { 
+  selectedDay.value = getCurrentDayOfWeek();  
+  getNetwerken(); 
+}); 
+  
+const currentHour = computed(() => {  
+  const now = new Date(); 
+  const hour = now.getHours();  
+  const isWithinRange = hour >= 8 && hour <= 17;  
+  return {  
+    hour, 
+    isWithinRange 
+  };  
+}); 
+  
+const createChart = () => { 
+  const ctx = chartCanvas.value;  
+  if (!ctx) return; 
+  const existingChart = Chart.getChart(ctx);  
+  if (existingChart) {  
+    existingChart.destroy();  
+  } 
+  const labels = data.value.map(item => item.TimeSlot); 
+  const values = data.value.map(item => item.TotalLogins);  
+  
+  const backgroundColors: string[] = [];  
+  const hoverBackgroundColors: string[] = []; 
 
   const currentDate = new Date().toISOString().slice(0, 10);
   const barDate = new Date(selectedDate.value).toISOString().slice(0, 10);
 
-  values.forEach((value, index) => {
-    const barHour = parseInt(labels[index].split(':')[0]);
-    const networkCapacity = networkData[selectedNetwork.value].capacity;
-    const occupancyPercentage = (value / networkCapacity) * 100;
+  values.forEach((value, index) => {  
+    const barHour = parseInt(labels[index].split(':')[0]);  
+    const networkCapacity = networkData[selectedNetwork.value].capacity;  
+    const occupancyPercentage = (value / networkCapacity) * 100;  
 
-    let color = 'rgb(74, 133, 143)';
+    let color = 'rgb(74, 133, 143)'; 
     if (barDate < currentDate) {
-      color = 'rgb(4, 92, 102)';
-    }
-
+      color = 'rgb(4, 92, 102)'; 
+    } 
+    
     if (barDate > currentDate) {
       color = 'rgb(145, 184, 189)';
     }
 
-    if (barDate >= currentDate && barHour > currentHour.value.hour) {
+    if(barDate >= currentDate && barHour > currentHour.value.hour){
       color = 'rgb(145, 184, 189)';
     }
 
-    if (occupancyPercentage >= 65) {
-      hoverBackgroundColors.push('rgba(255, 0, 0, 0.8)');
-    } else if (occupancyPercentage < 30) {
-      hoverBackgroundColors.push('rgb(0, 171, 23)');
-    } else {
-      hoverBackgroundColors.push('rgb(199, 106, 0)');
-    }
+     
+    if (occupancyPercentage >= 65) {  
+      hoverBackgroundColors.push('rgba(255, 0, 0, 0.8)');   
+    } else if (occupancyPercentage < 30) {  
+      hoverBackgroundColors.push('rgb(0, 171, 23)');  
+    } else {  
+      hoverBackgroundColors.push('rgb(199, 106, 0)');   
+    } 
+    
+    if (currentHour.value.isWithinRange && currentHour.value.hour == barHour) { 
+      color = hoverBackgroundColors[index]; 
+    } 
+    backgroundColors.push(color); 
+  }); 
+  
+// Get the canvas element
+const canvas = document.getElementById('myChart');
 
-    if (currentHour.value.isWithinRange && currentHour.value.hour == barHour) {
-      color = hoverBackgroundColors[index];
-    }
-    backgroundColors.push(color);
-  });
+// Calculate the font size based on the container's width
+const fontSize = Math.max(Math.floor(canvas.clientWidth / 50), 10); //
 
-  // Get the canvas element
-  const canvas = document.getElementById('myChart');
-
-  // Calculate the font size based on the container's width
-  const fontSize = Math.max(Math.floor(canvas.clientWidth / 50), 10); //
-
-  // Create the chart with dynamic font size
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Totale aantal logins',
-        data: values,
-        backgroundColor: backgroundColors,
-        hoverBackgroundColor: hoverBackgroundColors,
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true, // Enable overall responsiveness
-      maintainAspectRatio: false, // Disable aspect ratio to allow dynamic resizing
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Totale aantal logins',
-            font: {
-              size: fontSize // Set dynamic font size
-            }
+// Create the chart with dynamic font size
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Totale aantal logins',
+      data: values,
+      backgroundColor: backgroundColors,
+      hoverBackgroundColor: hoverBackgroundColors,
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true, // Enable overall responsiveness
+    maintainAspectRatio: false, // Disable aspect ratio to allow dynamic resizing
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Totale aantal logins',
+          font: {
+            size: fontSize // Set dynamic font size
           }
-        },
-        x: {
-          title: {
-            display: true,
-            text: 'Tijdslot',
-            font: {
-              size: fontSize // Set dynamic font size
-            }
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Tijdslot',
+          font: {
+            size: fontSize // Set dynamic font size
           }
         }
       }
     }
-  });
-};
+  }
+});
+};  
 
 const calculateAverageLoginPerHour = () => {
   const dailyTotals: Record<string, number[]> = {};
@@ -349,9 +340,10 @@ const calculateAverageLoginPerHour = () => {
   });
 
   const overallAverage = Object.values(averageLoginsPerHour).reduce((acc, curr) => acc + curr, 0) / Object.keys(averageLoginsPerHour).length;
-
+  
   return Math.round(overallAverage);
 };
+
 
 const findBusiestAndCalmestHours = () => {
   const dailyTotals: Record<string, number[]> = {};
@@ -400,14 +392,11 @@ const notBusyHour = computed(() => {
   const { calmestHours } = findBusiestAndCalmestHours();
   return calmestHours;
 });
-</script>
 
-
-
-
-
+</script> 
   
 <style scoped>
+
 ion-item {
   font-size: 20px;
 }
@@ -431,50 +420,51 @@ ion-item {
   }
 }
 
-canvas#myChart {
-  width: 100%;
-  height: 25em !important;
+canvas#myChart {  
+  width: 100%;  
+  height: 25em !important; 
   margin-left: auto;
   margin-right: auto;
   padding-right: 30px;
   max-width: 800px;
-}
+} 
 
-ion-header {
-  display: flex;
-  justify-content: center;
-  padding: 1em 2em;
-  border-bottom: 1px solid #170b0b;
-}
-
-.about-logo {
-  max-width: 20em;
-  margin: 0 auto;
-  display: block;
-  background-color: white;
-}
-
-.weekday:hover {
-  color: white;
-  transform: scale(1.05);
-}
-
-.weekday.selected {
-  color: white;
-  transform: scale(1.1);
-}
+  
+ion-header {  
+  display: flex;  
+  justify-content: center;  
+  padding: 1em 2em; 
+  border-bottom: 1px solid #170b0b; 
+} 
+  
+.about-logo { 
+  max-width: 20em;  
+  margin: 0 auto; 
+  display: block; 
+  background-color: white;  
+} 
+  
+.weekday:hover{ 
+  color: white; 
+  transform: scale(1.05);  
+} 
+  
+.weekday.selected { 
+  color: white; 
+  transform: scale(1.1);  
+} 
 
 .weekday {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  color: black;
+  border: none; 
+  background-color: transparent;  
+  cursor: pointer;  
+  color: black; 
   margin: 0.3rem;
   @media (max-width: 576px) {
     font-size: 0.8rem;
   }
 }
-
+  
 .legend-content {
   display: flex;
 }
@@ -498,29 +488,28 @@ ion-header {
   border-radius: 50%;
 }
 
-.legend-label {
+.legend-label { 
   font-size: 1em;
   margin-left: 2px;
-}
+} 
 
-.legend,
-#myChart {
+.legend, #myChart {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-.zeer-druk {
-  background-color: rgba(255, 0, 0, 0.8);
-}
-
-.druk {
-  background-color: rgb(199, 106, 0);
-}
-
-.rustig {
-  background-color: rgb(0, 171, 23);
-}
+  
+.zeer-druk {  
+  background-color: rgba(255, 0, 0, 0.8); 
+} 
+  
+.druk { 
+  background-color: rgb(199, 106, 0); 
+} 
+  
+.rustig { 
+  background-color: rgb(0, 171, 23);  
+} 
 
 .datetime-container {
   display: none;
@@ -538,7 +527,7 @@ ion-header {
 
 .dateicon:hover {
   transform: scale(1.1);
-  color: rgb(74, 133, 143);
+  color:rgb(74, 133, 143);
 }
-</style>
 
+</style> 
