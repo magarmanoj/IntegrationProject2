@@ -28,8 +28,8 @@
         <ion-button href="/tabs/tabMonths">View Monthly Chart</ion-button>
       </ion-item>
       <ion-row class="ion-justify-content-center">
-        <ion-button class="weekday" v-for="(day, index) in weekdays" :key="index" :class="{ 'selected': selectedDay == index }" @click="selectDay(index)">
-          {{ day }}
+        <ion-button class="weekday" v-for="day in weekdays" :key="day.value" :class="{ 'selected': selectedDay == day.value }" @click="selectDay(day.value)">
+          {{ day.text }}
         </ion-button>
       </ion-row>
       
@@ -95,9 +95,15 @@ interface Data {
   TotalLogins: number;  
 } 
 
-const weekdays = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];  
+const weekdays = [
+  { value: 2, text: 'Maandag' },
+  { value: 3, text: 'Dinsdag' },
+  { value: 4, text: 'Woensdag' },
+  { value: 5, text: 'Donderdag' },
+  { value: 6, text: 'Vrijdag' }
+];
   
-const selectedDay = ref<number>(0); 
+const selectedDay = ref<number>(2); 
 const selectedDate = ref<string>(new Date().toISOString().slice(0, 10)); // Initialize with current date
 
 const toggleDatetime = ref<boolean>(false);
@@ -111,7 +117,9 @@ const selectDay = (index: any) => {
   const currentDate = new Date(selectedDate.value);
   currentDate.setDate(currentDate.getDate() + (index - currentDate.getDay()));
   selectedDate.value = currentDate.toISOString().slice(0, 10);
+  console.log(index);
   onDayChange();  
+
 };  
   
 const onDateChange = (): Date => {
@@ -166,7 +174,7 @@ const currentDate = ref<string>(formatDate(new Date()));
 
 const getCurrentDayOfWeek = (): number => { 
   const currentDate = new Date(); 
-  return currentDate.getDay();  
+  return currentDate.getDay() + 1;  
 };  
   
 const getNetwerken = () => {  
@@ -217,6 +225,7 @@ const getDetails = (locatie: string, day: number) => {
   
 onMounted(() => { 
   selectedDay.value = getCurrentDayOfWeek();  
+  console.log(selectedDay.value);
   getNetwerken(); 
 }); 
   
