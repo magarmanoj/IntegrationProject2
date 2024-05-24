@@ -24,7 +24,9 @@
         <ion-datetime v-if="toggleDatetime" display-format="DD MMM YYYY" v-model="selectedDate" @ionChange="onDateChange" class="small-datetime"></ion-datetime>
       </ion-item>
 
-
+      <ion-item>
+        <ion-button href="/tabs/tabMonths">View Monthly Chart</ion-button>
+      </ion-item>
       <ion-row class="ion-justify-content-center">
         <ion-button class="weekday" v-for="(day, index) in weekdays" :key="index" :class="{ 'selected': selectedDay == index }" @click="selectDay(index)">
           {{ day }}

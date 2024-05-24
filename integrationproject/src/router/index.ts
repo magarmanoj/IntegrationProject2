@@ -28,6 +28,11 @@ const routes: Array<RouteRecordRaw> = [
         path: 'tabTest',
         component: () => import('@/views/TestPage.vue')
       }
+      ,
+      {
+        path: 'tabMonths',
+        component: () => import('@/views/MonthsPage.vue')
+      }
     ]
   }
 ]
