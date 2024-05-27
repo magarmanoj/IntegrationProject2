@@ -84,7 +84,10 @@
         responsive: true,
         scales: {
           y: {
-            beginAtZero: true
+            beginAtZero: true,
+            ticks: {
+              display: false
+            }
           }
         }
       }

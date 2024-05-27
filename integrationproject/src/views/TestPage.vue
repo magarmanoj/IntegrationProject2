@@ -314,6 +314,9 @@ new Chart(ctx, {
     scales: {
       y: {
         beginAtZero: true,
+        ticks: {
+          display: false // Hide Y-axis values
+        },
         title: {
           display: true,
           text: 'Totale aantal logins',
