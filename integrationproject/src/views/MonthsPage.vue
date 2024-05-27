@@ -53,6 +53,7 @@
   ];
   
   const router = useRouter();
+
   
   const createChart = () => {
     if (!chartCanvas.value) return;
@@ -129,6 +130,26 @@
   .about-logo {
     width: 150px;
     margin: auto;
+  }
+
+  ion-item {
+    font-size: 20px;
+  }
+
+  canvas#myChart {  
+    width: 100%;  
+    height: 25em !important; 
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 30px;
+    max-width: 700px;
+    max-height: 400px;
+  } 
+
+  .legend, #myChart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   </style>
   

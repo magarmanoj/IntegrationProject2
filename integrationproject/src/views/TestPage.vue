@@ -292,7 +292,7 @@ const createChart = () => {
 const canvas = document.getElementById('myChart');
 
 // Calculate the font size based on the container's width
-const fontSize = Math.max(Math.floor(canvas.clientWidth / 50), 10); //
+const fontSize = Math.max(Math.floor(canvas.clientWidth / 50), 10);
 
 // Create the chart with dynamic font size
 new Chart(ctx, {
@@ -441,6 +441,7 @@ canvas#myChart {
   margin-right: auto;
   padding-right: 30px;
   max-width: 800px;
+  max-height: 400px;
 } 
 
   
