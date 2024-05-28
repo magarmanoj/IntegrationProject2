@@ -3,7 +3,8 @@
 - Academiejaar: 2023-2024
 - Opleiding: Bachelor Toegepaste Informatica
 - Klasgroep: 2TI
-- Namen: Dawa Lama, Gaurav Ghimire, Manoj Magar, Serhat Akat, 
-Prashant Sharma, Sofiane Rghioui & Sami Lafi
 - Begeleidende docent: Jens Baetens 
 - Opdrachtgevers: Vicky Teijsen en Thibaut Humblet
+- Namen: Dawa Lama, Gaurav Ghimire, Manoj Magar, Serhat Akat, 
+Prashant Sharma, Sofiane Rghioui & Sami Lafi
+
