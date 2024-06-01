@@ -6,19 +6,24 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <ion-item>
-          <ion-select label="Select Month:" v-model="selectedMonth" @ionChange="onMonthChange">
-            <ion-select-option v-for="month in months" :key="month.value" :value="month.value">
-              {{ month.text }}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
+        <div class="top-items-container">
+          <ion-item class="top-items">
+            <ion-select label="Select Month:" v-model="selectedMonth" @ionChange="onMonthChange">
+              <ion-select-option v-for="month in months" :key="month.value" :value="month.value">
+                {{ month.text }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
         <ion-item>
           <canvas id="myChart" ref="chartCanvas"></canvas>
         </ion-item>
-        <ion-item lines="none">
-          <ion-button @click="goBack">Go Back</ion-button>
-        </ion-item>
+
+        <div class="bottom-items-container">
+          <ion-item lines="none">
+            <ion-button @click="goBack">Go Back</ion-button>
+          </ion-item>
+        </div>
       </ion-content>
     </ion-page>
   </template>
@@ -135,6 +140,59 @@
   ion-item {
     font-size: 20px;
   }
+  
+  .top-items-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+}
+
+.top-items {
+  display: flex;
+  justify-content: center;
+  max-width: 1000px;
+  width: 60%;
+}
+
+@media (max-width: 820px) {
+  .top-items {
+    width: 80%;
+  }
+}
+@media (max-width: 600px) {
+  .top-items {
+    width: 90%;
+    font-size: 16px;
+  }
+}
+
+.bottom-items-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+}
+
+.bottom-items {
+  display: flex;
+  justify-content: center;
+  max-width: 1000px;
+  width: 60%;
+}
+
+@media (max-width: 600px) {
+  .bottom-items {
+    width: 90%;
+  }
+}
+
+@media (max-width: 400px) {
+  .bottom-items {
+    width: 90%;
+    font-size: 16px;
+  }
+}
 
   canvas#myChart {  
     width: 100%;  

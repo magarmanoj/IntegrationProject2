@@ -6,27 +6,31 @@
       </ion-toolbar>  
     </ion-header> 
     <ion-content class="ion-padding"> 
-      <ion-item>  
-        <ion-label>Datum:</ion-label> 
-        <ion-text>{{ currentDate }}</ion-text>  
-      </ion-item> 
-      
-      <ion-item>  
-        <ion-select label="Kies Netwerken:" v-model="selectedNetwork" @ionChange="getNetwerken">  
-          <ion-select-option v-for="network in alleNetwerken" :key="network" :value="network">{{ network }}</ion-select-option> 
-        </ion-select> 
-      </ion-item> 
 
-      <!-- Datepicker -->
-      <ion-item>
-        <ion-label class="datepicker" position="stacked">Kies Datum!</ion-label>
-        <ion-icon @click="toggleDatePciker" class="dateicon" :icon="calendar"></ion-icon>
-        <ion-datetime v-if="toggleDatetime" display-format="DD MMM YYYY" v-model="selectedDate" @ionChange="onDateChange" class="small-datetime"></ion-datetime>
-      </ion-item>
+      <div class="top-items-container">
+        <ion-item class="top-items">  
+          <ion-label class="datum-bold">Datum:</ion-label> 
+          <ion-text>{{ currentDate }}</ion-text>  
+        </ion-item> 
+        
+        <ion-item class="top-items">  
+          <ion-select class="network-select" label="Kies Netwerken:" v-model="selectedNetwork" @ionChange="getNetwerken">  
+            <ion-select-option v-for="network in alleNetwerken" :key="network" :value="network">{{ network }}</ion-select-option> 
+          </ion-select>
+        </ion-item> 
 
-      <ion-item>
-        <ion-button href="/tabs/tabMonths">View Monthly Chart</ion-button>
-      </ion-item>
+        <!-- Datepicker -->
+        <ion-item class="top-items">
+          <ion-label class="datepicker" position="stacked">Kies Datum!</ion-label>
+          <ion-icon @click="toggleDatePciker" class="dateicon" :icon="calendar"></ion-icon>
+          <ion-datetime v-if="toggleDatetime" display-format="DD MMM YYYY" v-model="selectedDate" @ionChange="onDateChange" class="small-datetime"></ion-datetime>
+        </ion-item>
+
+        <ion-item class="top-items">
+          <ion-button href="/tabs/tabMonths">View Monthly Chart</ion-button>
+        </ion-item>
+      </div>
+
       <ion-row class="ion-justify-content-center">
         <ion-button class="weekday" v-for="day in weekdays" :key="day.value" :class="{ 'selected': selectedDay == day.value }" @click="selectDay(day.value)">
           {{ day.text }}
@@ -415,6 +419,32 @@ ion-item {
   font-size: 20px;
 }
 
+.top-items-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+}
+
+.top-items {
+  display: flex;
+  justify-content: center;
+  max-width: 1000px;
+  width: 60%;
+}
+
+@media (max-width: 820px) {
+  .top-items {
+    width: 80%;
+  }
+}
+@media (max-width: 600px) {
+  .top-items {
+    width: 90%;
+    font-size: 16px;
+  }
+}
+
 .bottom-items-container {
   display: flex;
   flex-direction: column;
@@ -425,12 +455,20 @@ ion-item {
 .bottom-items {
   display: flex;
   justify-content: center;
-  width: 60%; /* adjust width as needed */
+  max-width: 1000px;
+  width: 60%;
 }
 
 @media (max-width: 600px) {
   .bottom-items {
-    width: 90%; /* adjust width for smaller screens */
+    width: 90%;
+  }
+}
+
+@media (max-width: 400px) {
+  .bottom-items {
+    width: 90%;
+    font-size: 16px;
   }
 }
 
@@ -441,10 +479,9 @@ canvas#myChart {
   margin-right: auto;
   padding-right: 30px;
   max-width: 800px;
-  max-height: 400px;
+  max-height: 350px;
 } 
 
-  
 ion-header {  
   display: flex;  
   justify-content: center;  
@@ -457,9 +494,9 @@ ion-header {
   margin: 0 auto; 
   display: block; 
   background-color: white;  
-} 
-  
-.weekday:hover{ 
+}
+
+.weekday:hover { 
   color: white; 
   transform: scale(1.05);  
 } 
@@ -542,7 +579,14 @@ ion-header {
 
 .dateicon:hover {
   transform: scale(1.1);
-  color:rgb(74, 133, 143);
+  color: rgb(74, 133, 143);
+}
+.network-select::part(label) {
+  font-weight: bold;
+}
+
+.datum-bold {
+  font-weight: bold;
 }
 
 </style> 
