@@ -176,11 +176,11 @@ onBeforeUnmount(() => {
   margin: auto;
 }
 
-ion-item {
-  font-size: 20px;
-}
-
-.container {
+  ion-item {
+    font-size: 20px;
+  }
+  
+  .top-items-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -195,22 +195,23 @@ ion-item {
 .chart-container {
   display: flex;
   justify-content: center;
-  width: 80%;
-  max-width: 1200px;
-  margin: 2em 0;
-  height: 30em; 
+  max-width: 1000px;
+  width: 60%;
 }
 
-canvas#myChart {
-  width: 100%;
-  height: 100% !important;
+@media (max-width: 820px) {
+  .top-items {
+    width: 80%;
+  }
+}
+@media (max-width: 600px) {
+  .top-items {
+    width: 90%;
+    font-size: 16px;
+  }
 }
 
-.top-item, .bottom-item {
-  width: 100%;
-}
-
-.button-container {
+.bottom-items-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -237,4 +238,21 @@ canvas#myChart {
     font-size: 16px;
   }
 }
-</style>
+
+  canvas#myChart {  
+    width: 100%;  
+    height: 25em !important; 
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 30px;
+    max-width: 700px;
+    max-height: 400px;
+  } 
+
+  .legend, #myChart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  </style>
+  
