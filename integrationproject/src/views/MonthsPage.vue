@@ -176,11 +176,11 @@ onBeforeUnmount(() => {
   margin: auto;
 }
 
-  ion-item {
-    font-size: 20px;
-  }
-  
-  .top-items-container {
+ion-item {
+  font-size: 20px;
+}
+
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -195,34 +195,33 @@ onBeforeUnmount(() => {
 .chart-container {
   display: flex;
   justify-content: center;
-  max-width: 1000px;
-  width: 60%;
+  width: 80%;
+  max-width: 1200px;
+  margin: 2em 0;
+  height: 30em; /* Adjusted height to make the chart fit better */
 }
 
-@media (max-width: 820px) {
-  .top-items {
-    width: 80%;
-  }
-}
-@media (max-width: 600px) {
-  .top-items {
-    width: 90%;
-    font-size: 16px;
-  }
+canvas#myChart {
+  width: 100%;
+  height: 100% !important;
 }
 
-.bottom-items-container {
+.top-item, .bottom-item {
+  width: 100%;
+}
+
+.button-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%; 
+  height: 100%; /* Center the button vertically */
   width: 100%;
 }
 
 .go-back-button {
-  width: 200px; 
-  height: 50px;  
-  font-size: 18px; 
+  width: 200px; /* Make the button larger */
+  height: 50px;  /* Adjust the height for better appearance */
+  font-size: 18px; /* Increase font size */
   align-self: center;
 }
 
@@ -238,21 +237,4 @@ onBeforeUnmount(() => {
     font-size: 16px;
   }
 }
-
-  canvas#myChart {  
-    width: 100%;  
-    height: 25em !important; 
-    margin-left: auto;
-    margin-right: auto;
-    padding-right: 30px;
-    max-width: 700px;
-    max-height: 400px;
-  } 
-
-  .legend, #myChart {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  </style>
-  
+</style>
