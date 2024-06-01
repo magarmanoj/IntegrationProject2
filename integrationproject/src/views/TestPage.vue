@@ -55,9 +55,9 @@
         </ion-row>
       </ion-grid>
 
-      <ion-item>
+      <div class="chart-container">
         <canvas id="myChart" ref="chartCanvas"></canvas>
-      </ion-item>
+      </div>
 
       <div class="bottom-items-container">
         <ion-item class="bottom-items">
@@ -441,7 +441,7 @@ ion-item {
 @media (max-width: 600px) {
   .top-items {
     width: 90%;
-    font-size: 16px;
+    font-size: 12px;
   }
 }
 
@@ -472,12 +472,20 @@ ion-item {
   }
 }
 
+.chart-container {
+  display: flex;
+  justify-content: center;
+  width: 60%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+
 canvas#myChart {  
   width: 100%;  
   height: 25em !important; 
   margin-left: auto;
   margin-right: auto;
-  padding-right: 30px;
   max-width: 800px;
   max-height: 350px;
 } 
@@ -589,4 +597,5 @@ ion-header {
   font-weight: bold;
 }
 
-</style> 
+
+</style>

@@ -9,7 +9,7 @@
     <ion-content class="ion-padding">
       <ion-grid>
         <ion-row class="ion-justify-content-center">
-          <ion-col size-md="6" size-lg="5" offset-lg="1" size-xs="12" class="card-column">
+          <ion-col size-md="8" size-lg="6" size-xs="12" class="card-column">
             <ion-card class="home-content">
               <div class="card-content">
                 <ion-card-header>
@@ -39,7 +39,6 @@
     </ion-content>
   </ion-page>
 </template>
-
 
 <script lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonContent, IonGrid, IonRow, IonCard, IonCardContent, IonCol, IonCardHeader, IonCardTitle, IonList, IonItem, IonImg, IonLabel } from '@ionic/vue';
@@ -87,7 +86,6 @@ ion-list {
   width: 100%;
 }
 
-
 .card-column {
   display: flex;
   align-items: stretch;
@@ -102,6 +100,10 @@ ion-list {
   text-align: center;
 }
 
+.card-content p, .card-content ion-label, .card-content ion-card-title {
+  font-size: 25px; /* Adjust the font size as needed */
+}
+
 .card-content {
   border: 1px solid #141313;
   border-radius: 1em;
@@ -109,7 +111,8 @@ ion-list {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  width: 100%;
+  padding: 2em;
 }
 
 .about-logo {

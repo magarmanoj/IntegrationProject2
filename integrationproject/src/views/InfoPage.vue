@@ -118,6 +118,9 @@ ion-card {
   align-items: center;
   height: 100%;
 }
+.card-content, .card-content ion-card-title {
+  font-size: 25px; /* Adjust the font size as needed */
+}
 
 .card-column {
   display: flex;
@@ -131,6 +134,8 @@ ion-header {
   padding: 1em 2em;
   border-bottom: 1px solid black;
 }
+
+
 
 .about-logo {
   max-width: 20em;
