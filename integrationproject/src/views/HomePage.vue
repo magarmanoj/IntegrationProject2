@@ -7,8 +7,8 @@
     </ion-header>
 
     <ion-content class="ion-padding">
-      <ion-grid>
-        <ion-row class="ion-justify-content-center">
+      <ion-grid class="full-height">
+        <ion-row class="ion-justify-content-center ion-align-items-center full-height">
           <ion-col size-md="8" size-lg="6" size-xs="12" class="card-column">
             <ion-card class="home-content">
               <div class="card-content">
@@ -82,6 +82,12 @@ ion-header {
   border-bottom: 1px solid black;
 }
 
+ion-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 ion-list {
   width: 100%;
 }
@@ -121,5 +127,4 @@ ion-list {
   display: block;
   background-color: white;
 }
-
 </style>

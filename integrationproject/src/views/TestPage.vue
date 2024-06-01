@@ -21,7 +21,7 @@
 
         <!-- Datepicker -->
         <ion-item class="top-items">
-          <ion-label class="datepicker" position="stacked">Kies Datum!</ion-label>
+          <ion-label class="datepicker-label" position="stacked">Kies Datum</ion-label>
           <ion-icon @click="toggleDatePciker" class="dateicon" :icon="calendar"></ion-icon>
           <ion-datetime v-if="toggleDatetime" display-format="DD MMM YYYY" v-model="selectedDate" @ionChange="onDateChange" class="small-datetime"></ion-datetime>
         </ion-item>
@@ -415,7 +415,7 @@ const notBusyHour = computed(() => {
   
 <style scoped>
 
-ion-item {
+.datepicker-label {
   font-size: 20px;
 }
 
@@ -433,6 +433,12 @@ ion-item {
   width: 60%;
 }
 
+
+@media (max-width: 600px) {
+  .datepicker-label {
+    font-size: 16px;
+  }
+}
 @media (max-width: 820px) {
   .top-items {
     width: 80%;
