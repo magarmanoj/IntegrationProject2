@@ -38,6 +38,7 @@
       </ion-grid>
     </ion-content>
   </ion-page>
+  
 </template>
 
 <script lang="ts">
