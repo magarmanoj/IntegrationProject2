@@ -17,10 +17,10 @@ RUN npm install axios chart.js
 RUN npm install -g @ionic/cli
 
 # Initialize the Ionic app
-RUN ionic init "integrationproject" --type=vue-vite --force
+#RUN ionic init "integrationproject" --type=vue-vite --force
 
 # Build the Ionic app
-RUN ionic build
+RUN ionic build --configuration=ionic.config.json
 
 # Stage 2: Serve with Nginx
 FROM nginx:stable-alpine
