@@ -6,6 +6,7 @@ WORKDIR /usr/src/app
 
 # Copy the rest of the application code
 COPY . .
+RUN cd integrationproject
 RUN ls
 RUN cat package.json
 # Install dependencies
@@ -21,8 +22,6 @@ RUN npm install -g @ionic/cli
 #RUN ionic init "integrationproject" --type=vue-vite --force
 
 # Build the Ionic app
-RUN cd /usr/src/app
-RUN ls
 RUN ionic build --configuration=ionic.config.json
 
 # Stage 2: Serve with Nginx
