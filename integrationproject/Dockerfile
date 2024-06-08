@@ -4,17 +4,14 @@ FROM node:18 AS build
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# Copy the rest of the application code
+COPY . .
 
 # Install dependencies
 RUN npm install
 
 # Install additional dependencies if needed
 RUN npm install axios chart.js
-
-# Copy the rest of the application code
-COPY . .
 
 # Install Ionic CLI globally
 RUN npm install -g @ionic/cli
