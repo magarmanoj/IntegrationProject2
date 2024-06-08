@@ -6,7 +6,8 @@ WORKDIR /usr/src/app
 
 # Copy the rest of the application code
 COPY . .
-
+RUN ls
+RUN cat package.json
 # Install dependencies
 RUN npm install
 
