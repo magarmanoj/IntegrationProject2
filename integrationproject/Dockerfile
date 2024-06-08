@@ -19,6 +19,9 @@ COPY . .
 # Install Ionic CLI globally
 RUN npm install -g @ionic/cli
 
+# Initialize the Ionic app
+RUN ionic init "integrationproject" --type=vue-vite --force
+
 # Build the Ionic app
 RUN ionic build
 
