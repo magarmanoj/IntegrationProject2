@@ -5,7 +5,7 @@ FROM node:18 AS build
 WORKDIR /usr/src/app
 
 # Copy the rest of the application code
-COPY /integrationproject/* .
+COPY /integrationproject/ .
 RUN ls
 RUN cat package.json
 # Install dependencies
