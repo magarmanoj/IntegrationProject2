@@ -6,8 +6,7 @@ WORKDIR /usr/src/app
 
 # Copy the rest of the application code
 COPY /integrationproject/ .
-RUN ls
-RUN cat package.json
+
 # Install dependencies
 RUN npm install
 
@@ -16,9 +15,6 @@ RUN npm install axios chart.js
 
 # Install Ionic CLI globally
 RUN npm install -g @ionic/cli
-
-# Initialize the Ionic app
-#RUN ionic init "integrationproject" --type=vue-vite --force
 
 # Build the Ionic app
 RUN ionic build --configuration=ionic.config.json
