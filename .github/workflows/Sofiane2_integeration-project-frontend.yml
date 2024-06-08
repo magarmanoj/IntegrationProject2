@@ -33,16 +33,12 @@ jobs:
         tags: integrationproject.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}/frontend:${{ github.sha }}
         file: ./integrationproject/Dockerfile
         
-    - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@0.20.0
+    - uses: azure/container-scan@v0
       with:
-        image-ref: 'integrationproject.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}/frontend:${{ github.sha }}'
-        format: 'table'
-        exit-code: '1'
-        ignore-unfixed: true
-        vuln-type: 'os,library'
-        severity: 'CRITICAL,HIGH'    
-   
+        image-name: integrationproject.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}/frontend:${{ github.sha }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_6dbedb5e4262462aa13e0dc5015f61d5 }}
+       
   deploy:
     runs-on: ubuntu-latest
     needs: build
