@@ -32,6 +32,11 @@ jobs:
         push: true
         tags: integrationproject.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}/frontend:${{ github.sha }}
         file: ./integrationproject/Dockerfile
+        
+    - name: Scan container image with Trivy
+      run: |
+        docker pull integrationproject.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}/frontend:${{ github.sha }}
+        docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy integrationproject.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}/frontend:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
