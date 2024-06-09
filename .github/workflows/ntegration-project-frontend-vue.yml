@@ -1,4 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://go.microsoft.com/fwlink/?linkid=2134798
+
 # More GitHub Actions for Azure: https://go.microsoft.com/fwlink/?linkid=2135048
 
 name: Azure App Service - integration-project-frontend-vue(Production), Build and deploy container app
