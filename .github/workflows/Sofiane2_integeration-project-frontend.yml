@@ -33,12 +33,12 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: integrationproject.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}/frontend:${{ github.sha }}
+        tags: integrationprojectfrontend.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}/frontend:${{ github.sha }}
         file: ./integrationproject/Dockerfile
         
     - uses: azure/container-scan@v0
       with:
-        image-name: integrationproject.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}/frontend:${{ github.sha }}
+        image-name: integrationprojectfrontend.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}/frontend:${{ github.sha }}
         username: ${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}
         password: ${{ secrets.AzureAppService_ContainerPassword_6dbedb5e4262462aa13e0dc5015f61d5 }}
        
@@ -54,7 +54,7 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'integeration-project-frontend'
+        app-name: 'integeration-project-test'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_c37cf9fa405b487f87fa72e6164c35eb }}
-        images: 'integrationproject.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}/frontend:${{ github.sha }}'
+        images: 'integrationprojectfrontend.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5eaf73265d344310a1ec49c34a3f28d4 }}/frontend:${{ github.sha }}'
