@@ -17,16 +17,22 @@ jobs:
     - name: 'Checkout Github Action'
       uses: actions/checkout@master
 
-
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      
     - uses: azure/docker-login@v1
       with:
         login-server: https://integrationprojectfrontend.azurecr.io/
         username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3B43AE50864E93917C7DE894767CCD }}
         password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_E4393535FCA9427AAF941BD6892AD65F }}
 
-    - run: |
-        docker build . -t integrationprojectfrontend.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3B43AE50864E93917C7DE894767CCD }}/frontend:latest:${{ github.sha }}
-        docker push integrationprojectfrontend.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3B43AE50864E93917C7DE894767CCD }}/frontend:latest:${{ github.sha }}
+   
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: integrationprojectfrontend.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3B43AE50864E93917C7DE894767CCD }}/frontend:${{ github.sha }}
+        file: ./integrationproject/Dockerfile
 
     - uses: azure/webapps-deploy@v2
       with:
