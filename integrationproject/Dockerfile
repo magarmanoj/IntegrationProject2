@@ -4,8 +4,8 @@ FROM node:18 AS build
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# Copy the rest of the application code
+COPY /integrationproject/ .
 
 # Install dependencies
 RUN npm install
@@ -13,14 +13,11 @@ RUN npm install
 # Install additional dependencies if needed
 RUN npm install axios chart.js
 
-# Copy the rest of the application code
-COPY . .
-
 # Install Ionic CLI globally
 RUN npm install -g @ionic/cli
 
 # Build the Ionic app
-RUN ionic build
+RUN ionic build --configuration=ionic.config.json
 
 # Stage 2: Serve with Nginx
 FROM nginx:stable-alpine
@@ -31,7 +28,7 @@ RUN rm -rf /usr/share/nginx/html/*
 
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /usr/src/app/nginx.conf /etc/nginx/conf.d/default.conf
 
 
 # Expose port 80 to allow communication to/from the Nginx server

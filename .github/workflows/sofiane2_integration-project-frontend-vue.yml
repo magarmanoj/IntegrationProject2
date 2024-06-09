@@ -1,0 +1,59 @@
+# Docs for the Azure Web Apps Deploy action: https://go.microsoft.com/fwlink/?linkid=2134798
+# More GitHub Actions for Azure: https://go.microsoft.com/fwlink/?linkid=2135048
+
+name: Azure App Service - integration-project-frontend-vue(Production), Build and deploy container app
+
+on:
+  push:
+    branches:
+      - Sofiane2
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # checkout the repo
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@master
+
+    - name: Run Codacy Analysis CLI
+      uses: codacy/codacy-analysis-cli-action@master
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      
+    - uses: azure/docker-login@v1
+      with:
+        login-server: https://integrationprojectfrontend.azurecr.io/
+        username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3B43AE50864E93917C7DE894767CCD }}
+        password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_E4393535FCA9427AAF941BD6892AD65F }}
+
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: integrationprojectfrontend.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3B43AE50864E93917C7DE894767CCD }}/frontend:${{ github.sha }}
+        file: ./integrationproject/Dockerfile
+    
+    - uses: azure/container-scan@v0
+      with:
+        image-name:  integrationprojectfrontend.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3B43AE50864E93917C7DE894767CCD }}/frontend:${{ github.sha }}
+        username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3B43AE50864E93917C7DE894767CCD }}
+        password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_E4393535FCA9427AAF941BD6892AD65F }}
+      
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: integration-project-frontend-vue
+        slot-name: Production
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_32F18E30381A439D9A8A9E2FBB54374E }}
+        images: integrationprojectfrontend.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3B43AE50864E93917C7DE894767CCD }}/frontend:${{ github.sha }}
+
