@@ -17,7 +17,6 @@
                   <ion-card-title>Over Ons</ion-card-title>
                 </ion-card-header>
                 <ion-card-content>
-                  Wij zijn een groep van zes tweedejaarsstudenten Informatica aan de Odisee Hogeschool,
                   een co-hogeschool die bekend staat om haar praktijkgerichte aanpak en sterke banden met de industrie.
                   Elk van ons brengt een unieke set aan vaardigheden en een frisse blik op technologische oplossingen,
                   gedreven door een gedeelde passie voor innovatie en softwareontwikkeling.
