@@ -2,6 +2,7 @@
   <ion-page>  
     <ion-header>  
       <ion-toolbar> 
+        <!-- Logo van Axxes -->
         <ion-img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" class="about-logo"></ion-img>  
       </ion-toolbar>  
     </ion-header> 
@@ -9,35 +10,40 @@
 
       <div class="top-items-container">
         <ion-item class="top-items">  
+          <!-- Datum label -->
           <ion-label class="datum-bold">Datum:</ion-label> 
-          <ion-text>{{ currentDate }}</ion-text>  
+          <!-- Weergave van de huidige datum -->
+          <ion-text>{{ huidigeDatum }}</ion-text>  
         </ion-item> 
         
         <ion-item class="top-items">  
-          <ion-select class="network-select" label="Kies Netwerken:" v-model="selectedNetwork" @ionChange="getNetwerken">  
+          <!-- Netwerk selecteren -->
+          <ion-select class="network-select" label="Kies Netwerken:" v-model="geselecteerdNetwerk" @ionChange="haalNetwerkenOp">  
+            <!-- Opties voor netwerkselectie -->
             <ion-select-option v-for="network in alleNetwerken" :key="network" :value="network">{{ network }}</ion-select-option> 
           </ion-select>
         </ion-item> 
 
-        <!-- Datepicker -->
+        <!-- Datumkiezer -->
         <ion-item class="top-items">
           <ion-label class="datepicker-label" position="stacked">Kies Datum</ion-label>
-          <ion-icon @click="toggleDatePciker" class="dateicon" :icon="calendar"></ion-icon>
-          <ion-datetime v-if="toggleDatetime" display-format="DD MMM YYYY" v-model="selectedDate" @ionChange="onDateChange" class="small-datetime"></ion-datetime>
+          <ion-icon @click="toggleDatumKiezer" class="dateicon" :icon="calendar"></ion-icon>
+          <ion-datetime v-if="datumKiezerTonen" display-format="DD MMM YYYY" v-model="geselecteerdeDatum" @ionChange="wijzigDatum" class="small-datetime"></ion-datetime>
         </ion-item>
 
         <ion-item class="top-items">
-          <ion-button href="/tabs/tabMonths">View Monthly Chart</ion-button>
+          <ion-button href="/tabs/tabMonths">Bekijk Maandelijkse Grafiek</ion-button>
         </ion-item>
       </div>
 
       <ion-row class="ion-justify-content-center">
-        <ion-button class="weekday" v-for="day in weekdays" :key="day.value" :class="{ 'selected': selectedDay == day.value }" @click="selectDay(day.value)">
+        <!-- Knoppen voor weekdagen -->
+        <ion-button class="weekday" v-for="day in weekdagen" :key="day.value" :class="{ 'selected': geselecteerdeDag == day.value }" @click="selecteerDag(day.value)">
           {{ day.text }}
         </ion-button>
       </ion-row>
       
-      <!-- Legend for color code -->  
+      <!-- Legenda voor kleurcodes --> 
       <ion-grid class="legend">
         <ion-row class="legend-content">
           <ion-col size="auto" class="legend-item">
@@ -56,21 +62,21 @@
       </ion-grid>
 
       <div class="chart-container">
-        <canvas id="myChart" ref="chartCanvas"></canvas>
+        <canvas id="mijnGrafiek" ref="chartCanvas"></canvas>
       </div>
 
       <div class="bottom-items-container">
         <ion-item class="bottom-items">
           <ion-label>Gemiddeld Login:</ion-label>
-          <ion-text>{{ averageLogin }}</ion-text>
+          <ion-text>{{ gemiddeldLogin }}</ion-text>
         </ion-item>
         <ion-item class="bottom-items">
           <ion-label>Drukste uur:</ion-label>
-          <ion-text>{{ busiestHour }}</ion-text>
+          <ion-text>{{ druksteUur }}</ion-text>
         </ion-item>
         <ion-item class="bottom-items">
           <ion-label>Kalmste uur:</ion-label>
-          <ion-text>{{ notBusyHour }}</ion-text>
+          <ion-text>{{ kalmsteUur }}</ion-text>
         </ion-item>
       </div>
 
@@ -87,61 +93,69 @@ import { Chart, registerables } from 'chart.js';
 import { calendar  } from 'ionicons/icons';
 
 Chart.register(...registerables); 
-  
-interface NetworkData { 
+
+// Interface voor netwerkdata
+interface NetwerkData { 
   name: string; 
   capacity: number; 
 } 
-  
+
+// Interface voor de gegevensstructuur
 interface Data {  
   TimeSlot: string; 
   Locatie: string;  
   TotalLogins: number;  
 } 
 
-const weekdays = [
+// Dagen van de week
+const weekdagen = [
   { value: 2, text: 'Maandag' },
   { value: 3, text: 'Dinsdag' },
   { value: 4, text: 'Woensdag' },
   { value: 5, text: 'Donderdag' },
   { value: 6, text: 'Vrijdag' }
 ];
-  
-const selectedDay = ref<number>(2); 
-const selectedDate = ref<string>(new Date().toISOString().slice(0, 10)); // Initialize with current date
 
-const toggleDatetime = ref<boolean>(false);
+// Geselecteerde dag en datum
+const geselecteerdeDag = ref<number>(2); 
+const geselecteerdeDatum = ref<string>(new Date().toISOString().slice(0, 10)); 
 
-const toggleDatePciker = () => {
-  toggleDatetime.value = !toggleDatetime.value;
+// Datumkiezer aan- en uitzetten
+const datumKiezerTonen = ref<boolean>(false);
+
+const toggleDatumKiezer = () => {
+  datumKiezerTonen.value = !datumKiezerTonen.value;
 }
   
-const selectDay = (index: any) => { 
-  selectedDay.value = index;  
-  const currentDate = new Date(selectedDate.value);
-  currentDate.setDate(currentDate.getDate() + (index - currentDate.getDay()));
-  selectedDate.value = currentDate.toISOString().slice(0, 10);
+// Dag selecteren en bijwerken
+const selecteerDag = (index: any) => { 
+  geselecteerdeDag.value = index;  
+  const huidigeDatum = new Date(geselecteerdeDatum.value);
+  huidigeDatum.setDate(huidigeDatum.getDate() + (index - huidigeDatum.getDay()));
+  geselecteerdeDatum.value = huidigeDatum.toISOString().slice(0, 10);
   console.log(index);
-  onDayChange();  
+  wijzigDag();  
 
 };  
   
-const onDateChange = (): Date => {
-  const selectedDatePicker = new Date(selectedDate.value);
-  const day = selectedDatePicker.getDate();
-  const month = selectedDatePicker.getMonth() + 1;
-  const year = selectedDatePicker.getFullYear();
-  CheckForData(selectedNetwork.value, day, month, year );
-  return selectedDatePicker;
+// Datum wijzigen
+const wijzigDatum = (): Date => {
+  const geselecteerdeDatumPicker = new Date(geselecteerdeDatum.value);
+  const day = geselecteerdeDatumPicker.getDate();
+  const month = geselecteerdeDatumPicker.getMonth() + 1;
+  const year = geselecteerdeDatumPicker.getFullYear();
+  controleerGegevens(geselecteerdNetwerk.value, day, month, year );
+  return geselecteerdeDatumPicker;
 };
 
-const CheckForData = (locatie: string, day: number, month: number, year: number) => {
+// Controleer op beschikbare gegevens voor de geselecteerde datum
+const controleerGegevens = (locatie: string, day: number, month: number, year: number) => {
   axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePicker.php', { locatie, day, month, year })
     .then(response => {
       if (response.status == 200 && response.data.data.length == 0) {
-        getDetails(locatie, selectedDay.value);
+        haalDetailsOp(locatie, geselecteerdeDag.value);
       } else {
-        getDatePciker(locatie, day, month, year);
+        haalGegevensVanDatumOp(locatie, day, month, year);
       }
     })
     .catch(error => {
@@ -149,13 +163,16 @@ const CheckForData = (locatie: string, day: number, month: number, year: number)
     });
 };
 
-const onDayChange = () => { 
-  getDetails(selectedNetwork.value, selectedDay.value); 
+// Wijziging van de dag
+const wijzigDag = () => { 
+  haalDetailsOp(geselecteerdNetwerk.value, geselecteerdeDag.value); 
 };  
-  
+
+// Alle beschikbare netwerken
 const alleNetwerken = ['Guest Axxes - AT Recruitm','Entrepot 9', 'airtame', 'Guest Axxes', 'Staff - Axxes', 'Training Axxes', 'Labo' ]; 
   
-const networkData: Record<string, NetworkData> = {  
+// Netwerkgegevens
+const netwerkData: Record<string, NetwerkData> = {  
   'Guest Axxes - AT Recruitm': { name: 'Guest Axxes - AT Recruitm', capacity: 80 }, 
   'Entrepot 9': { name: 'Entrepot 9', capacity: 80 },  
   'airtame': { name: 'airtame', capacity: 80 },  
@@ -165,28 +182,39 @@ const networkData: Record<string, NetworkData> = {
   'Labo': { name: 'Labo', capacity: 80 },  
 };  
   
-const data = ref<Data[]>([]); 
+const gegevens = ref<Data[]>([]); 
 const chartCanvas = ref<HTMLCanvasElement | null>(null);  
-const selectedNetwork = ref<string>(alleNetwerken[0]);  
+const geselecteerdNetwerk = ref<string>(alleNetwerken[0]);  
   
-const formatDate = (date: Date): string => {  
-  const options: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' };  
-  return date.toLocaleDateString('en-US', options); 
+// Formatteer de datum
+const formatteerDatum = (date: Date): string => {  
+  const options: Intl.DateTimeFormatOptions = { 
+    weekday: 'long', 
+    month: 'long', 
+    day: 'numeric', 
+    year: 'numeric', 
+    hour: 'numeric', 
+    minute: 'numeric' 
+  };  
+  return date.toLocaleDateString('nl-NL', options); 
 };  
   
-const currentDate = ref<string>(formatDate(new Date()));   
+const huidigeDatum = ref<string>(formatteerDatum(new Date()));   
 
-const getCurrentDayOfWeek = (): number => { 
-  const currentDate = new Date(); 
-  return currentDate.getDay() + 1;  
+// Haal de huidige dag van de week op
+const haalHuidigeDagVanDeWeekOp = (): number => { 
+  const huidigeDatum = new Date(); 
+  return huidigeDatum.getDay() + 1;  
 };  
   
-const getNetwerken = () => {  
-  const currentSelectedDay = selectedDay.value; 
-  getDetails(selectedNetwork.value, currentSelectedDay);  
+// Haal netwerkgegevens op
+const haalNetwerkenOp = () => {  
+  const huidigeGeselecteerdeDag = geselecteerdeDag.value; 
+  haalDetailsOp(geselecteerdNetwerk.value, huidigeGeselecteerdeDag);  
 };  
 
-const getDatePciker = (locatie: string, day: number, month: number, year: number) => {  
+// Haal gegevens op voor de geselecteerde datum
+const haalGegevensVanDatumOp = (locatie: string, day: number, month: number, year: number) => {  
   const postData = {  
     locatie: locatie, 
     day: day,
@@ -196,8 +224,8 @@ const getDatePciker = (locatie: string, day: number, month: number, year: number
   axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePicker.php', postData)  
     .then(response => { 
       if (response.status == 200 && response.data.data) { 
-        data.value = response.data.data;  
-        createChart();  
+        gegevens.value = response.data.data;  
+        maakGrafiek();  
       } else {  
         console.error('Response not OK:', response);  
       } 
@@ -207,7 +235,8 @@ const getDatePciker = (locatie: string, day: number, month: number, year: number
     }); 
 };  
   
-const getDetails = (locatie: string, day: number) => {  
+// Haal details op voor de geselecteerde dag en locatie
+const haalDetailsOp = (locatie: string, day: number) => {  
   const postData = {  
     locatie: locatie, 
     day: day  
@@ -215,8 +244,8 @@ const getDetails = (locatie: string, day: number) => {
   axios.post('https://www.gauravghimire.be/API_DrukBarometer/datePerLocation.php', postData)  
     .then(response => { 
       if (response.status == 200 && response.data.data) { 
-        data.value = response.data.data;  
-        createChart();  
+        gegevens.value = response.data.data;  
+        maakGrafiek();  
       } else {  
         console.error('Response not OK:', response);  
       } 
@@ -226,79 +255,81 @@ const getDetails = (locatie: string, day: number) => {
     }); 
 };  
  
-  
+// Voer uit bij het laden van de component
 onMounted(() => { 
-  selectedDay.value = getCurrentDayOfWeek();  
-  console.log(selectedDay.value);
-  getNetwerken(); 
+  geselecteerdeDag.value = haalHuidigeDagVanDeWeekOp();  
+  console.log(geselecteerdeDag.value);
+  haalNetwerkenOp(); 
 }); 
   
-const currentHour = computed(() => {  
+// Huidig uur berekenen
+const huidigUur = computed(() => {  
   const now = new Date(); 
   const hour = now.getHours();  
-  const isWithinRange = hour >= 8 && hour <= 17;  
+  const isBinnenBereik = hour >= 8 && hour <= 17;  
   return {  
     hour, 
-    isWithinRange 
+    isBinnenBereik 
   };  
 }); 
   
-const createChart = () => { 
+// Maak de grafiek
+const maakGrafiek = () => { 
   const ctx = chartCanvas.value;  
   if (!ctx) return; 
-  const existingChart = Chart.getChart(ctx);  
-  if (existingChart) {  
-    existingChart.destroy();  
+  const bestaandeGrafiek = Chart.getChart(ctx);  
+  if (bestaandeGrafiek) {  
+    bestaandeGrafiek.destroy();  
   } 
-  const labels = data.value.map(item => item.TimeSlot); 
-  const values = data.value.map(item => item.TotalLogins);  
+  const labels = gegevens.value.map(item => item.TimeSlot); 
+  const values = gegevens.value.map(item => item.TotalLogins);  
   
-  const backgroundColors: string[] = [];  
-  const hoverBackgroundColors: string[] = []; 
+  const achtergrondKleuren: string[] = [];  
+  const hoverAchtergrondKleuren: string[] = []; 
 
-  const currentDate = new Date().toISOString().slice(0, 10);
-  const barDate = new Date(selectedDate.value).toISOString().slice(0, 10);
+  const huidigeDatum = new Date().toISOString().slice(0, 10);
+  const barDatum = new Date(geselecteerdeDatum.value).toISOString().slice(0, 10);
 
   values.forEach((value, index) => {  
-    const barHour = parseInt(labels[index].split(':')[0]);  
-    const networkCapacity = networkData[selectedNetwork.value].capacity;  
-    const occupancyPercentage = (value / networkCapacity) * 100;  
+    const barUur = parseInt(labels[index].split(':')[0]);  
+    const netwerkCapaciteit = netwerkData[geselecteerdNetwerk.value].capacity;  
+    const bezettingsPercentage = (value / netwerkCapaciteit) * 100;  
 
-    let color = 'rgb(74, 133, 143)'; 
-    if (barDate < currentDate) {
-      color = 'rgb(4, 92, 102)'; 
+    let kleur = 'rgb(74, 133, 143)'; 
+    if (barDatum < huidigeDatum) {
+      kleur = 'rgb(4, 92, 102)'; 
     } 
     
-    if (barDate > currentDate) {
-      color = 'rgb(145, 184, 189)';
+    if (barDatum > huidigeDatum) {
+      kleur = 'rgb(145, 184, 189)';
     }
 
-    if(barDate >= currentDate && barHour > currentHour.value.hour){
-      color = 'rgb(145, 184, 189)';
+    if(barDatum >= huidigeDatum && barUur > huidigUur.value.hour){
+      kleur = 'rgb(145, 184, 189)';
     }
 
      
-    if (occupancyPercentage >= 65) {  
-      hoverBackgroundColors.push('rgba(255, 0, 0, 0.8)');   
-    } else if (occupancyPercentage < 30) {  
-      hoverBackgroundColors.push('rgb(0, 171, 23)');  
+    if (bezettingsPercentage >= 65) {  
+      hoverAchtergrondKleuren.push('rgba(255, 0, 0, 0.8)');   
+    } else if (bezettingsPercentage < 30) {  
+      hoverAchtergrondKleuren.push('rgb(0, 171, 23)');  
     } else {  
-      hoverBackgroundColors.push('rgb(199, 106, 0)');   
+      hoverAchtergrondKleuren.push('rgb(199, 106, 0)');   
     } 
     
-    if (currentHour.value.isWithinRange && currentHour.value.hour == barHour) { 
-      color = hoverBackgroundColors[index]; 
+    if (huidigUur.value.isBinnenBereik && huidigUur.value.hour == barUur) { 
+      kleur = hoverAchtergrondKleuren[index]; 
     } 
-    backgroundColors.push(color); 
+    achtergrondKleuren.push(kleur); 
   }); 
   
-// Get the canvas element
-const canvas = document.getElementById('myChart');
+// Haal het canvas element op
+const canvas = document.getElementById('mijnGrafiek');
 
-// Calculate the font size based on the container's width
+// Bereken de lettergrootte op basis van de breedte van de container
 const fontSize = Math.max(Math.floor(canvas.clientWidth / 50), 10);
 
-// Create the chart with dynamic font size
+// Maak de grafiek met dynamische lettergrootte
 new Chart(ctx, {
   type: 'bar',
   data: {
@@ -306,26 +337,26 @@ new Chart(ctx, {
     datasets: [{
       label: 'Totale aantal logins',
       data: values,
-      backgroundColor: backgroundColors,
-      hoverBackgroundColor: hoverBackgroundColors,
+      backgroundColor: achtergrondKleuren,
+      hoverBackgroundColor: hoverAchtergrondKleuren,
       borderColor: 'rgba(75, 192, 192, 1)',
       borderWidth: 2
     }]
   },
   options: {
-    responsive: true, // Enable overall responsiveness
-    maintainAspectRatio: false, // Disable aspect ratio to allow dynamic resizing
+    responsive: true, // Algehele reactievermogen inschakelen
+    maintainAspectRatio: false, // Verhouding uitschakelen voor dynamische aanpassing
     scales: {
       y: {
         beginAtZero: true,
         ticks: {
-          display: false // Hide Y-axis values
+          display: false // Verberg Y-as waarden
         },
         title: {
           display: true,
           text: 'Totale aantal logins',
           font: {
-            size: fontSize // Set dynamic font size
+            size: fontSize // Stel dynamische lettergrootte in
           }
         }
       },
@@ -334,7 +365,7 @@ new Chart(ctx, {
           display: true,
           text: 'Tijdslot',
           font: {
-            size: fontSize // Set dynamic font size
+            size: fontSize // Stel dynamische lettergrootte in
           }
         }
       }
@@ -343,265 +374,294 @@ new Chart(ctx, {
 });
 };  
 
-const calculateAverageLoginPerHour = () => {
-  const dailyTotals: Record<string, number[]> = {};
+// Bereken gemiddeld aantal logins per uur
+const berekenGemiddeldLoginPerUur = () => {
+  const dagelijkseTotalen: Record<string, number[]> = {};
 
-  data.value.forEach(item => {
+  gegevens.value.forEach(item => {
     const date = item.TimeSlot.split(':')[0];
-    dailyTotals[date] = dailyTotals[date] || [];
-    dailyTotals[date].push(item.TotalLogins);
+    dagelijkseTotalen[date] = dagelijkseTotalen[date] || [];
+    dagelijkseTotalen[date].push(item.TotalLogins);
   });
 
-  const averageLoginsPerHour: Record<string, number> = {};
-  Object.keys(dailyTotals).forEach(date => {
-    averageLoginsPerHour[date] = dailyTotals[date].reduce((acc, curr) => acc + curr, 0) / dailyTotals[date].length;
+  const gemiddeldeLoginsPerUur: Record<string, number> = {};
+  Object.keys(dagelijkseTotalen).forEach(date => {
+    gemiddeldeLoginsPerUur[date] = dagelijkseTotalen[date].reduce((acc, curr) => acc + curr, 0) / dagelijkseTotalen[date].length;
   });
 
-  const overallAverage = Object.values(averageLoginsPerHour).reduce((acc, curr) => acc + curr, 0) / Object.keys(averageLoginsPerHour).length;
+  const totaleGemiddelde = Object.values(gemiddeldeLoginsPerUur).reduce((acc, curr) => acc + curr, 0) / Object.keys(gemiddeldeLoginsPerUur).length;
   
-  return Math.round(overallAverage);
+  return Math.round(totaleGemiddelde);
 };
 
+// Vind de drukste en kalmste uren
+const vindDruksteEnKalmsteUren = () => {
+  const dagelijkseTotalen: Record<string, number[]> = {};
 
-const findBusiestAndCalmestHours = () => {
-  const dailyTotals: Record<string, number[]> = {};
-
-  data.value.forEach(item => {
+  gegevens.value.forEach(item => {
     const date = item.TimeSlot.split(':')[0];
-    dailyTotals[date] = dailyTotals[date] || [];
-    dailyTotals[date].push(item.TotalLogins);
+    dagelijkseTotalen[date] = dagelijkseTotalen[date] || [];
+    dagelijkseTotalen[date].push(item.TotalLogins);
   });
 
-  const busiestHours: string[] = [];
-  const calmestHours: string[] = [];
-  let maxAverageLogins = Number.MIN_SAFE_INTEGER;
-  let minAverageLogins = Number.MAX_SAFE_INTEGER;
+  const druksteUren: string[] = [];
+  const kalmsteUren: string[] = [];
+  let maxGemiddeldeLogins = Number.MIN_SAFE_INTEGER;
+  let minGemiddeldeLogins = Number.MAX_SAFE_INTEGER;
 
-  Object.keys(dailyTotals).forEach(date => {
-    const totalLogins = dailyTotals[date].reduce((acc, curr) => acc + curr, 0);
-    const average = totalLogins / dailyTotals[date].length;
+  Object.keys(dagelijkseTotalen).forEach(date => {
+    const totalLogins = dagelijkseTotalen[date].reduce((acc, curr) => acc + curr, 0);
+    const gemiddelde = totalLogins / dagelijkseTotalen[date].length;
 
-    if (average > maxAverageLogins) {
-      busiestHours.splice(0, busiestHours.length, date);
-      maxAverageLogins = average;
-    } else if (average === maxAverageLogins) {
-      busiestHours.push(date);
+    if (gemiddelde > maxGemiddeldeLogins) {
+      druksteUren.splice(0, druksteUren.length, date);
+      maxGemiddeldeLogins = gemiddelde;
+    } else if (gemiddelde === maxGemiddeldeLogins) {
+      druksteUren.push(date);
     }
 
-    if (average < minAverageLogins) {
-      calmestHours.splice(0, calmestHours.length, date);
-      minAverageLogins = average;
-    } else if (average === minAverageLogins) {
-      calmestHours.push(date);
+    if (gemiddelde < minGemiddeldeLogins) {
+      kalmsteUren.splice(0, kalmsteUren.length, date);
+      minGemiddeldeLogins = gemiddelde;
+    } else if (gemiddelde === minGemiddeldeLogins) {
+      kalmsteUren.push(date);
     }
   });
 
-  return { busiestHours: busiestHours.sort().join(", "), calmestHours: calmestHours.sort().join(", ") };
+  return { druksteUren: druksteUren.sort().join(", "), kalmsteUren: kalmsteUren.sort().join(", ") };
 };
 
-const averageLogin = computed(() => calculateAverageLoginPerHour());
+const gemiddeldLogin = computed(() => berekenGemiddeldLoginPerUur());
 
-const busiestHour = computed(() => {
-  const { busiestHours } = findBusiestAndCalmestHours();
-  return busiestHours;
+const druksteUur = computed(() => {
+  const { druksteUren } = vindDruksteEnKalmsteUren();
+  return druksteUren;
 });
 
-const notBusyHour = computed(() => {
-  const { calmestHours } = findBusiestAndCalmestHours();
-  return calmestHours;
+const kalmsteUur = computed(() => {
+  const { kalmsteUren } = vindDruksteEnKalmsteUren();
+  return kalmsteUren;
 });
 
 </script> 
   
 <style scoped>
-
+/* Stijlen voor de datumlabel */
 .datepicker-label {
-  font-size: 20px;
+  font-size: 20px; 
 }
 
+/* Stijlen voor de container van de bovenste items */
 .top-items-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: auto;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  width: auto; 
 }
 
+/* Stijlen voor de bovenste items */
 .top-items {
-  display: flex;
-  justify-content: center;
-  max-width: 1000px;
-  width: 60%;
+  display: flex; 
+  justify-content: center; 
+  max-width: 1000px; 
+  width: 60%; 
 }
 
-
+/* Media query voor schermen kleiner dan 600px breed */
 @media (max-width: 600px) {
   .datepicker-label {
-    font-size: 16px;
-  }
+    font-size: 16px; 
 }
+}
+
 @media (max-width: 820px) {
   .top-items {
-    width: 80%;
+    width: 80%; 
   }
 }
 @media (max-width: 600px) {
   .top-items {
     width: 90%;
-    font-size: 12px;
+    font-size: 12px; 
   }
 }
 
+/* Stijlen voor de container van de onderste items */
 .bottom-items-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: auto;
+  flex-direction: column; 
+  align-items: center; 
+  width: auto; 
 }
 
+/* Stijlen voor de onderste items */
 .bottom-items {
-  display: flex;
-  justify-content: center;
-  max-width: 1000px;
-  width: 60%;
+  display: flex; 
+  justify-content: center; 
+  max-width: 1000px; 
+  width: 60%; 
 }
 
+/* Media query voor schermen kleiner dan 600px breed */
 @media (max-width: 600px) {
   .bottom-items {
     width: 90%;
   }
 }
 
+/* Media query voor schermen kleiner dan 400px breed */
 @media (max-width: 400px) {
   .bottom-items {
-    width: 90%;
-    font-size: 16px;
+    width: 90%; 
+    font-size: 16px; 
   }
 }
 
+/* Stijlen voor de grafiekcontainer */
 .chart-container {
   display: flex;
-  justify-content: center;
-  width: 60%;
-  max-width: 1000px;
-  margin: 0 auto;
+  justify-content: center; 
+  width: 60%; 
+  max-width: 1000px; 
+  margin: 0 auto; 
 }
 
-
-canvas#myChart {  
-  width: 100%;  
+/* Stijlen voor het canvas element voor de grafiek */
+canvas#mijnGrafiek {  
+  width: 100%; 
   height: 25em !important; 
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 800px;
+  margin-left: auto; 
+  margin-right: auto; 
+  max-width: 800px; 
   max-height: 350px;
-} 
+}
 
+/* Stijlen voor de header */
 ion-header {  
-  display: flex;  
-  justify-content: center;  
+  display: flex;
+  justify-content: center;
   padding: 1em 2em; 
   border-bottom: 1px solid #170b0b; 
-} 
-  
+}
+
+/* Stijlen voor het logo */
 .about-logo { 
-  max-width: 20em;  
+  max-width: 20em;
   margin: 0 auto; 
   display: block; 
-  background-color: white;  
+  background-color: white; 
 }
 
+/* Stijlen voor de weekday knoppen bij hover */
 .weekday:hover { 
   color: white; 
-  transform: scale(1.05);  
-} 
-  
+  transform: scale(1.05);
+}
+
+/* Stijlen voor de geselecteerde weekday knoppen */
 .weekday.selected { 
   color: white; 
-  transform: scale(1.1);  
-} 
+  transform: scale(1.1);
+}
 
+/* Stijlen voor de weekday knoppen */
 .weekday {
-  border: none; 
-  background-color: transparent;  
-  cursor: pointer;  
+  border: none;
+  background-color: transparent; 
+  cursor: pointer; 
   color: black; 
-  margin: 0.3rem;
+  margin: 0.3rem; 
   @media (max-width: 576px) {
-    font-size: 0.8rem;
+    font-size: 0.8rem; 
   }
 }
-  
+
+/* Stijlen voor de legende */
 .legend-content {
-  display: flex;
+  display: flex; 
 }
 
+/* Stijlen voor de legend */
 .legend {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  text-align: center; 
 }
 
+/* Stijlen voor de legend items */
 .legend-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  display: flex; 
+  flex-direction: row; 
+  align-items: center; 
 }
 
+/* Stijlen voor de legend kleuren */
 .legend-color {
   width: 1em;
-  height: 1em;
-  border-radius: 50%;
+  height: 1em; 
+  border-radius: 50%; 
 }
 
+/* Stijlen voor de legend labels */
 .legend-label { 
-  font-size: 1em;
-  margin-left: 2px;
-} 
-
-.legend, #myChart {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: 1em; 
+  margin-left: 2px; 
 }
-  
+
+/* Stijlen voor de legend en het canvas */
+.legend, #mijnGrafiek {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+/* Stijlen voor de "zeer druk" kleur */
 .zeer-druk {  
   background-color: rgba(255, 0, 0, 0.8); 
-} 
-  
+}
+
+/* Stijlen voor de "druk" kleur */
 .druk { 
   background-color: rgb(199, 106, 0); 
-} 
-  
+}
+
+/* Stijlen voor de "rustig" kleur */
 .rustig { 
-  background-color: rgb(0, 171, 23);  
-} 
+  background-color: rgb(0, 171, 23); 
+}
 
+/* Stijlen voor de datetime container */
 .datetime-container {
-  display: none;
+  display: none; 
 }
 
+/* Stijlen voor de datepicker */
 .datepicker {
-  font-weight: bold;
-  font-size: 25px;
+  font-weight: bold; 
+  font-size: 25px; 
 }
 
+/* Stijlen voor het datum icoon */
 .dateicon {
-  margin-top: 0.2em;
+  margin-top: 0.2em; 
   font-size: 2.5em;
 }
 
+/* Stijlen voor het datum icoon bij hover */
 .dateicon:hover {
-  transform: scale(1.1);
-  color: rgb(74, 133, 143);
+  transform: scale(1.1); 
+  color: rgb(74, 133, 143); 
 }
+
+/* Stijlen voor het netwerk select label */
 .network-select::part(label) {
   font-weight: bold;
 }
 
+/* Stijlen voor het datum label */
 .datum-bold {
-  font-weight: bold;
+  font-weight: bold; 
 }
-
-
 </style>
+

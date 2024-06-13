@@ -2,6 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+        <!-- Logo van Axxes -->
         <ion-img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" class="about-logo"></ion-img>
       </ion-toolbar>
     </ion-header>
@@ -10,6 +11,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size-md="6" size-lg="5" offset-lg="1" size-xs="12" class="card-column">
+            <!-- Kaart voor "Over Ons" -->
             <ion-card class="info-card">
               <div class="card-content">
                 <ion-img src="/img/Odisee_Logo_Co-hogeschool.png" alt="Odisee Logo" class="about-logo"></ion-img>
@@ -17,6 +19,7 @@
                   <ion-card-title>Over Ons</ion-card-title>
                 </ion-card-header>
                 <ion-card-content>
+                  <!-- Informatie over het team -->
                   Wij zijn een groep van zes tweedejaarsstudenten Informatica aan de Odisee Hogeschool,
                   een co-hogeschool die bekend staat om haar praktijkgerichte aanpak en sterke banden met de industrie.
                   Elk van ons brengt een unieke set aan vaardigheden en een frisse blik op technologische oplossingen,
@@ -34,6 +37,7 @@
             </ion-card>
           </ion-col>
           <ion-col size-md="6" size-lg="5" size-xs="12" class="card-column">
+            <!-- Kaart voor "Onze Klant" -->
             <ion-card class="info-card">
               <div class="card-content">
                 <ion-img src="/img/og-image.jpg" alt="Axxes Logo" class="about-logo"></ion-img>
@@ -41,6 +45,7 @@
                   <ion-card-title>Onze Klant</ion-card-title>
                 </ion-card-header>
                 <ion-card-content>
+                  <!-- Informatie over het project voor Axxes -->
                   Bij ons project voor Axxes,
                   hebben we een geavanceerde tool ontwikkeld die real-time inzicht geeft in de drukte op kantoorlocaties.
                   Deze tool stelt medewerkers in staat om op een intelligente manier te plannen wanneer ze het best naar kantoor kunnen komen,
@@ -67,7 +72,6 @@
   </ion-page>
 </template>
 
-
 <script lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonImg, IonCard, IonGrid, IonCol, IonRow, IonContent, IonCardContent, IonCardHeader, IonCardTitle } from '@ionic/vue';
 import { defineComponent } from 'vue';
@@ -92,12 +96,14 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* Stijl voor het logo */
 .about-logo {
   max-width: 75%;
   height: auto;
   margin: 0 auto;
 }
 
+/* Stijl voor de informatied kaarten */
 .info-card {
   display: flex;
   flex-direction: column;
@@ -106,10 +112,12 @@ export default defineComponent({
   text-align: center;
 }
 
+/* Stijl voor de kaarten */
 ion-card {
   border-radius: 1em; 
 }
 
+/* Stijl voor de inhoud van de kaarten */
 .card-content {
   border: 1px solid #141313;
   border-radius: 1em;
@@ -118,16 +126,19 @@ ion-card {
   align-items: center;
   height: 100%;
 }
+
 .card-content, .card-content ion-card-title {
-  font-size: 25px; /* Adjust the font size as needed */
+  font-size: 25px; /* Pas de lettergrootte aan indien nodig */
 }
 
+/* Stijl voor de kolommen die de kaarten bevatten */
 .card-column {
   display: flex;
   align-items: stretch;
   min-width: 250px;
 }
 
+/* Stijl voor de header */
 ion-header {
   display: flex;
   justify-content: center;
@@ -135,8 +146,7 @@ ion-header {
   border-bottom: 1px solid black;
 }
 
-
-
+/* Algemene stijl voor het logo */
 .about-logo {
   max-width: 20em;
   margin: 0 auto;
