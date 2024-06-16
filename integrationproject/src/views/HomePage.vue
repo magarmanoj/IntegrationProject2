@@ -1,48 +1,48 @@
 <template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <!-- Logo van Axxes -->
-        <ion-img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" class="about-logo"></ion-img>
-      </ion-toolbar>
-    </ion-header>
+   <ion-page>
+      <ion-header>
+         <ion-toolbar>
+            <!-- Logo van Axxes -->
+            <ion-img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" class="about-logo"></ion-img>
+         </ion-toolbar>
+      </ion-header>
 
-    <ion-content class="ion-padding">
-      <ion-grid class="full-height">
-        <ion-row class="ion-justify-content-center ion-align-items-center full-height">
-          <ion-col size-md="8" size-lg="6" size-xs="12" class="card-column">
-            <!-- Hoofd kaart -->
-            <ion-card class="home-content">
-              <div class="card-content">
-                <ion-card-header>
-                  <ion-card-title>Ondersteuning voor de Druktebarometer</ion-card-title>
-                </ion-card-header>
-                <ion-card-content>
-                  <p>Heeft u hulp nodig met onze Druktebarometer of wilt u meer informatie? Wij staan klaar om u te ondersteunen. Bekijk onze FAQ, stuur ons een e-mail, of bel ons voor directe hulp.</p>
-                </ion-card-content>
-                <ion-list>
-                  <!-- Link naar de FAQ-pagina -->
-                  <a href="/tabs/tabTest" class="router-link">
-                    <ion-item>
-                      <ion-label>FAQ over de Druktebarometer</ion-label>
-                    </ion-item>
-                  </a>
-                  <!-- E-mail informatie -->
-                  <ion-item>
-                    <ion-label>E-mail: support@axxesproject.com</ion-label>
-                  </ion-item>
-                  <!-- Telefoon informatie -->
-                  <ion-item>
-                      <ion-label>Telefoon: 123-456-7890</ion-label>
-                  </ion-item>
-                </ion-list>
-              </div>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-content>
-  </ion-page>
+      <ion-content class="ion-padding">
+         <ion-grid class="full-height">
+            <ion-row class="ion-justify-content-center ion-align-items-center full-height">
+               <ion-col size-md="8" size-lg="6" size-xs="12" class="card-column">
+                  <!-- Hoofd kaart -->
+                  <ion-card class="home-content">
+                     <div class="card-content">
+                        <ion-card-header>
+                           <ion-card-title>Ondersteuning voor de Druktebarometer</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                           <p>Heeft u hulp nodig met onze Druktebarometer of wilt u meer informatie? Wij staan klaar om u te ondersteunen. Stuur ons een e-mail, of bel ons voor directe hulp.</p>
+                        </ion-card-content>
+                        <ion-list>
+                           <a href="/tabs/tabTest" class="router-link">
+                              <ion-item>
+                                 <ion-label>De Druktebarometer</ion-label>
+                              </ion-item>
+                           </a>
+                           <!-- E-mail informatie -->
+                           <ion-item>
+                              <ion-label>E-mail: sa@odisee.be</ion-label>
+                           </ion-item>
+                           <!-- Telefoon informatie -->
+                           <ion-item>
+                              <ion-label>Telefoon van Odisee Hogeshool: 02 210 12 11
+                              </ion-label>
+                           </ion-item>
+                        </ion-list>
+                     </div>
+                  </ion-card>
+               </ion-col>
+            </ion-row>
+         </ion-grid>
+      </ion-content>
+   </ion-page>
 </template>
 
 <script lang="ts">
