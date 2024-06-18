@@ -109,11 +109,11 @@ interface Data {
 
 // Dagen van de week
 const weekdagen = [
-  { value: 2, text: 'Maandag' },
-  { value: 3, text: 'Dinsdag' },
-  { value: 4, text: 'Woensdag' },
-  { value: 5, text: 'Donderdag' },
-  { value: 6, text: 'Vrijdag' }
+  { value: 1, text: 'Maandag' }, // Monday
+  { value: 2, text: 'Dinsdag' }, // Tuesday
+  { value: 3, text: 'Woensdag' }, // Wednesday
+  { value: 4, text: 'Donderdag' }, // Thursday
+  { value: 5, text: 'Vrijdag' }   // Friday
 ];
 
 // Geselecteerde dag en datum
@@ -135,7 +135,6 @@ const selecteerDag = (index: any) => {
   geselecteerdeDatum.value = huidigeDatum.toISOString().slice(0, 10);
   console.log(index);
   wijzigDag();  
-
 };  
   
 // Datum wijzigen
@@ -204,7 +203,7 @@ const huidigeDatum = ref<string>(formatteerDatum(new Date()));
 // Haal de huidige dag van de week op
 const haalHuidigeDagVanDeWeekOp = (): number => { 
   const huidigeDatum = new Date(); 
-  return huidigeDatum.getDay() + 1;  
+  return huidigeDatum.getDay();  
 };  
   
 // Haal netwerkgegevens op

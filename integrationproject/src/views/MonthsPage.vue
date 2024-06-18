@@ -6,19 +6,22 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <ion-item>
-        <ion-select label="Selecteer Maand:" v-model="selectedMonth" @ionChange="onMonthChange">
-          <ion-select-option v-for="month in months" :key="month.value" :value="month.value">
-            {{ month.text }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <canvas id="myChart" ref="chartCanvas"></canvas>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-button @click="goBack">Go Back</ion-button>
-      </ion-item>
+      <div class="content-container">
+        <ion-item class="top-items">
+          <ion-label class="select-label">Selecteer Maand:</ion-label>
+          <ion-select class="month-select" v-model="selectedMonth" @ionChange="onMonthChange">
+            <ion-select-option v-for="month in months" :key="month.value" :value="month.value">
+              {{ month.text }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="chart-container">
+          <canvas id="myChart" ref="chartCanvas"></canvas>
+        </div>
+        <div class="button-container">
+          <ion-button @click="goBack">Ga Terug</ion-button>
+        </div>
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -82,9 +85,13 @@ const createChart = () => {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: true,
+          ticks: {
+            display: false
+          }
         }
       }
     }
@@ -128,12 +135,45 @@ onMounted(() => {
   margin: auto;
 }
 
-canvas#myChart {  
-width: 100%;  
-height: 25em !important; 
-margin-left: auto;
-margin-right: auto;
-padding-right: 30px;
-max-width: 800px;
-} 
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.top-items {
+  display: flex;
+  justify-content: center;
+  max-width: 1000px;
+  width: 80%;
+  margin: 1rem 0;
+}
+
+.select-label {
+  font-weight: bold;
+}
+
+.month-select {
+  width: 100%;
+}
+
+.chart-container {
+  width: 80%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+canvas#myChart {
+  width: 100%;
+  height: 25em !important;
+  max-width: 800px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
+}
 </style>
