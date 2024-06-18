@@ -2,54 +2,42 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <!-- Logo van Axxes -->
         <ion-img src="/img/Logo_Axxes+It+consultancy-RGB.png" alt="Axxes Logo" class="about-logo"></ion-img>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="container">
-        <div class="top-items">
-          <ion-item class="top-item">
-            <!-- Maand selecteren -->
-            <ion-select label="Selecteer Maand:" v-model="geselecteerdeMaand" @ionChange="bijMaandWijzigen">
-              <!-- Opties voor maanden -->
-              <ion-select-option v-for="maand in maanden" :key="maand.value" :value="maand.value">
-                {{ maand.text }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-        </div>
-        <div class="chart-container">
-          <!-- Container voor de grafiek -->
-          <canvas id="mijnGrafiek" ref="grafiekCanvas"></canvas>
-        </div>
-        <div class="button-container">
-          <!-- Terugknop -->
-          <ion-button @click="gaTerug" expand="block" class="ga-terug-knop">Ga Terug</ion-button>
-        </div>
-      </div>
+      <ion-item>
+        <ion-select label="Selecteer Maand:" v-model="selectedMonth" @ionChange="onMonthChange">
+          <ion-select-option v-for="month in months" :key="month.value" :value="month.value">
+            {{ month.text }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <canvas id="myChart" ref="chartCanvas"></canvas>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-button @click="goBack">Go Back</ion-button>
+      </ion-item>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
 import { IonContent, IonHeader, IonToolbar, IonPage, IonItem, IonImg, IonSelect, IonSelectOption, IonButton } from '@ionic/vue';
-import { ref, onMounted, watch, onBeforeUnmount } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { Chart, registerables } from 'chart.js';
 
-// Registreer Chart.js componenten
 Chart.register(...registerables);
 
-// Referenties naar HTML elementen en data
-const grafiekCanvas = ref<HTMLCanvasElement | null>(null);
-const grafiekInstance = ref<Chart | null>(null);
-const gegevens = ref<any[]>([]);
-const geselecteerdeMaand = ref<number>(2); // Standaard naar februari
+const chartCanvas = ref<HTMLCanvasElement | null>(null);
+const chartInstance = ref<Chart | null>(null);
+const data = ref<any[]>([]);
+const selectedMonth = ref<number>(2); // Default to February
 
-// Maanden opties
-const maanden = [
+const months = [
   { value: 1, text: 'Januari' },
   { value: 2, text: 'Februari' },
   { value: 3, text: 'Maart' },
@@ -64,30 +52,28 @@ const maanden = [
   { value: 12, text: 'December' }
 ];
 
-// Router om te navigeren
 const router = useRouter();
 
-// Functie om de grafiek te maken
-const maakGrafiek = () => {
-  if (!grafiekCanvas.value) return;
+const createChart = () => {
+  if (!chartCanvas.value) return;
 
-  const ctx = grafiekCanvas.value.getContext('2d');
+  const ctx = chartCanvas.value.getContext('2d');
   if (!ctx) return;
 
-  if (grafiekInstance.value) {
-    grafiekInstance.value.destroy();
+  if (chartInstance.value) {
+    chartInstance.value.destroy();
   }
 
-  // Verwerk gegevens om labels en waarden te extraheren
-  const labels = gegevens.value.map(item => item.Locatie);
-  const values = gegevens.value.map(item => item.TotalLogins);
+  // Process data to extract labels and values
+  const labels = data.value.map(item => item.Locatie);
+  const values = data.value.map(item => item.TotalLogins);
 
-  grafiekInstance.value = new Chart(ctx, {
+  chartInstance.value = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
       datasets: [{
-        label: 'Totale Logins',
+        label: 'Total Logins',
         data: values,
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
@@ -96,61 +82,24 @@ const maakGrafiek = () => {
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false,
-      hover: {
-        mode: null
-      },
-      plugins: {
-        tooltip: {
-          enabled: false
-        },
-        legend: {
-          labels: {
-            font: {
-              size: window.innerWidth < 600 ? 8 : 12
-            }
-          }
-        }
-      },
       scales: {
-        x: {
-          ticks: {
-            font: {
-              size: window.innerWidth < 600 ? 8 : 12
-            }
-          }
-        },
         y: {
-          beginAtZero: true,
-          ticks: {
-            display: false
-          }
+          beginAtZero: true
         }
       }
     }
   });
 };
 
-// Functie om de lettergrootte van de grafiek aan te passen
-const updateGrafiekLetterGrootte = () => {
-  if (grafiekInstance.value) {
-    const isKleinScherm = window.innerWidth < 600;
-    grafiekInstance.value.options.scales.x.ticks.font.size = isKleinScherm ? 8 : 12;
-    grafiekInstance.value.options.plugins.legend.labels.font.size = isKleinScherm ? 8 : 12;
-    grafiekInstance.value.update();
-  }
-};
-
-// Functie om gegevens op te halen voor een specifieke maand
-const haalDetailsOp = (maand: number) => {
+const getDetails = (month: number) => {
   const postData = {
-    month: maand
+    month: month
   };
   axios.post('https://www.gauravghimire.be/API_DrukBarometer/GetByMonths.php', postData)
     .then(response => {
       if (response.status === 200 && response.data.data) {
-        gegevens.value = response.data.data;
-        maakGrafiek();
+        data.value = response.data.data;
+        createChart();
       } else {
         console.error('Response not OK:', response);
       }
@@ -160,110 +109,31 @@ const haalDetailsOp = (maand: number) => {
     });
 };
 
-// Functie die wordt aangeroepen bij maandwijziging
-const bijMaandWijzigen = () => {
-  haalDetailsOp(geselecteerdeMaand.value);
+const onMonthChange = () => {
+  getDetails(selectedMonth.value);
 };
 
-// Functie om terug te navigeren
-const gaTerug = () => {
+const goBack = () => {
   router.push('/tabs/tabTest');
 };
 
-// Bij het laden van de component
 onMounted(() => {
-  haalDetailsOp(geselecteerdeMaand.value);
-  window.addEventListener('resize', updateGrafiekLetterGrootte);
-});
-
-// Kijk naar veranderingen in geselecteerde maand
-watch(() => geselecteerdeMaand.value, () => {
-  haalDetailsOp(geselecteerdeMaand.value);
-});
-
-// Verwijder event listener bij demontage
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', updateGrafiekLetterGrootte);
+  getDetails(selectedMonth.value);
 });
 </script>
 
 <style scoped>
-/* Stijl voor het logo */
 .about-logo {
-  width: 150px; 
-  margin: auto; 
+  width: 150px;
+  margin: auto;
 }
 
-/* Stijl voor ion-item componenten */
-ion-item {
-  font-size: 20px; 
-}
-
-/* Stijl voor de container */
-.container {
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  width: 100%; 
-}
-
-/* Stijl voor de bovenste en onderste items */
-.top-items, .bottom-items {
-  width: 80%; 
-  max-width: 1200px; 
-}
-
-/* Stijl voor de grafiekcontainer */
-.chart-container {
-  display: flex; 
-  justify-content: center; 
-  width: 80%; 
-  max-width: 1200px; 
-  margin: 2em 0; 
-  height: 30em; 
-}
-
-/* Stijl voor het canvas element voor de grafiek */
-canvas#mijnGrafiek {
-  width: 100%; 
-  height: 100% !important; 
-}
-
-/* Stijl voor individuele bovenste en onderste items */
-.top-item, .bottom-item {
-  width: 100%; 
-}
-
-/* Stijl voor de knoppencontainer */
-.button-container {
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
-  height: 100%; 
-  width: 100%; 
-}
-
-/* Stijl voor de "ga terug" knop */
-.ga-terug-knop {
-  width: 200px; 
-  height: 50px; 
-  font-size: 18px; 
-  align-self: center; 
-}
-
-/* Media query voor schermen kleiner dan 820px breed */
-@media (max-width: 820px) {
-  .top-items, .bottom-items, .chart-container {
-    width: 90%; 
-  }
-}
-
-/* Media query voor schermen kleiner dan 600px breed */
-@media (max-width: 600px) {
-  .top-items, .bottom-items, .chart-container {
-    width: 100%; 
-    font-size: 16px; 
-  }
-}
+canvas#myChart {  
+width: 100%;  
+height: 25em !important; 
+margin-left: auto;
+margin-right: auto;
+padding-right: 30px;
+max-width: 800px;
+} 
 </style>
-
