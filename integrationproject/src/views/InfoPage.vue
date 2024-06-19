@@ -24,7 +24,7 @@
                   een co-hogeschool die bekend staat om haar praktijkgerichte aanpak en sterke banden met de industrie.
                   Elk van ons brengt een unieke set aan vaardigheden en een frisse blik op technologische oplossingen,
                   gedreven door een gedeelde passie voor innovatie en softwareontwikkeling.
-                  <br><br> In het kader van ons tweedejaarsproject "Integratieproject 2", hebben wij de kans gekregen om samen te werken met Axxes,
+                  <br><br> In het kader van ons tweedejaarsproject 'Integratieproject 2', hebben wij de kans gekregen om samen te werken met Axxes,
                   een vooraanstaand IT-consultancybedrijf. Deze samenwerking biedt ons niet alleen een platform om onze theoretische kennis in de praktijk te brengen, 
                   maar stelt ons ook in staat om direct bij te dragen aan echte IT-oplossingen. 
                   Door deze hands-on ervaring kunnen wij onze vaardigheden aanscherpen in een realistische werkomgeving,
